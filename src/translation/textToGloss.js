@@ -510,6 +510,8 @@ function classifyToken(token) {
  * Transforms a single sentence into ISL Gloss order (SOV + Time + Question + Negation rules)
  */
 function convertSentenceToGloss(sentence) {
+  // Expand shorthand inside this greeting before phrase matching or spelling.
+  sentence = sentence.replace(/\bhow\s+(?:r\s+(?:u|you)|are\s+u)\b/gi, "how are you");
   let cleanSentence = sentence.trim().toUpperCase().replace(/[.,!]/g, "");
 
   // A standalone canonical gloss (including compound names such as COME_IN)

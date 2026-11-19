@@ -1,4 +1,4 @@
-import { canonicalBone, restValue } from './signQueue.js'
+import { canonicalBone, normalizeFrame, restValue } from './signQueue.js'
 
 const EPSILON = 1e-8
 const FINGER_BONE = /Hand(?:Thumb|Index|Middle|Ring|Pinky)\d+$/
@@ -9,11 +9,19 @@ function joiningVelocity(left, right) {
   return left * right > 0 ? (2 * left * right) / (left + right) : 0
 }
 
-export function compileMotion(frames) {
-  const positions = new Map()
+export function compileMotion(frames, { initialPose = new Map() } = {}) {
+  const positions = new Map(initialPose)
   const awayFromRest = new Set()
+  const inputFrames = frames.slice()
+  const recovery = [...initialPose.keys()].map((key) => {
+    const [bone, axis] = key.split('|')
+    return [bone, 'rotation', axis, restValue(bone, axis)]
+  })
+  // A replacement phrase starts at the visible pose. Its first frame also
+  // releases any joints used by the old phrase but omitted by the new one.
+  if (recovery.length) inputFrames[0] = normalizeFrame([...recovery, ...(inputFrames[0] ?? [])])
 
-  const poses = frames.map((frame) => {
+  const poses = inputFrames.map((frame) => {
     const tracks = new Map()
     let handTravel = 0
     let bodyTravel = 0
@@ -73,9 +81,11 @@ export function compileMotion(frames) {
 export function sampleMotionPose(pose, timeMs, deltaFor, moved) {
   if (!pose.moveMs) return
   const t = Math.min(Math.max(0, timeMs - pose.startMs) / pose.moveMs, 1)
-  const eased = t * t * (3 - 2 * t)
-  const startWeight = t * (1 - t) ** 2
-  const endWeight = t * t * (t - 1)
+  // Quintic Hermite interpolation reaches the authored angles and joining
+  // velocities with zero acceleration at both ends, including beside holds.
+  const eased = t ** 3 * (10 - 15 * t + 6 * t * t)
+  const startWeight = t * (1 - t) ** 3 * (1 + 3 * t)
+  const endWeight = -(t ** 3) * (1 - t) * (4 - 3 * t)
 
   for (const { bone, axis, from, target, startTangent, endTangent } of pose.tracks) {
     const delta = deltaFor(bone)

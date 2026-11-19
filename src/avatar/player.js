@@ -135,11 +135,16 @@ export function createAvatar(mount, { interactive = true, onState = () => {}, on
   function step(startIndex) {
     index = Math.min(Math.max(startIndex, 0), Math.max(queue.length - 1, 0))
     resetClock()
-    resetPose()
+    const initialPose = new Map()
+    for (const [name, { delta }] of bones) {
+      for (const axis of ['x', 'y', 'z']) {
+        if (Math.abs(delta[axis] - restValue(name, axis)) > 1e-8) initialPose.set(`${name}|${axis}`, delta[axis])
+      }
+    }
     finished = false
     playing = false
     scheduleSigns(queue.slice(index).map((item) => item.gloss), runtime)
-    poses = compileMotion(runtime.animations)
+    poses = compileMotion(runtime.animations, { initialPose })
     let frames = 0
     signEndTimes = runtime.segments.map((segment) => {
       frames += segment.frames

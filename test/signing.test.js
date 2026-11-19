@@ -20,6 +20,14 @@ test('the standalone translator turns English, Hindi, names, and digits into pla
   assert.deepEqual(translateOffline('Thank you').tokens, ['THANK_YOU'])
 })
 
+test('how are you shorthand uses the greeting while isolated letters stay fingerspelled', () => {
+  for (const text of ['how r u', 'HOW R U?', 'how are u', 'how r you', 'how r u doing']) {
+    assert.deepEqual(translateOffline(text).tokens, ['YOU', 'HOW'])
+  }
+  assert.deepEqual(translateOffline('Hello, how r u?').tokens, translateOffline('Hello, how are you?').tokens)
+  assert.deepEqual(translateOffline('R U').tokens, ['R-U'])
+})
+
 test('the word, letter, and digit animations target joints on both rigs and return to rest', () => {
   const rigs = ['ybot', 'remy'].map((name) => {
     const glb = readFileSync(new URL(`../public/assets/${name}.glb`, import.meta.url))
@@ -89,6 +97,56 @@ test('wrist and finger tracks share a pose clock, flow through a waypoint and ke
   sample(release, release.endMs)
   assert.equal(pose[wrist].x, 0)
   assert.equal(pose[finger].z, 0)
+})
+
+test('motion settles into a hold with continuous acceleration at its endpoints', () => {
+  const bone = 'RightHand'
+  const frames = [0.8, 1.6, 1.6, 0].map((angle) => [[bone, 'rotation', 'x', angle, '+']])
+  const [first, second, , release] = compileMotion(frames)
+  const delta = { x: 0 }
+  const angleAt = (pose, fraction) => {
+    sampleMotionPose(pose, pose.startMs + pose.moveMs * fraction, () => delta)
+    return delta.x
+  }
+  const h = 0.0001
+  for (const pose of [first, second, release]) {
+    const startAcceleration = (angleAt(pose, 2 * h) - 2 * angleAt(pose, h) + angleAt(pose, 0)) / h ** 2
+    const endAcceleration = (angleAt(pose, 1) - 2 * angleAt(pose, 1 - h) + angleAt(pose, 1 - 2 * h)) / h ** 2
+    assert.ok(Math.abs(startAcceleration) < 0.02)
+    assert.ok(Math.abs(endAcceleration) < 0.02)
+  }
+  assert.ok(Math.abs((angleAt(second, 1) - angleAt(second, 1 - h)) / h) < 0.00001)
+  assert.ok(Math.abs((angleAt(release, h) - angleAt(release, 0)) / h) < 0.00001)
+})
+
+test('a replacement sign blends from the current pose and releases joints it does not use', () => {
+  const wrist = 'RightHand'
+  const finger = 'LeftHandIndex1'
+  const initialPose = new Map([[`${wrist}|x`, 0.9], [`${finger}|z`, 1.1]])
+  const frames = [[[wrist, 'rotation', 'x', -0.4, '-']], [[wrist, 'rotation', 'x', 0, '+']]]
+  const original = structuredClone(frames)
+  const [first, last] = compileMotion(frames, { initialPose })
+  const delta = { [wrist]: { x: 0.9 }, [finger]: { z: 1.1 } }
+  const sample = (pose, fraction) => sampleMotionPose(pose, pose.startMs + pose.moveMs * fraction, (name) => delta[name])
+  sample(first, 0)
+  assert.equal(delta[wrist].x, 0.9)
+  assert.equal(delta[finger].z, 1.1)
+  sample(first, 0.5)
+  assert.ok(delta[wrist].x < 0.9 && delta[wrist].x > -0.4)
+  assert.ok(delta[finger].z > 0 && delta[finger].z < 1.1)
+  sample(first, 1)
+  assert.equal(delta[wrist].x, -0.4)
+  assert.equal(delta[finger].z, 0)
+  sample(last, 1)
+  assert.equal(delta[wrist].x, 0)
+  assert.deepEqual(frames, original)
+  assert.equal(initialPose.get(`${wrist}|x`), 0.9)
+
+  const [clear] = compileMotion([], { initialPose })
+  sample(clear, 1)
+  assert.equal(delta[wrist].x, 0)
+  assert.equal(delta[finger].z, 0)
+  assert.deepEqual(compileMotion([]), [])
 })
 
 test('live speech keeps the active sign and discards the oldest waiting signs', () => {
