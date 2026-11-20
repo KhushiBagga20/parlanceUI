@@ -320,43 +320,41 @@
 }
 
 @utility eyebrow {
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 800;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--color-ink-3);
 }
 
 @utility text-display {
   font-size: clamp(3rem, 6.4vw, 6.25rem);
-  line-height: 0.94;
-  font-weight: 800;
-  letter-spacing: -0.055em;
-}
-
-/* The hero headline: heavy, tight, poster-like. Sized so "One conversation."
-   sits on one line in its column from 360px phones to 1920px desktops, and
-   wraps rather than clips at 320px or 400% zoom. */
-@utility text-hero {
-  font-size: clamp(2.1rem, 9vw, 4.4rem);
-  line-height: 0.98;
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  @media (width >= 64rem) { font-size: clamp(2.5rem, 3.6vw, 3.6rem); }
-}
-
-@utility text-section {
-  font-size: clamp(2.25rem, 4.6vw, 4rem);
-  line-height: 0.98;
-  font-weight: 800;
+  line-height: 0.96;
+  font-weight: 700;
   letter-spacing: -0.045em;
 }
 
-@utility text-statement {
-  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
-  line-height: 1.15;
+/* The landing headline: confident but not shouty. Wraps rather than clips
+   from 320px phones and at 400% zoom. */
+@utility text-hero {
+  font-size: clamp(2.375rem, 8.4vw, 4.25rem);
+  line-height: 1.02;
   font-weight: 700;
+  letter-spacing: -0.04em;
+  @media (width >= 64rem) { font-size: clamp(3rem, 4.4vw, 4.25rem); }
+}
+
+@utility text-section {
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+@utility text-statement {
+  font-size: clamp(1.375rem, 2.2vw, 2rem);
+  line-height: 1.25;
+  font-weight: 600;
   letter-spacing: -0.025em;
 }
 

@@ -83,8 +83,8 @@ export function SiteHeader({ active }: { active: string | null }) {
               href={`#${section.id}`}
               aria-current={active === section.id ? "location" : undefined}
               className={cn(
-                "relative flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[0.9375rem] font-bold whitespace-nowrap transition-colors",
-                active === section.id ? "bg-navy text-white" : "text-ink-2 hover:bg-paper-2 hover:text-navy",
+                "relative flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[0.9375rem] font-semibold whitespace-nowrap transition-colors",
+                active === section.id ? "bg-navy/[0.06] text-navy" : "text-ink-2 hover:bg-navy/[0.04] hover:text-navy",
               )}
             >
               <span
@@ -144,7 +144,7 @@ export function SiteHeader({ active }: { active: string | null }) {
                   key={section.id}
                   href={`#${section.id}`}
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between rounded-2xl px-4 py-3 text-base font-bold text-navy hover:bg-paper"
+                  className="flex items-center justify-between rounded-2xl px-4 py-3 text-base font-semibold text-navy hover:bg-paper-50"
                 >
                   {section.label}
                   {active === section.id && <span className="size-2 rounded-full bg-sun-400" aria-hidden />}
@@ -155,9 +155,9 @@ export function SiteHeader({ active }: { active: string | null }) {
                 <Link
                   key={to}
                   to={to}
-                  className="flex items-center gap-3 rounded-2xl px-4 py-3 text-base font-semibold text-ink-2 hover:bg-paper hover:text-navy"
+                  className="flex items-center gap-3 rounded-2xl px-4 py-3 text-base font-medium text-ink-2 hover:bg-paper-50 hover:text-navy"
                 >
-                  <Icon className="size-5 text-cobalt-400" aria-hidden />
+                  <Icon className="size-5 text-ink-3" aria-hidden />
                   {label}
                 </Link>
               ))}

@@ -29,6 +29,8 @@ interface SigningLoaderProps {
    * element that already states the status in text.
    */
   decorative?: boolean;
+  /** "quiet" uses soft neutral and tinted rings, for calm surfaces. */
+  tone?: "bright" | "quiet";
   className?: string;
 }
 
@@ -43,6 +45,11 @@ const RINGS = [
   { r: 51, color: "#1C4FD8", pill: "#5DBB80", from: 150, to: 110 },
   { r: 41, color: "#F59CC4", pill: "#F0322B", from: 70, to: 32 },
   { r: 31, color: "#FFC414", pill: "#FF6A1A", from: 130, to: 92 },
+];
+const QUIET_RINGS = [
+  { r: 51, color: "#E2DDD3", pill: "#CBC4B6", from: 150, to: 110 },
+  { r: 41, color: "#FFE2D0", pill: "#FFC3A0", from: 70, to: 32 },
+  { r: 31, color: "#D3EEDC", pill: "#A6DCB9", from: 130, to: 92 },
 ];
 
 function arc(r: number, from: number, to: number) {
@@ -61,6 +68,7 @@ export function SigningLoader({
   hideLabel = false,
   inverse = false,
   decorative = false,
+  tone = "bright",
   className,
 }: SigningLoaderProps) {
   const reduced = useReducedMotion();
@@ -76,7 +84,7 @@ export function SigningLoader({
       className={cn("inline-flex items-center", layout === "stack" ? "flex-col gap-2 text-center" : "flex-row gap-2.5", className)}
     >
       <svg viewBox="0 0 120 84" aria-hidden className={cn(s.svg, "shrink-0 overflow-visible")}>
-        {RINGS.map((ring, i) => (
+        {(tone === "quiet" ? QUIET_RINGS : RINGS).map((ring, i) => (
           <g key={ring.r}>
             <path d={arc(ring.r, 180, 0)} fill="none" stroke={ring.color} strokeWidth="10.4" />
             <g

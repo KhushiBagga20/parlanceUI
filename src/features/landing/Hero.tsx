@@ -1,7 +1,6 @@
 import { lazy, Suspense, useId, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, AudioLines, Camera, Hand, Keyboard } from "lucide-react";
-import { RainbowWindow } from "@/components/brand/RainbowWindow";
+import { ArrowRight, AudioLines, Camera, ShieldCheck } from "lucide-react";
 import { SigningLoader } from "@/components/ui/SigningLoader";
 import { useIntro } from "./intro/introState";
 
@@ -9,17 +8,40 @@ const HeroStage = lazy(() => import("./HeroStage"));
 
 const SUGGESTIONS = ["Where is the pain?", "I need water.", "मुझे पानी चाहिए"];
 
+/** The two ways in, shown as equals. */
+const PATHS = [
+  {
+    to: "/app/speech-to-sign",
+    from: "Speech",
+    target: "Sign",
+    who: "For the hearing person",
+    note: "Speak or type, then watch it signed.",
+    icon: AudioLines,
+    chip: "bg-tangerine-100 text-tangerine-800",
+  },
+  {
+    to: "/app/sign-to-text",
+    from: "Sign",
+    target: "Text",
+    who: "For the ISL signer",
+    note: "Sign to the camera, then read or hear it.",
+    icon: Camera,
+    chip: "bg-forest-100 text-forest-800",
+  },
+] as const;
+
+/** Shown while the 3D stage loads: the same arch, quietly waiting. */
 function StagePoster() {
   return (
     <div className="relative h-full w-full">
-      <RainbowWindow rings={6} band={64} fill="#FFFFFF" className="absolute inset-x-[2%] top-0 bottom-[20%] sm:inset-x-[8%] lg:inset-x-[10%]" />
+      <div aria-hidden className="absolute top-[5%] bottom-[22%] left-1/2 w-[min(78%,24rem)] -translate-x-1/2 rounded-t-full bg-tangerine-50 ring-1 ring-tangerine-100" />
       <div
         aria-hidden
         data-intro-target
-        className="pointer-events-none absolute top-[12%] left-1/2 aspect-square h-[60%] -translate-x-1/2 rounded-full"
+        className="pointer-events-none absolute top-[12%] left-1/2 aspect-square h-[58%] -translate-x-1/2 rounded-full"
       />
-      <div className="absolute inset-x-0 top-[40%] flex justify-center">
-        <SigningLoader label="Loading the 3D signer" size="md" />
+      <div className="absolute inset-x-0 top-[36%] flex justify-center">
+        <SigningLoader label="Loading the 3D signer" tone="quiet" />
       </div>
     </div>
   );
@@ -27,6 +49,7 @@ function StagePoster() {
 
 export function Hero() {
   const inputId = useId();
+  const hintId = useId();
   const [draft, setDraft] = useState("");
   const [request, setRequest] = useState<{ text: string; id: number } | null>(null);
   const welcoming = useIntro((s) => s.phase !== "done");
@@ -42,132 +65,111 @@ export function Hero() {
   };
 
   return (
-    <section aria-labelledby="hero-title" className="intro-hold grain relative overflow-hidden bg-paper">
-      {/* Flat colour blocks at the edges, as on a poster */}
-      <div aria-hidden className="pointer-events-none absolute top-[44%] -left-28 size-56 rounded-full bg-bubblegum-400 sm:size-72" />
-      <div aria-hidden className="pointer-events-none absolute -top-24 right-[8%] size-48 rounded-full bg-sun-400 max-lg:hidden" />
-      <div
-        className={
-          "container-wide relative z-10 grid grid-cols-1 items-center gap-x-12 gap-y-8 pt-6 pb-14 sm:pt-10 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_auto] lg:gap-y-0 lg:py-10 " +
-          "[grid-template-areas:'text'_'stage'_'try'] lg:[grid-template-areas:'text_stage'_'try_stage']"
-        }
-      >
-        {/* Headline */}
-        <div className="min-w-0 [grid-area:text] lg:self-end">
-          <p className="inline-flex animate-rise items-center gap-2.5 rounded-full bg-navy py-1.5 pr-4 pl-1.5 text-sm font-bold text-white">
-            <span className="inline-flex size-7 items-center justify-center rounded-full bg-sun-400 text-navy" aria-hidden>
-              <Hand className="size-4" />
+    <section aria-labelledby="hero-title" className="intro-hold relative bg-paper-50">
+      <div className="container-wide grid items-center gap-x-14 gap-y-12 pt-8 pb-16 sm:pt-12 sm:pb-20 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:py-14">
+        {/* What it is, and the two ways in */}
+        <div className="min-w-0">
+          <p className="inline-flex animate-rise items-center gap-2 rounded-full border border-line bg-surface py-1.5 pr-3.5 pl-2.5 text-[0.8125rem] leading-5 font-semibold text-ink-2">
+            <span aria-hidden className="size-2 shrink-0 rounded-full bg-sun-400" />
+            <span>
+              English and Hindi <span aria-hidden>·</span>
+              <span className="sr-only">and</span> Indian Sign Language
             </span>
-            <span aria-hidden>Speech ⇄ Indian Sign Language</span>
-            <span className="sr-only">Speech and Indian Sign Language, both ways</span>
           </p>
-          <h1 id="hero-title" className="text-hero mt-6 sm:mt-7">
-            <span className="block animate-rise-lg [animation-delay:60ms]">Two languages.</span>
-            <span className="block animate-rise-lg [animation-delay:140ms]">
-              <span className="relative isolate inline-block text-cobalt-400">
-                One conversation.
-                <span
-                  aria-hidden
-                  className="absolute inset-x-[-0.08em] bottom-[0.04em] -z-10 h-[0.36em] origin-left animate-pop rounded-full bg-sun-400 [animation-delay:600ms]"
-                />
-              </span>
-            </span>
+
+          <h1 id="hero-title" className="text-hero mt-6 max-w-[14ch] animate-rise-lg text-navy [animation-delay:60ms]">
+            Talk across <span className="text-tangerine-800">speech</span> and{" "}
+            <span className="text-forest-800">sign</span>.
           </h1>
-          <p className="mt-7 max-w-[34ch] animate-rise-lg text-[1.125rem] leading-[1.6] text-ink-2 [animation-delay:240ms] sm:text-[1.1875rem]">
-            Parlance turns English and Hindi into Indian Sign Language and offers a camera workspace for sign recognition.
+
+          <p className="mt-6 max-w-[40ch] animate-rise-lg text-[1.125rem] leading-8 text-ink-2 [animation-delay:140ms] sm:text-[1.1875rem]">
+            Parlance helps a hearing person and an Indian Sign Language signer understand each other on one screen.
+            Words become signs from a 3D signer, and signs to the camera become text and speech.
+          </p>
+
+          <ul className="mt-9 grid animate-rise-lg gap-3 [animation-delay:220ms] sm:grid-cols-2" aria-label="Open a tool">
+            {PATHS.map((path) => (
+              <li key={path.to} className="flex">
+                <Link
+                  to={path.to}
+                  className="group flex w-full items-start gap-3.5 rounded-[1.25rem] border border-line bg-surface p-4 transition-[border-color,translate] duration-200 hover:-translate-y-0.5 hover:border-navy/30"
+                >
+                  <span className={`inline-flex size-10 shrink-0 items-center justify-center rounded-full ${path.chip}`} aria-hidden>
+                    <path.icon className="size-5" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2 text-base font-bold text-navy">
+                      <span>
+                        {path.from} <span aria-hidden>→</span>
+                        <span className="sr-only">to</span> {path.target}
+                      </span>
+                      <ArrowRight className="size-4 shrink-0 text-ink-3 transition-transform group-hover:translate-x-0.5 group-hover:text-navy" aria-hidden />
+                    </span>
+                    <span className="mt-0.5 block text-sm leading-5 font-medium text-ink-2">{path.who}</span>
+                    <span className="mt-0.5 block text-sm leading-5 text-ink-3">{path.note}</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-5 flex animate-rise-lg items-start gap-2 text-sm leading-6 text-ink-3 [animation-delay:280ms]">
+            <ShieldCheck className="mt-1 size-4 shrink-0 text-forest-800" aria-hidden />
+            Runs in your browser with no account. Camera video stays on your device.
           </p>
         </div>
 
-        {/* The live signer */}
-        <div className="relative min-w-0 [grid-area:stage]">
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-[34rem] animate-fade [animation-delay:200ms] sm:aspect-square lg:aspect-auto lg:h-[min(78svh,46rem)] lg:max-w-none">
-            <Suspense fallback={<StagePoster />}>
-              <HeroStage request={request} hold={welcoming} />
-            </Suspense>
-          </div>
-        </div>
-
-        {/* Try it */}
-        <div className="min-w-0 [grid-area:try] lg:self-start lg:pt-8">
-          <form
-            onSubmit={onSubmit}
-            className="animate-rise-lg rounded-[2rem] border-2 border-navy bg-surface p-3 [animation-delay:340ms] sm:p-4"
-          >
-            <label htmlFor={inputId} className="flex items-center gap-2.5 px-1 text-sm font-bold text-navy">
-              <span className="inline-flex size-7 items-center justify-center rounded-full bg-tangerine-400 text-navy" aria-hidden>
-                <Keyboard className="size-3.5" />
-              </span>
-              Type in English or Hindi and watch it signed
-            </label>
-            <div className="mt-3 flex items-stretch rounded-full bg-paper ring-2 ring-transparent transition-[box-shadow,background-color] focus-within:bg-surface focus-within:ring-cobalt-400">
-              <input
-                id={inputId}
-                value={draft}
-                onChange={(e) => setDraft(e.target.value.slice(0, 120))}
-                placeholder="Where is the pain?"
-                autoComplete="off"
-                className="h-14 min-w-0 flex-1 bg-transparent pr-2 pl-5 text-[1.0625rem] text-ink outline-none placeholder:text-ink-3 focus-visible:outline-none"
-              />
-              <button
-                type="submit"
-                disabled={!draft.trim()}
-                className="press m-1.5 inline-flex items-center gap-2 rounded-full bg-cobalt-400 px-5 text-[0.9375rem] font-bold text-white hover:bg-cobalt-500 disabled:bg-cobalt-200 disabled:text-cobalt-800"
-              >
-                Sign it <ArrowRight className="size-4" aria-hidden />
-              </button>
+        {/* The live demo: type, and the signer shows it */}
+        <div className="min-w-0 animate-fade [animation-delay:200ms]">
+          <div className="rounded-[2rem] border border-line bg-surface p-2.5 sm:p-3">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-paper-50 sm:aspect-[6/5] lg:aspect-auto lg:h-[min(60svh,32rem)]">
+              <Suspense fallback={<StagePoster />}>
+                <HeroStage request={request} hold={welcoming} />
+              </Suspense>
             </div>
-            <div className="mt-3 flex flex-wrap items-center gap-1.5 px-1 text-sm">
-              <span className="mr-1 font-semibold text-ink-3">Or try</span>
-              {SUGGESTIONS.map((s) => (
+
+            <form onSubmit={onSubmit} className="px-2 pt-4 pb-2 sm:px-3">
+              <label htmlFor={inputId} className="text-[0.9375rem] font-semibold text-navy">
+                Try it: type a sentence in English or Hindi
+              </label>
+              <p id={hintId} className="sr-only">
+                The 3D signer above performs it in Indian Sign Language.
+              </p>
+              <div className="mt-2.5 flex items-stretch rounded-full border border-line-strong bg-surface transition-[border-color,box-shadow] focus-within:border-navy focus-within:shadow-[0_0_0_4px_rgb(1_22_56/0.08)]">
+                <input
+                  id={inputId}
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value.slice(0, 120))}
+                  placeholder="Where is the pain?"
+                  autoComplete="off"
+                  aria-describedby={hintId}
+                  className="h-12 min-w-0 flex-1 bg-transparent pr-2 pl-5 text-[1.0625rem] text-ink outline-none placeholder:text-ink-3 focus-visible:outline-none"
+                />
                 <button
-                  key={s}
-                  type="button"
-                  onClick={() => {
-                    setDraft(s);
-                    sign(s);
-                  }}
-                  className="press rounded-full bg-paper-2 px-3.5 py-1.5 font-bold text-navy hover:bg-sun-200"
+                  type="submit"
+                  disabled={!draft.trim()}
+                  className="press m-1 inline-flex items-center gap-2 rounded-full bg-navy px-5 text-[0.9375rem] font-semibold text-white hover:bg-cobalt-500 disabled:bg-paper-2 disabled:text-ink-3"
                 >
-                  {s}
+                  Sign it <ArrowRight className="size-4" aria-hidden />
                 </button>
-              ))}
-            </div>
-          </form>
-
-          {/* Both directions, as equals */}
-          <div className="mt-6 grid animate-rise-lg gap-3 [animation-delay:420ms] sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-            <Link
-              to="/app/speech-to-sign"
-              className="press group flex min-h-16 items-center gap-3 rounded-full bg-tangerine-400 py-2 pr-5 pl-2 text-navy hover:bg-tangerine-300"
-            >
-              <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-navy text-tangerine-400" aria-hidden>
-                <AudioLines className="size-5" />
-              </span>
-              <span className="min-w-0 leading-tight">
-                <span className="block text-base font-extrabold whitespace-nowrap">
-                  Speech <span aria-hidden>→</span>
-                  <span className="sr-only">to</span> Sign
-                </span>
-                <span className="block text-[0.8125rem] font-semibold text-navy/80">Speak or type</span>
-              </span>
-              <ArrowRight className="ml-auto size-4 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
-            </Link>
-            <Link
-              to="/app/sign-to-text"
-              className="press group flex min-h-16 items-center gap-3 rounded-full bg-forest-400 py-2 pr-5 pl-2 text-white hover:bg-forest-500"
-            >
-              <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-white text-forest-400" aria-hidden>
-                <Camera className="size-5" />
-              </span>
-              <span className="min-w-0 leading-tight">
-                <span className="block text-base font-extrabold whitespace-nowrap">
-                  Sign <span aria-hidden>→</span>
-                  <span className="sr-only">to</span> Text
-                </span>
-                <span className="block text-[0.8125rem] font-semibold text-white/85">Sign to the camera</span>
-              </span>
-              <ArrowRight className="ml-auto size-4 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
-            </Link>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-1.5 text-sm">
+                <span className="mr-1 text-ink-3">Or try</span>
+                {SUGGESTIONS.map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => {
+                      setDraft(s);
+                      sign(s);
+                    }}
+                    className="press rounded-full border border-line bg-paper-50 px-3 py-1.5 font-medium text-navy hover:border-navy/30 hover:bg-surface"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </form>
           </div>
         </div>
       </div>

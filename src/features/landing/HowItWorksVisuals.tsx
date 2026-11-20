@@ -17,8 +17,8 @@ function GlossChip({ children, active, dim }: { children: React.ReactNode; activ
   return (
     <span
       className={cn(
-        "inline-flex h-10 items-center rounded-full border-2 px-4 text-[0.9375rem] font-extrabold tracking-[0.03em] uppercase transition-colors duration-300",
-        active ? "border-navy bg-navy text-white" : "border-navy bg-surface text-navy",
+        "inline-flex h-9 items-center rounded-full border px-3.5 text-[0.875rem] font-semibold tracking-[0.04em] uppercase transition-colors duration-300",
+        active ? "border-navy bg-navy text-white" : "border-line-strong bg-surface text-navy",
         dim && "opacity-40",
       )}
     >
@@ -44,8 +44,8 @@ export function SpeakVisual({ active }: { active: boolean }) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-6 px-6">
       <div className="relative">
-        <span className="absolute inset-0 animate-ping rounded-full bg-tangerine-400/30" aria-hidden />
-        <span className="relative inline-flex size-16 items-center justify-center rounded-full bg-tangerine-400 text-navy">
+        <span className="absolute inset-0 animate-ping rounded-full bg-tangerine-200/50" aria-hidden />
+        <span className="relative inline-flex size-16 items-center justify-center rounded-full bg-tangerine-100 text-tangerine-800">
           <Mic className="size-7" aria-hidden />
         </span>
       </div>
@@ -53,7 +53,7 @@ export function SpeakVisual({ active }: { active: boolean }) {
         {Array.from({ length: 22 }, (_, i) => (
           <span
             key={i}
-            className="w-1.5 rounded-full bg-cobalt-400"
+            className="w-1 rounded-full bg-tangerine-200"
             style={{
               height: `${18 + Math.abs(Math.sin(i * 1.7)) * 22}px`,
               animation: active ? `wave 1.1s ${(i % 7) * 0.09}s ease-in-out infinite alternate` : undefined,
@@ -61,7 +61,7 @@ export function SpeakVisual({ active }: { active: boolean }) {
           />
         ))}
       </div>
-      <div className="w-full max-w-xs rounded-full border-2 border-navy bg-surface px-5 py-3 text-lg font-bold text-ink">
+      <div className="w-full max-w-xs rounded-full border border-line-strong bg-surface px-5 py-3 text-lg font-semibold text-ink">
         {text.slice(0, shown)}
         <span className={cn("ml-0.5 inline-block h-5 w-0.5 translate-y-0.5 bg-royal", shown < text.length && "animate-pulse")} />
       </div>
@@ -112,7 +112,7 @@ export function ReorderVisual({ active }: { active: boolean }) {
               transition={{ type: "spring", stiffness: 380, damping: 32 }}
             >
               {"drop" in item && item.drop ? (
-                <span className="inline-flex h-10 items-center rounded-full border-2 border-dashed border-ink-3/60 px-4 text-[0.9375rem] font-bold text-ink-3 line-through decoration-2">
+                <span className="inline-flex h-9 items-center rounded-full border border-dashed border-ink-3/60 px-3.5 text-[0.875rem] font-semibold text-ink-3 line-through">
                   {item.label}
                 </span>
               ) : (
@@ -123,15 +123,15 @@ export function ReorderVisual({ active }: { active: boolean }) {
         </AnimatePresence>
       </motion.ul>
       <div className="grid w-full max-w-sm gap-2 text-sm">
-        <div className="flex items-center gap-2.5 rounded-full bg-cobalt-100 px-4 py-2 font-semibold text-cobalt-800">
-          <span className="size-2 rounded-full bg-cobalt-400" aria-hidden />
+        <div className="flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2 text-ink-2">
+          <span className="size-1.5 rounded-full bg-navy" aria-hidden />
           The question word moves to the end
         </div>
-        <div className="flex items-center gap-2.5 rounded-full bg-cobalt-100 px-4 py-2 font-semibold text-cobalt-800">
-          <span className="size-2 rounded-full bg-cobalt-400" aria-hidden />
+        <div className="flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2 text-ink-2">
+          <span className="size-1.5 rounded-full bg-navy" aria-hidden />
           &ldquo;is&rdquo; and &ldquo;the&rdquo; have no sign and drop away
         </div>
-        <div className="flex items-center gap-2.5 rounded-full bg-sun-100 px-4 py-2 font-semibold text-sun-800">
+        <div className="flex items-center gap-2.5 rounded-full bg-sun-50 px-4 py-2 text-sun-800">
           <ScanFace className="size-4" aria-hidden />
           Brows furrow across the question
         </div>
@@ -170,7 +170,7 @@ export function CameraVisual({ active }: { active: boolean }) {
       <div className="relative min-h-0 flex-1 bg-paper-50">
         <HandTrace glosses={["hello"]} playing={active} variant="camera" />
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-          <span className="rounded-full bg-forest-400 px-3 py-1 text-xs font-bold text-white">Tracked on this device</span>
+          <span className="rounded-full bg-forest-100 px-3 py-1 text-xs font-semibold text-forest-800">Tracked on this device</span>
         </div>
       </div>
       <div className="grid grid-cols-3 divide-x divide-line border-t border-line bg-surface text-center">
@@ -180,7 +180,7 @@ export function CameraVisual({ active }: { active: boolean }) {
           ["0", "video uploaded"],
         ].map(([value, label]) => (
           <div key={label} className="px-2 py-3">
-            <p className="text-xl font-extrabold text-navy tabular-nums">{value}</p>
+            <p className="text-lg font-bold text-navy tabular-nums">{value}</p>
             <p className="text-xs text-ink-3">{label}</p>
           </div>
         ))}
@@ -192,7 +192,7 @@ export function CameraVisual({ active }: { active: boolean }) {
 /* ----------------------------------------------------------- sign: 2 -- */
 function Bar({ label, value, accepted, active, delay }: { label: string; value: number; accepted: boolean; active: boolean; delay: number }) {
   return (
-    <div className="rounded-[1.25rem] border-2 border-navy bg-surface p-4">
+    <div className="rounded-[1.25rem] border border-line bg-surface p-4">
       <div className="flex items-center justify-between gap-3">
         <span className="text-[0.9375rem] font-bold tracking-[0.03em] text-navy">{label}</span>
         <span
@@ -238,20 +238,20 @@ export function SentenceVisual({ active }: { active: boolean }) {
         <GlossChip>Hello</GlossChip>
         <GlossChip>Thank you</GlossChip>
       </div>
-      <svg viewBox="0 0 24 40" className="h-8 w-4 text-navy" aria-hidden>
+      <svg viewBox="0 0 24 40" className="h-8 w-4 text-line-strong" aria-hidden>
         <path d="M12 2v32m0 0-7-7m7 7 7-7" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
-      <div className="w-full max-w-xs rounded-[1.5rem] bg-sun-400 p-5">
-        <p className="text-2xl font-extrabold tracking-[-0.03em] text-navy">Hello, thank you.</p>
-        <div className="mt-3 flex items-center gap-2.5 text-sm font-bold text-navy/80">
-          <span className="inline-flex size-8 items-center justify-center rounded-full bg-navy text-sun-400">
+      <div className="w-full max-w-xs rounded-[1.5rem] border border-line bg-surface p-5">
+        <p className="text-xl font-bold tracking-[-0.02em] text-navy">Hello, thank you.</p>
+        <div className="mt-3 flex items-center gap-2.5 text-sm font-medium text-ink-3">
+          <span className="inline-flex size-8 items-center justify-center rounded-full bg-forest-100 text-forest-800">
             <Volume2 className="size-4" aria-hidden />
           </span>
           <span className="flex h-5 items-end gap-0.5" aria-hidden>
             {[8, 14, 10, 18, 12, 16, 9, 13].map((h, i) => (
               <span
                 key={i}
-                className="w-1 rounded-full bg-navy/70"
+                className="w-1 rounded-full bg-forest-200"
                 style={{ height: h, animation: active ? `wave 0.9s ${i * 0.08}s ease-in-out infinite alternate` : undefined }}
               />
             ))}

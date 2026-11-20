@@ -1,12 +1,11 @@
 /**
- * The hero's live stage: the real 3D signer between the Parlance arcs, driven
+ * The hero's live stage: the real 3D signer in a soft arch, driven
  * by the real grammar engine and motion library. Visitors can type their own
  * sentence; until they do, it cycles through a few short phrases.
  * Loaded as its own chunk (three.js).
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw } from "lucide-react";
-import { RainbowWindow } from "@/components/brand/RainbowWindow";
 import { AvatarViewport } from "@/components/avatar/AvatarViewport";
 import { announce } from "@/components/ui/Toaster";
 import type { PlayerState, SignPlayer } from "@/avatar/playback";
@@ -104,22 +103,20 @@ export default function HeroStage({
 
   return (
     <div ref={hostRef} className="relative h-full w-full">
-      {/* The signer stands in an arched window of rainbow rings. The circle is
-          where the welcome scene collapses into. */}
-      <RainbowWindow
-        rings={6}
-        band={64}
-        fill="#FFFFFF"
-        animate
-        className="absolute inset-x-[2%] top-0 bottom-[20%] sm:inset-x-[8%] lg:inset-x-[10%]"
+      {/* A soft arch behind the signer keeps the hands and face on a plain,
+          calm background. The circle is where the welcome scene collapses into. */}
+      <div
+        aria-hidden
+        className="absolute top-[5%] bottom-[22%] left-1/2 w-[min(78%,24rem)] -translate-x-1/2 rounded-t-full bg-tangerine-50 ring-1 ring-tangerine-100"
       />
+      <div aria-hidden className="absolute inset-x-[8%] bottom-[22%] h-px bg-line" />
       <div
         aria-hidden
         data-intro-target
-        className="pointer-events-none absolute top-[12%] left-1/2 aspect-square h-[60%] -translate-x-1/2 rounded-full"
+        className="pointer-events-none absolute top-[12%] left-1/2 aspect-square h-[58%] -translate-x-1/2 rounded-full"
       />
 
-      <div className="absolute inset-x-[6%] top-0 bottom-[20%]">
+      <div className="absolute inset-x-[4%] top-[2%] bottom-[22%]">
         <AvatarViewport
           queue={started && !hold ? queue : undefined}
           presentation="figure"
@@ -127,6 +124,7 @@ export default function HeroStage({
           suspended={!visible}
           onState={onState}
           onPlayer={setPlayer}
+          quietLoader
           label={
             current
               ? `3D signer performing the ISL phrase ${current.gloss.notation}, translated from "${current.input}"`
@@ -135,45 +133,38 @@ export default function HeroStage({
         />
       </div>
 
-      {/* Left annotation, attached to the arc: what was said */}
-      <div
-        className="pointer-events-none absolute top-[8%] left-0 hidden w-[12rem] animate-float rounded-[1.5rem] rounded-bl-md bg-tangerine-400 px-4 py-3 xl:block"
-        aria-hidden
-      >
-        <p className="text-xs font-extrabold tracking-[0.08em] text-navy/80 uppercase">You said</p>
-        <p className="mt-1 text-[1.0625rem] leading-6 font-bold text-navy">{current ? current.input : "…"}</p>
+      {/* What was said, and its ISL gloss, as quiet labels (wide screens) */}
+      <div className="pointer-events-none absolute top-4 left-4 hidden w-44 rounded-2xl border border-line bg-surface px-3.5 py-2.5 xl:block" aria-hidden>
+        <p className="flex items-center gap-1.5 text-xs font-semibold text-ink-3">
+          <span className="size-1.5 rounded-full bg-tangerine-400" />
+          Sentence
+        </p>
+        <p className="mt-0.5 text-[0.9375rem] leading-6 font-semibold text-navy">{current ? current.input : "…"}</p>
       </div>
-
-      {/* Right annotation, attached to the arc: grammar on the face */}
-      <div
-        className="pointer-events-none absolute top-[22%] right-0 hidden w-[12rem] animate-float rounded-[1.5rem] rounded-br-md bg-forest-400 px-4 py-3 text-right [animation-delay:-3s] xl:block"
-        aria-hidden
-      >
-        <p className="flex items-center justify-end gap-1.5 text-xs font-extrabold tracking-[0.08em] text-white/85 uppercase">
-          <span className="size-1.5 rounded-full bg-sun-400" />
+      <div className="pointer-events-none absolute top-4 right-4 hidden w-44 rounded-2xl border border-line bg-surface px-3.5 py-2.5 text-right xl:block" aria-hidden>
+        <p className="flex items-center justify-end gap-1.5 text-xs font-semibold text-ink-3">
+          <span className="size-1.5 rounded-full bg-forest-400" />
           ISL gloss
         </p>
-        <p className="mt-1 text-[0.9375rem] leading-6 font-bold tracking-[0.03em] text-white uppercase">
-          {current?.gloss.notation || "…"}
-        </p>
+        <p className="mt-0.5 text-[0.875rem] leading-6 font-semibold tracking-[0.03em] text-navy uppercase">{current?.gloss.notation || "…"}</p>
       </div>
 
-      {/* Gloss rail with the gold point under the active sign */}
-      <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-3">
-        <div className="flex max-w-full flex-wrap items-center justify-center gap-1.5 px-2" aria-hidden>
+      {/* Gloss rail and playback controls */}
+      <div className="absolute inset-x-0 bottom-0 flex h-[22%] flex-col items-center justify-center gap-2.5 px-3">
+        <div className="flex max-w-full flex-wrap items-center justify-center gap-1.5" aria-hidden>
           {current?.gloss.tokens.map((item, i) => (
             <span
               key={`${item.gloss}-${i}`}
               className={cn(
-                "inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm leading-none font-extrabold tracking-[0.04em] uppercase transition-colors duration-300 sm:h-10 sm:gap-2 sm:px-4 sm:text-lg",
+                "inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[0.8125rem] leading-none font-semibold tracking-[0.04em] uppercase transition-colors duration-300 sm:text-sm",
                 item.missing
-                  ? "border-2 border-dashed border-ink-3/50 text-ink-3 line-through decoration-2"
+                  ? "border border-dashed border-ink-3/50 text-ink-3 line-through"
                   : i === active
                     ? "bg-navy text-white"
-                    : "bg-surface text-navy ring-2 ring-navy/10",
+                    : "border border-line bg-surface text-navy",
               )}
             >
-              {i === active && !item.missing && <span className="size-2 rounded-full bg-sun-400" />}
+              {i === active && !item.missing && <span className="size-1.5 rounded-full bg-sun-400" />}
               {item.label}
             </span>
           ))}
@@ -191,7 +182,7 @@ export default function HeroStage({
               player?.toggle();
             }}
             disabled={!player || !queue?.length}
-            className="press inline-flex size-10 items-center justify-center rounded-full border-2 border-navy bg-surface text-navy hover:bg-sun-100 disabled:opacity-40"
+            className="press inline-flex size-9 items-center justify-center rounded-full border border-line-strong bg-surface text-navy hover:border-navy/40 disabled:opacity-40"
             aria-label={playing ? "Pause the signer" : "Play the signer"}
             title={playing ? "Pause" : "Play"}
           >
@@ -205,13 +196,13 @@ export default function HeroStage({
               else player?.restart();
             }}
             disabled={!player || !queue?.length}
-            className="press inline-flex size-10 items-center justify-center rounded-full border-2 border-navy bg-surface text-navy hover:bg-sun-100 disabled:opacity-40"
+            className="press inline-flex size-9 items-center justify-center rounded-full border border-line-strong bg-surface text-navy hover:border-navy/40 disabled:opacity-40"
             aria-label="Replay the phrase"
             title="Replay"
           >
             <RotateCcw className="size-3.5" aria-hidden />
           </button>
-          <span className="ml-1 text-[0.8125rem] font-bold text-ink-2" aria-hidden>
+          <span className="ml-1 text-[0.8125rem] font-medium text-ink-3" aria-hidden>
             {!current ? "Preparing the signer…" : playing ? `Signing ${active + 1} of ${queue?.length ?? 0}` : demo ? "Next phrase…" : "Ready"}
           </span>
         </div>

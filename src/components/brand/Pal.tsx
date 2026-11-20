@@ -23,6 +23,10 @@ const OUTFIT = {
   sun: "#FFC414",
   bubblegum: "#F59CC4",
   navy: "#011638",
+  /* Muted tones for calm surfaces. */
+  slate: "#3D4A6B",
+  clay: "#C0714D",
+  sage: "#5E8C76",
 } as const;
 const HAIR_COLOR = { navy: "#011638", brown: "#4A2C1A", ink: "#141414" } as const;
 

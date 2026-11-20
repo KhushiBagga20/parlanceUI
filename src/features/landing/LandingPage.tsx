@@ -12,7 +12,6 @@ import { About } from "./About";
 import { Directions } from "./Directions";
 import { Hero } from "./Hero";
 import { HowItWorks } from "./HowItWorks";
-import { FlowStrip } from "./FlowStrip";
 import { WhyItMatters } from "./WhyItMatters";
 
 const SECTION_IDS = LANDING_SECTIONS.map((s) => s.id);
@@ -32,14 +31,13 @@ export function LandingPage() {
   const replay = useIntro((s) => s.replay);
 
   return (
-    <div className="min-h-dvh bg-paper" data-intro={phase === "playing" ? "playing" : undefined}>
+    <div className="min-h-dvh bg-paper-50" data-intro={phase === "playing" ? "playing" : undefined}>
       <SkipLink />
       <IntroScene />
       <SiteHeader active={active} />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero />
         <Directions />
-        <FlowStrip />
         <HowItWorks />
         <WhyItMatters />
         <About />

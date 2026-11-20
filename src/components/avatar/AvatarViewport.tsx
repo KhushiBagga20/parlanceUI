@@ -16,12 +16,14 @@ interface AvatarViewportProps {
   onPlayer?: (player: SignPlayer | null) => void;
   interactive?: boolean;
   label: string;
+  /** Use the calm loading indicator (for neutral surfaces). */
+  quietLoader?: boolean;
   className?: string;
 }
 
 export function AvatarViewport({
   queue, mirror = false, presentation = "figure", playbackSpeed = 1,
-  loop = false, suspended = false, onState, onPlayer, interactive = true, label, className,
+  loop = false, suspended = false, onState, onPlayer, interactive = true, label, quietLoader = false, className,
 }: AvatarViewportProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<AvatarPlayer | null>(null);
@@ -63,7 +65,11 @@ export function AvatarViewport({
         className={cn("absolute inset-0", interactive && "touch-pan-y cursor-grab active:cursor-grabbing")} />
       {status === "loading" && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6">
-          <SigningLoader label="Loading the 3D signer" className="rounded-3xl bg-surface/85 px-5 py-4 shadow-card backdrop-blur-sm" />
+          <SigningLoader
+            label="Loading the 3D signer"
+            tone={quietLoader ? "quiet" : "bright"}
+            className="rounded-3xl bg-surface/85 px-5 py-4 shadow-card backdrop-blur-sm"
+          />
         </div>
       )}
       {status === "error" && (
