@@ -18,10 +18,10 @@ const sizes = {
 };
 
 const variants = {
-  ghost: "text-ink-2 hover:bg-brand-50 hover:text-navy",
-  outline: "bg-surface text-navy border border-line-strong hover:border-navy/40",
+  ghost: "text-ink-2 hover:bg-butter-100 hover:text-navy",
+  outline: "bg-surface text-navy border border-line-strong hover:border-navy/40 hover:bg-butter-50",
   primary: "bg-royal text-white hover:bg-brand-700",
-  subtle: "bg-brand-50 text-royal hover:bg-brand-100",
+  subtle: "bg-sky-100 text-royal hover:bg-sky-200",
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
@@ -36,7 +36,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
       title={label}
       aria-pressed={pressed}
       className={cn(
-        "inline-flex shrink-0 items-center justify-center rounded-sm transition-colors duration-150",
+        "press inline-flex shrink-0 items-center justify-center rounded-full",
         "disabled:opacity-40 disabled:pointer-events-none",
         sizes[size],
         variants[variant],

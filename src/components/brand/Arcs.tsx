@@ -72,7 +72,7 @@ export function SectionIndex({ index, label, tone = "default" }: { index: string
     <p
       className={cn(
         "inline-flex items-center gap-2 rounded-full py-1 pr-3.5 pl-1 text-[0.8125rem] leading-5 font-semibold",
-        tone === "inverse" ? "bg-white/10 text-white" : "bg-surface text-navy shadow-xs ring-1 ring-sky-300/70",
+        tone === "inverse" ? "bg-white/10 text-white" : "bg-surface text-navy shadow-xs ring-1 ring-line",
       )}
     >
       <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-gold px-1.5 text-[0.6875rem] font-bold text-navy tabular-nums">

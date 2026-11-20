@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { BadgeCheck, CircleHelp, CirclePause, Hand, Loader2, PlugZap, RefreshCw, ScanLine, ServerOff, UserRound } from "lucide-react";
+import { BadgeCheck, CheckCircle2, CircleHelp, CirclePause, Hand, PlugZap, RefreshCw, ScanLine, ServerOff, TriangleAlert, UserRound } from "lucide-react";
+import { SigningLoader } from "@/components/ui/SigningLoader";
 import { cn } from "@/lib/cn";
 import type { CameraTracking } from "@/services/camera/useCameraTracking";
 import type { AcceptedSign, RecognitionService, RejectReason } from "@/services/recognition/useRecognitionService";
@@ -25,21 +26,20 @@ const REASON_TEXT: Record<Exclude<RejectReason, "resting">, string> = {
 
 type Tone = "neutral" | "success" | "warning" | "danger" | "muted";
 
-const TONE: Record<Tone, { bar: string; icon: string }> = {
-  neutral: { bar: "border-royal", icon: "text-royal" },
-  success: { bar: "border-success", icon: "text-success" },
-  warning: { bar: "border-gold", icon: "text-gold-800" },
-  danger: { bar: "border-danger", icon: "text-danger" },
-  muted: { bar: "border-line-strong", icon: "text-ink-3" },
+/* Every state pairs its colour with an icon and a written title. */
+const TONE: Record<Tone, { card: string; icon: string }> = {
+  neutral: { card: "bg-sky-50 ring-sky-200", icon: "bg-surface text-royal" },
+  success: { card: "bg-mint-50 ring-mint-200", icon: "bg-mint-300 text-navy" },
+  warning: { card: "bg-butter-50 ring-butter-200", icon: "bg-butter-200 text-gold-800" },
+  danger: { card: "bg-danger-bg ring-danger/20", icon: "bg-surface text-danger" },
+  muted: { card: "bg-cream ring-line", icon: "bg-surface text-ink-3" },
 };
 
 function State({ icon, title, children, tone = "neutral", action }: { icon: ReactNode; title: ReactNode; children?: ReactNode; tone?: Tone; action?: ReactNode }) {
   return (
-    <div className={cn("min-h-[8.5rem] border-l-2 pl-4", TONE[tone].bar)}>
-      <p className={cn("flex items-center gap-2 text-[0.8125rem] font-medium", TONE[tone].icon)}>
-        <span className="[&_svg]:size-4">{icon}</span>
-      </p>
-      <div className="mt-1.5 text-xl leading-7 font-semibold tracking-[-0.02em] text-navy">{title}</div>
+    <div className={cn("min-h-[8.5rem] animate-pop rounded-[1.25rem] p-4 ring-1", TONE[tone].card)}>
+      <span className={cn("inline-flex size-9 items-center justify-center rounded-full shadow-xs [&_svg]:size-[1.125rem]", TONE[tone].icon)}>{icon}</span>
+      <div className="mt-2.5 text-xl leading-7 font-bold tracking-[-0.02em] text-navy">{title}</div>
       {children && <div className="mt-1.5 text-[0.9375rem] leading-6 text-ink-2">{children}</div>}
       {action && <div className="mt-3 flex flex-wrap items-center gap-2">{action}</div>}
     </div>
@@ -55,7 +55,7 @@ function Meter({ value, threshold, label }: { value: number; threshold: number; 
         <span className="tabular-nums">{pct}%</span>
       </div>
       <div
-        className="relative mt-1.5 h-1.5 rounded-full bg-line-soft"
+        className="relative mt-1.5 h-2 rounded-full bg-surface ring-1 ring-line"
         role="meter"
         aria-label={label}
         aria-valuemin={0}
@@ -74,15 +74,15 @@ export function ServiceStatus({ service }: { service: RecognitionService }) {
   const c = service.connection;
   const view =
     c === "open"
-      ? { dot: "bg-success", text: "Recognition service connected" }
+      ? { icon: <CheckCircle2 className="size-4 text-success" aria-hidden />, text: "Recognition service connected", pill: "bg-mint-50 ring-mint-200" }
       : c === "connecting"
-        ? { dot: "bg-royal animate-pulse", text: "Connecting to the recognition service" }
+        ? { icon: <SigningLoader label="Connecting" decorative className="size-5" />, text: "Connecting to the recognition service", pill: "bg-sky-50 ring-sky-200" }
         : c === "no-model"
-          ? { dot: "bg-gold", text: "Service running without a model" }
-          : { dot: "bg-danger", text: "Recognition service offline" };
+          ? { icon: <TriangleAlert className="size-4 text-gold-800" aria-hidden />, text: "Service running without a model", pill: "bg-butter-50 ring-butter-200" }
+          : { icon: <ServerOff className="size-4 text-danger" aria-hidden />, text: "Recognition service offline", pill: "bg-danger-bg ring-danger/20" };
   return (
-    <p className="flex items-center gap-2 text-[0.8125rem] font-medium text-ink-2" role="status">
-      <span aria-hidden className={cn("size-2 rounded-full", view.dot)} />
+    <p className={cn("flex w-fit items-center gap-2 rounded-full py-1.5 pr-3.5 pl-2.5 text-[0.8125rem] font-semibold text-navy ring-1", view.pill)} role="status">
+      <span className="inline-flex size-5 items-center justify-center">{view.icon}</span>
       {view.text}
     </p>
   );
@@ -109,11 +109,11 @@ export function RecognitionReadout({ camera, service, recognising, accepted, thr
             <button
               type="button"
               onClick={service.retry}
-              className="inline-flex h-9 items-center gap-1.5 rounded-sm border border-line-strong bg-surface px-3 text-[0.8125rem] font-medium text-navy hover:border-navy/40"
+              className="press inline-flex h-9 items-center gap-1.5 rounded-full border border-line-strong bg-surface px-3.5 text-[0.8125rem] font-semibold text-navy hover:border-navy/40"
             >
               <RefreshCw className="size-3.5" aria-hidden /> {service.gaveUp ? "Try again" : "Retry now"}
             </button>
-            <Link to="/app/help#service" className="inline-flex h-9 items-center px-1 text-[0.8125rem] font-medium text-royal hover:underline">
+            <Link to="/app/help#service" className="inline-flex h-9 items-center px-1 text-[0.8125rem] font-semibold text-royal hover:underline">
               How to start it
             </Link>
           </>
@@ -125,7 +125,7 @@ export function RecognitionReadout({ camera, service, recognising, accepted, thr
     );
   }
   if (service.connection === "connecting") {
-    return <State tone="muted" icon={<Loader2 className="animate-spin" />} title="Connecting…" />;
+    return <State tone="muted" icon={<SigningLoader label="Connecting" decorative className="size-6" />} title="Connecting…" />;
   }
   if (service.connection === "no-model") {
     return (
@@ -165,9 +165,9 @@ export function RecognitionReadout({ camera, service, recognising, accepted, thr
   if (service.buffered) {
     const pct = Math.round((service.buffered.have / Math.max(1, service.buffered.need)) * 100);
     return (
-      <State tone="neutral" icon={<Loader2 className="animate-spin" />} title="Watching your signing…">
+      <State tone="neutral" icon={<ScanLine />} title="Watching your signing…">
         Collecting two seconds of movement before deciding.
-        <span className="mt-3 block h-1 overflow-hidden rounded-full bg-line-soft" aria-hidden>
+        <span className="mt-3 block h-1.5 overflow-hidden rounded-full bg-surface ring-1 ring-sky-200" aria-hidden>
           <span className="block h-full rounded-full bg-royal transition-[width]" style={{ width: `${pct}%` }} />
         </span>
       </State>

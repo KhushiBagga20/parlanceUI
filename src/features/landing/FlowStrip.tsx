@@ -26,14 +26,14 @@ function Sequence({ steps, tone }: { steps: Step[]; tone: "primary" | "secondary
             <span
               className={cn(
                 "inline-flex size-10 items-center justify-center rounded-2xl sm:size-12",
-                tone === "primary" ? "bg-surface text-royal shadow-xs ring-1 ring-sky-300" : "bg-gold text-navy",
+                tone === "primary" ? "bg-coral-300 text-navy" : "bg-mint-300 text-navy",
               )}
             >
               <Icon className="size-5 sm:size-[1.375rem]" aria-hidden />
             </span>
             <span
               className={cn(
-                "text-2xl font-semibold tracking-[-0.035em] sm:text-[2rem]",
+                "text-2xl font-bold tracking-[-0.035em] sm:text-[2rem]",
                 "text-navy",
               )}
             >
@@ -74,7 +74,7 @@ function Row({ steps, reverse, tone, still }: { steps: Step[]; reverse?: boolean
 export function FlowStrip() {
   const reduced = useReducedMotion();
   return (
-    <FluidSection aria-label="How a conversation flows" from="#ffffff" surface="bg-sky-200" depth={120} className="py-12 sm:py-16">
+    <FluidSection aria-label="How a conversation flows" from="#fffaf1" surface="bg-sky-200" depth={120} className="py-12 sm:py-16">
       <p className="sr-only">
         A hearing person speaks, Parlance signs it, and the signer understands. In reverse, a signer signs, Parlance
         shows the text, and the hearing person hears it as voice.

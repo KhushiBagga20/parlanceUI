@@ -6,21 +6,20 @@ export type ButtonVariant = "primary" | "secondary" | "ghost" | "subtle" | "dang
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm font-medium tracking-[-0.005em] select-none " +
-  "transition-[background-color,border-color,color,box-shadow] duration-150 ease-out " +
+  "press inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold tracking-[-0.005em] select-none " +
   "disabled:opacity-45 disabled:pointer-events-none aria-disabled:opacity-45 aria-disabled:pointer-events-none";
 
 const sizes: Record<ButtonSize, string> = {
-  sm: "h-9 px-3 text-[0.8125rem] [&_svg]:size-4",
-  md: "h-11 px-4 text-[0.9375rem] [&_svg]:size-[1.125rem]",
-  lg: "h-[3.25rem] px-6 text-base [&_svg]:size-5",
+  sm: "h-9 px-3.5 text-[0.8125rem] [&_svg]:size-4",
+  md: "h-11 px-5 text-[0.9375rem] [&_svg]:size-[1.125rem]",
+  lg: "h-[3.25rem] px-7 text-base [&_svg]:size-5",
 };
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-royal text-white hover:bg-brand-700 active:bg-brand-800",
-  secondary: "bg-surface text-navy border border-line-strong hover:border-navy/40 hover:bg-white",
-  ghost: "text-ink-2 hover:bg-brand-50 hover:text-navy",
-  subtle: "bg-brand-50 text-royal hover:bg-brand-100",
+  secondary: "bg-surface text-navy border border-line-strong hover:border-navy/40 hover:bg-butter-50",
+  ghost: "text-ink-2 hover:bg-butter-100 hover:text-navy",
+  subtle: "bg-sky-100 text-royal hover:bg-sky-200",
   danger: "bg-surface text-danger border border-line-strong hover:bg-danger-bg hover:border-danger/40",
   inverse: "bg-white text-navy hover:bg-brand-50",
   dark: "bg-navy text-white hover:bg-[#0a2450]",

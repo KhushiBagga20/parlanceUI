@@ -83,8 +83,8 @@ export function SiteHeader({ active }: { active: string | null }) {
               href={`#${section.id}`}
               aria-current={active === section.id ? "location" : undefined}
               className={cn(
-                "relative flex items-center gap-1.5 rounded-sm px-3 py-2 text-[0.9375rem] font-medium whitespace-nowrap transition-colors",
-                active === section.id ? "text-navy" : "text-ink-2 hover:text-navy",
+                "relative flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[0.9375rem] font-semibold whitespace-nowrap transition-colors",
+                active === section.id ? "bg-butter-100 text-navy" : "text-ink-2 hover:bg-butter-50 hover:text-navy",
               )}
             >
               <span
@@ -105,7 +105,7 @@ export function SiteHeader({ active }: { active: string | null }) {
             to="/app/speech-to-sign"
             size={floating ? "sm" : "md"}
             variant="dark"
-            className={cn("max-sm:hidden", floating && "rounded-full! px-4")}
+            className={cn("max-sm:hidden", floating && "px-4")}
             trailing={<ArrowUpRight aria-hidden />}
           >
             Open translator
@@ -114,8 +114,7 @@ export function SiteHeader({ active }: { active: string | null }) {
             ref={menuButton}
             type="button"
             className={cn(
-              "inline-flex size-11 items-center justify-center text-navy transition-[border-radius] duration-500 hover:bg-subtle lg:hidden",
-              floating ? "rounded-full" : "rounded-sm",
+              "press inline-flex size-11 items-center justify-center rounded-full text-navy hover:bg-butter-100 lg:hidden",
             )}
             aria-expanded={menuOpen}
             aria-controls={menuId}
@@ -139,13 +138,13 @@ export function SiteHeader({ active }: { active: string | null }) {
           inert={!menuOpen}
         >
           <div className="overflow-hidden">
-            <nav aria-label="Menu" className="max-h-[70vh] overflow-y-auto rounded-2xl border border-line bg-surface p-2 shadow-lg">
+            <nav aria-label="Menu" className="max-h-[70vh] overflow-y-auto rounded-[1.75rem] border border-line bg-surface p-2 shadow-lg">
               {LANDING_SECTIONS.map((section) => (
                 <a
                   key={section.id}
                   href={`#${section.id}`}
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between rounded-sm px-3 py-3 text-base font-medium text-navy hover:bg-subtle"
+                  className="flex items-center justify-between rounded-2xl px-4 py-3 text-base font-semibold text-navy hover:bg-butter-50"
                 >
                   {section.label}
                   {active === section.id && <span className="size-1.5 rounded-full bg-gold" aria-hidden />}
@@ -156,7 +155,7 @@ export function SiteHeader({ active }: { active: string | null }) {
                 <Link
                   key={to}
                   to={to}
-                  className="flex items-center gap-3 rounded-sm px-3 py-3 text-base font-medium text-ink-2 hover:bg-subtle hover:text-navy"
+                  className="flex items-center gap-3 rounded-2xl px-4 py-3 text-base font-medium text-ink-2 hover:bg-butter-50 hover:text-navy"
                 >
                   <Icon className="size-5 text-royal" aria-hidden />
                   {label}

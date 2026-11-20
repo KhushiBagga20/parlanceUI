@@ -3,8 +3,9 @@
  * subtitles for accepted signs, and a floating transport for camera controls.
  */
 import type { ReactNode } from "react";
-import { Camera, CameraOff, Grid2x2, Loader2, Lock, Power, ShieldAlert, Spline, VideoOff } from "lucide-react";
-import { Arcs } from "@/components/brand/Arcs";
+import { Camera, CameraOff, CheckCircle2, Grid2x2, Loader2, Lock, Power, ShieldAlert, Spline, TriangleAlert, VideoOff, XCircle } from "lucide-react";
+import { Pal } from "@/components/brand/Pal";
+import { SigningLoader } from "@/components/ui/SigningLoader";
 import { cn } from "@/lib/cn";
 import type { CameraTracking } from "@/services/camera/useCameraTracking";
 import { FramingGuide } from "./FramingGuide";
@@ -36,8 +37,8 @@ function ToolButton({ label, pressed, onClick, children }: { label: string; pres
       aria-pressed={pressed}
       onClick={onClick}
       className={cn(
-        "inline-flex size-9 items-center justify-center rounded-sm transition-colors sm:size-10 [&_svg]:size-[1.125rem]",
-        pressed ? "bg-navy text-white" : "text-ink-2 hover:bg-subtle hover:text-navy",
+        "press inline-flex size-9 items-center justify-center rounded-full sm:size-10 [&_svg]:size-[1.125rem]",
+        pressed ? "bg-navy text-white" : "text-ink-2 hover:bg-butter-100 hover:text-navy",
       )}
     >
       {children}
@@ -77,15 +78,27 @@ export function CameraStage({
               : { tone: "ok", text: quality.hands === 2 ? "Tracking both hands" : "Tracking one hand" };
 
   return (
-    <section aria-label="Camera" className="relative isolate flex h-full min-h-[28rem] flex-col bg-[linear-gradient(180deg,var(--color-stage-2),var(--color-stage))]">
+    <section
+      aria-label="Camera"
+      className="relative isolate flex h-full min-h-[28rem] flex-col overflow-hidden bg-[linear-gradient(180deg,var(--color-sky-25),var(--color-sky-100)_70%,var(--color-sky-200))]"
+    >
+      <div aria-hidden className="dot-grid absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_45%,black,transparent)]" />
+      <div aria-hidden className="absolute -top-16 -right-16 -z-10 size-48 rounded-full bg-mint-100" />
       {/* top bar */}
       <div className="flex items-start justify-between gap-3 p-3 sm:p-4">
-        <p className="flex items-center gap-2 rounded-sm bg-surface/90 px-3 py-2 text-[0.8125rem] font-medium text-ink-2">
-          <span aria-hidden className={cn("size-2 rounded-full", running ? "animate-pulse bg-danger" : "bg-line-strong")} />
+        <p className="flex items-center gap-2 rounded-full bg-surface/95 py-2 pr-4 pl-3 text-[0.8125rem] font-semibold text-navy shadow-sm ring-1 ring-line">
+          {running ? (
+            <span aria-hidden className="relative inline-flex size-2.5">
+              <span className="absolute inset-0 animate-ping rounded-full bg-danger/50" />
+              <span className="relative size-2.5 rounded-full bg-danger" />
+            </span>
+          ) : (
+            <CameraOff className="size-4 text-ink-3" aria-hidden />
+          )}
           {running ? "Camera on" : "Camera off"}
-          {running && camera.fps > 0 && <span className="text-ink-3">· {camera.fps} fps on-device</span>}
+          {running && camera.fps > 0 && <span className="font-medium text-ink-3">· {camera.fps} fps on-device</span>}
         </p>
-        <div className="flex items-center gap-0.5 rounded-md border border-line bg-surface/95 p-1" role="toolbar" aria-label="Camera overlays">
+        <div className="flex items-center gap-0.5 rounded-full bg-surface/95 p-1 shadow-sm ring-1 ring-line" role="toolbar" aria-label="Camera overlays">
           <ToolButton label={showLandmarks ? "Hide hand landmarks" : "Show hand landmarks"} pressed={showLandmarks} onClick={() => onShowLandmarks(!showLandmarks)}>
             <Spline aria-hidden />
           </ToolButton>
@@ -97,7 +110,7 @@ export function CameraStage({
 
       {/* viewport */}
       <div className="flex min-h-0 flex-1 items-center justify-center px-3 sm:px-6">
-        <div className="relative aspect-[3/4] w-full max-w-[min(100%,calc((100dvh-15rem)*16/9))] overflow-hidden rounded-lg bg-[#dde2ef] sm:aspect-video">
+        <div className="relative aspect-[3/4] w-full max-w-[min(100%,calc((100dvh-15rem)*16/9))] overflow-hidden rounded-[1.5rem] bg-sky-50 shadow-card ring-4 ring-surface sm:aspect-video">
           <video
             ref={camera.videoRef}
             playsInline
@@ -116,14 +129,18 @@ export function CameraStage({
             <p
               role="status"
               className={cn(
-                "absolute top-3 left-3 flex max-w-[calc(100%-1.5rem)] items-center gap-2 rounded-sm bg-surface/95 px-3 py-2 text-[0.8125rem] font-medium",
+                "absolute top-3 left-3 flex max-w-[calc(100%-1.5rem)] animate-pop items-center gap-2 rounded-full bg-surface/95 py-1.5 pr-3.5 pl-2.5 text-[0.8125rem] font-semibold shadow-sm",
                 hint.tone === "warn" ? "text-gold-800" : hint.tone === "error" ? "text-danger" : hint.tone === "ok" ? "text-success" : "text-royal",
               )}
             >
               {hint.tone === "busy" ? (
-                <Loader2 className="size-3.5 animate-spin" aria-hidden />
+                <SigningLoader label={hint.text} size="sm" decorative className="size-5" />
+              ) : hint.tone === "warn" ? (
+                <TriangleAlert className="size-4 shrink-0" aria-hidden />
+              ) : hint.tone === "error" ? (
+                <XCircle className="size-4 shrink-0" aria-hidden />
               ) : (
-                <span aria-hidden className={cn("size-2 rounded-full", hint.tone === "warn" ? "bg-gold" : hint.tone === "error" ? "bg-danger" : "bg-success")} />
+                <CheckCircle2 className="size-4 shrink-0" aria-hidden />
               )}
               {hint.text}
             </p>
@@ -132,7 +149,7 @@ export function CameraStage({
           {/* live subtitles */}
           {running && (subtitles.length > 0 || flash) && (
             <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center p-4 sm:p-6" aria-hidden>
-              <p className="max-w-full rounded-md bg-navy/80 px-4 py-2.5 text-center text-xl leading-snug font-semibold tracking-[0.02em] text-white uppercase backdrop-blur-sm sm:text-[1.75rem]">
+              <p className="max-w-full rounded-2xl bg-navy/85 px-5 py-2.5 text-center text-xl leading-snug font-bold tracking-[0.02em] text-white uppercase backdrop-blur-sm sm:text-[1.75rem]">
                 {subtitles.map((w, i) => (
                   <span key={`${w}-${i}`} className={cn("mx-1.5 inline-block", i === subtitles.length - 1 && flash ? "text-gold" : "")}>
                     {w}
@@ -148,12 +165,12 @@ export function CameraStage({
 
       {/* transport */}
       <div className="p-3 sm:p-4">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-2 rounded-lg bg-navy p-2 text-white shadow-[var(--shadow-float)] sm:flex-nowrap sm:gap-3">
+        <div className="focus-inverse mx-auto flex max-w-3xl flex-wrap items-center gap-2 rounded-[1.75rem] bg-navy p-2 text-white shadow-[var(--shadow-float)] sm:gap-3">
           {running ? (
             <button
               type="button"
               onClick={camera.stop}
-              className="inline-flex h-11 shrink-0 items-center gap-2 rounded-md bg-white/10 px-4 text-[0.9375rem] font-medium text-white transition-colors hover:bg-white/15"
+              className="press inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-white/10 px-4 text-[0.9375rem] font-semibold text-white hover:bg-white/15"
             >
               <CameraOff className="size-[1.125rem]" aria-hidden /> Stop camera
             </button>
@@ -162,7 +179,7 @@ export function CameraStage({
               type="button"
               onClick={camera.start}
               disabled={camera.status === "requesting"}
-              className="inline-flex h-11 shrink-0 items-center gap-2 rounded-md bg-white px-4 text-[0.9375rem] font-medium text-navy transition-colors hover:bg-brand-50 disabled:opacity-60"
+              className="press inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-mint-300 px-5 text-[0.9375rem] font-bold text-navy hover:bg-mint-200 disabled:opacity-60"
             >
               {camera.status === "requesting" ? <Loader2 className="size-[1.125rem] animate-spin" aria-hidden /> : <Power className="size-[1.125rem]" aria-hidden />}
               {camera.status === "requesting" ? "Waiting for permission…" : "Start camera"}
@@ -175,7 +192,7 @@ export function CameraStage({
             aria-checked={recognising && recognitionAvailable}
             disabled={!recognitionAvailable}
             onClick={() => onRecognising(!recognising)}
-            className="inline-flex h-11 shrink-0 items-center gap-2.5 rounded-md px-3 text-[0.9375rem] font-medium text-white/90 transition-colors hover:bg-white/10 disabled:opacity-50"
+            className="press inline-flex h-11 shrink-0 items-center gap-2.5 rounded-full px-3 text-[0.9375rem] font-semibold text-white/90 hover:bg-white/10 disabled:opacity-50"
           >
             <span
               aria-hidden
@@ -194,14 +211,14 @@ export function CameraStage({
             {!recognitionAvailable ? "Recognition unavailable" : recognising ? "Recognising" : "Paused"}
           </button>
 
-          <label className="flex min-w-0 flex-1 basis-full items-center gap-2 text-[0.8125rem] text-white/70 sm:basis-auto">
+          <label className="flex min-w-[min(100%,11rem)] flex-1 items-center gap-2 text-[0.8125rem] text-white/70">
             <Camera className="size-4 shrink-0" aria-hidden />
             <span className="sr-only">Camera</span>
             <select
               value={cameraId ?? ""}
               onChange={(e) => onCameraId(e.target.value || null)}
               disabled={camera.devices.length === 0}
-              className="h-11 w-full min-w-0 rounded-md bg-white/10 px-3 text-[0.875rem] text-white disabled:opacity-60 [&>option]:text-ink"
+              className="h-11 w-full min-w-0 rounded-full bg-white/10 px-4 text-[0.875rem] text-white disabled:opacity-60 [&>option]:text-ink"
             >
               <option value="">Default camera</option>
               {camera.devices.map((device, index) => (
@@ -229,15 +246,15 @@ function StateBody({ icon, title, children, tone = "neutral" }: { icon: ReactNod
     <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
       <span
         className={cn(
-          "inline-flex size-14 items-center justify-center rounded-full border bg-surface [&_svg]:size-6",
-          tone === "danger" && "border-danger/30 text-danger",
-          tone === "warning" && "border-gold-300 text-gold-800",
-          tone === "neutral" && "border-line text-royal",
+          "inline-flex size-16 items-center justify-center rounded-full [&_svg]:size-7",
+          tone === "danger" && "bg-danger-bg text-danger",
+          tone === "warning" && "bg-butter-200 text-gold-800",
+          tone === "neutral" && "bg-surface text-royal shadow-card",
         )}
       >
         {icon}
       </span>
-      <p className="mt-4 text-xl font-semibold tracking-[-0.02em] text-navy" role="status">
+      <p className="mt-4 text-xl font-bold tracking-[-0.02em] text-navy" role="status">
         {title}
       </p>
       {children && <div className="mt-2 max-w-md text-[0.9375rem] leading-6 text-ink-2">{children}</div>}
@@ -249,7 +266,7 @@ function CameraState({ camera }: { camera: CameraTracking }) {
   switch (camera.status) {
     case "requesting":
       return (
-        <StateBody icon={<Loader2 className="animate-spin" />} title="Waiting for camera permission">
+        <StateBody icon={<SigningLoader label="Waiting for camera permission" decorative className="size-9" />} title="Waiting for camera permission">
           Your browser is asking whether Parlance may use the camera. Choose Allow to continue.
         </StateBody>
       );
@@ -291,16 +308,21 @@ function CameraState({ camera }: { camera: CameraTracking }) {
       }
       return (
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-          <div className="relative size-40 sm:size-48">
-            <Arcs className="absolute inset-0" />
-            <svg viewBox="0 0 200 220" className="absolute inset-x-[22%] bottom-[16%] text-brand-200" aria-hidden>
-              <ellipse cx="100" cy="64" rx="30" ry="36" fill="currentColor" />
-              <path d="M34 220c2-62 28-94 66-94s64 32 66 94z" fill="currentColor" />
+          <div className="relative flex size-36 items-end justify-center sm:size-44" aria-hidden>
+            <span className="absolute inset-x-2 bottom-0 top-4 rounded-full bg-mint-200" />
+            <Pal pose="rest" outfit="royal" skin="deep" hair="curly" className="relative h-28 sm:h-36" />
+            <svg viewBox="0 0 160 160" className="absolute inset-0 size-full" fill="none">
+              <path
+                d="M10 34V18a8 8 0 0 1 8-8h16M150 34V18a8 8 0 0 0-8-8h-16M10 126v16a8 8 0 0 0 8 8h16M150 126v16a8 8 0 0 1-8 8h-16"
+                stroke="#011638"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
             </svg>
           </div>
-          <p className="mt-5 text-xl font-semibold tracking-[-0.02em] text-navy sm:text-2xl">Sign to the camera</p>
+          <p className="mt-5 text-xl font-bold tracking-[-0.025em] text-navy sm:text-2xl">Sign to the camera</p>
           <p className="mt-2 max-w-sm text-[0.9375rem] leading-6 text-ink-2">
-            Start the camera, stand about an arm&rsquo;s length back, and sign one word at a time.
+            Press Start camera, stand about an arm&rsquo;s length back, and sign one word at a time.
           </p>
         </div>
       );

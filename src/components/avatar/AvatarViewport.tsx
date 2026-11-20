@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { MonitorX } from "lucide-react";
 import { createAvatar, type AvatarPlayer } from "@/avatar/player.js";
 import type { PlayerState, Presentation, QueueItem, SignPlayer } from "@/avatar/playback";
+import { SigningLoader } from "@/components/ui/SigningLoader";
 import { cn } from "@/lib/cn";
 
 interface AvatarViewportProps {
@@ -60,11 +61,24 @@ export function AvatarViewport({
     <div className={cn("relative h-full w-full", className)}>
       <div ref={mountRef} role="img" aria-label={label} data-avatar-status={status}
         className={cn("absolute inset-0", interactive && "touch-pan-y cursor-grab active:cursor-grabbing")} />
+      {status === "loading" && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6">
+          <SigningLoader label="Loading the 3D signer" className="rounded-3xl bg-surface/85 px-5 py-4 shadow-card backdrop-blur-sm" />
+        </div>
+      )}
       {status === "error" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
-          <MonitorX className="size-6 text-ink-3" aria-hidden />
-          <p className="text-sm text-ink-2" role="status">The 3D signer could not load.</p>
-          <button className="rounded-sm bg-royal px-4 py-2 text-sm text-white" type="button" onClick={() => setAttempt((value) => value + 1)}>Retry</button>
+          <span className="inline-flex size-12 items-center justify-center rounded-full bg-coral-100 text-coral-800">
+            <MonitorX className="size-6" aria-hidden />
+          </span>
+          <p className="text-[0.9375rem] font-semibold text-navy" role="status">The 3D signer could not load.</p>
+          <button
+            className="press inline-flex h-10 items-center rounded-full bg-royal px-5 text-sm font-semibold text-white hover:bg-brand-700"
+            type="button"
+            onClick={() => setAttempt((value) => value + 1)}
+          >
+            Retry
+          </button>
         </div>
       )}
     </div>

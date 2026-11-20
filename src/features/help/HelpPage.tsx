@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   AudioLines,
   BookOpen,
+  LifeBuoy,
   Check,
   CircleDashed,
   Copy,
@@ -18,6 +19,7 @@ import {
   UserRound,
   Wallpaper,
 } from "lucide-react";
+import { Pal } from "@/components/brand/Pal";
 import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -45,10 +47,13 @@ const NAV = [
 function HelpSection({ id, title, children }: { id: string; title: string; icon: ReactNode; children: ReactNode }) {
   const index = String(NAV.findIndex((n) => n.id === id) + 1).padStart(2, "0");
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-24 border-t border-line pt-6">
-      <div className="mb-5 flex items-baseline gap-3">
-        <span className="text-sm font-semibold text-royal tabular-nums">({index})</span>
-        <h2 id={`${id}-title`} className="text-[1.625rem] leading-tight font-semibold tracking-[-0.035em]">
+    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-24">
+      <div className="mb-5 flex items-center gap-3">
+        <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-butter-200 px-2 text-sm font-bold text-navy tabular-nums">
+          <span className="sr-only">Section </span>
+          {index}
+        </span>
+        <h2 id={`${id}-title`} className="text-[1.625rem] leading-tight font-bold tracking-[-0.035em]">
           {title}
         </h2>
       </div>
@@ -62,7 +67,7 @@ function Steps({ items }: { items: string[] }) {
     <ol className="mt-3 space-y-2.5">
       {items.map((item, i) => (
         <li key={item} className="flex gap-3 text-[0.9375rem] leading-6 text-ink-2">
-          <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-xs bg-brand-50 text-xs font-bold text-royal tabular-nums">
+          <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-sky-100 text-xs font-bold text-royal tabular-nums">
             {i + 1}
           </span>
           {item}
@@ -75,7 +80,7 @@ function Steps({ items }: { items: string[] }) {
 function CommandBlock({ lines }: { lines: string[] }) {
   const text = lines.join("\n");
   return (
-    <div className="mt-3 flex items-start justify-between gap-3 rounded-md border border-line bg-subtle p-3.5">
+    <div className="mt-3 flex items-start justify-between gap-3 rounded-2xl border border-line bg-cream p-4">
       <div className="min-w-0 space-y-1 overflow-x-auto text-sm font-semibold break-words text-navy">
         {lines.map((line) => (
           <p key={line}>{line}</p>
@@ -89,7 +94,7 @@ function CommandBlock({ lines }: { lines: string[] }) {
             .then(() => toast("Commands copied"))
             .catch(() => toast("Copying isn't allowed in this browser", "warning"))
         }
-        className="inline-flex size-9 shrink-0 items-center justify-center rounded-sm border border-line-strong bg-surface text-navy hover:bg-brand-25"
+        className="press inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-line-strong bg-surface text-navy hover:bg-butter-50"
         aria-label="Copy commands"
         title="Copy commands"
       >
@@ -118,14 +123,20 @@ export function HelpPage() {
 
   return (
     <div className="container-app py-10 sm:py-14">
-      <WorkspaceHeader title="Help" description="How to use Parlance well, what it supports today, and how your data is handled." />
+      <WorkspaceHeader
+        title="Help"
+        description="How to use Parlance well, what it supports today, and how your data is handled."
+        icon={<LifeBuoy />}
+        tone="mint"
+        illustration={<Pal pose="wave" outfit="royal" skin="light" hair="bun" animate className="h-36" />}
+      />
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[14rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,52rem)]">
         <nav aria-label="Help sections" className="hidden lg:block">
           <ul className="sticky top-24 space-y-0.5">
             {NAV.map((item) => (
               <li key={item.id}>
-                <a href={`#${item.id}`} className="block rounded-sm px-3 py-2 text-sm font-medium text-ink-2 hover:bg-surface hover:text-navy">
+                <a href={`#${item.id}`} className="block rounded-full px-3.5 py-2 text-sm font-semibold text-ink-2 hover:bg-surface hover:text-navy">
                   {item.label}
                 </a>
               </li>
@@ -137,8 +148,10 @@ export function HelpPage() {
           <HelpSection id="start" title="Getting started" icon={<Lightbulb />}>
             <div className="grid gap-4 md:grid-cols-2">
               <Card className="p-5">
-                <p className="flex items-center gap-2 text-base font-bold text-navy">
-                  <AudioLines className="size-5 text-royal" aria-hidden />
+                <p className="flex items-center gap-2.5 text-base font-bold text-navy">
+                  <span className="inline-flex size-9 items-center justify-center rounded-full bg-coral-300 text-navy" aria-hidden>
+                    <AudioLines className="size-[1.125rem]" />
+                  </span>
                   <DirectionLabel from="Speech" to="Sign" />
                 </p>
                 <p className="mt-1 text-sm text-ink-3">For the hearing person</p>
@@ -154,8 +167,10 @@ export function HelpPage() {
                 </ButtonLink>
               </Card>
               <Card className="p-5">
-                <p className="flex items-center gap-2 text-base font-bold text-navy">
-                  <Hand className="size-5 text-royal" aria-hidden />
+                <p className="flex items-center gap-2.5 text-base font-bold text-navy">
+                  <span className="inline-flex size-9 items-center justify-center rounded-full bg-mint-300 text-navy" aria-hidden>
+                    <Hand className="size-[1.125rem]" />
+                  </span>
                   <DirectionLabel from="Sign" to="Text" />
                 </p>
                 <p className="mt-1 text-sm text-ink-3">For the ISL signer</p>
@@ -206,7 +221,7 @@ export function HelpPage() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search, for example: doctor"
-                    className="h-10 w-full rounded-sm border border-line-strong bg-surface pr-3 pl-9 text-sm text-ink shadow-xs placeholder:text-ink-3 focus-visible:border-royal"
+                    className="h-10 w-full rounded-full border border-line-strong bg-surface pr-4 pl-9 text-sm text-ink shadow-xs placeholder:text-ink-3 focus-visible:border-royal"
                   />
                 </label>
                 <Segmented<VocabFilter>
@@ -241,7 +256,7 @@ export function HelpPage() {
                       </div>
                       <Link
                         to={`/app/speech-to-sign?text=${encodeURIComponent(sign.english)}`}
-                        className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-sm px-2.5 text-[0.8125rem] font-semibold text-royal hover:bg-brand-50"
+                        className="press inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3 text-[0.8125rem] font-semibold text-royal hover:bg-sky-100"
                         aria-label={`Watch the sign for ${sign.english}`}
                       >
                         <Play className="size-3.5" aria-hidden /> Watch
@@ -293,7 +308,7 @@ export function HelpPage() {
                 </Badge>
               </Card>
             </div>
-            <p className="mt-4 rounded-md border border-line bg-surface p-4 text-[0.9375rem] leading-7 text-ink-2">
+            <p className="mt-4 rounded-2xl bg-butter-100 p-5 text-[0.9375rem] leading-7 text-ink-2">
               <span className="font-semibold text-navy">Parlance is not an interpreter.</span> It is a tool for short,
               concrete exchanges. For anything consequential, such as a diagnosis, consent or legal matters, use a
               qualified ISL interpreter.

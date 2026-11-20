@@ -63,11 +63,11 @@ export function About() {
               {BELIEFS.map(([title, body], i) => {
                 const Icon = BELIEF_ICONS[i]!;
                 return (
-                  <li key={title} className="flex gap-4 rounded-[1.25rem] bg-sky-50 p-5 ring-1 ring-sky-200">
+                  <li key={title} className="flex gap-4 rounded-[1.5rem] bg-cream p-5 ring-1 ring-line">
                     <span
                       className={cn(
-                        "inline-flex size-10 shrink-0 items-center justify-center rounded-2xl",
-                        i === 1 ? "bg-gold-100 text-navy" : "bg-surface text-royal ring-1 ring-sky-200",
+                        "inline-flex size-10 shrink-0 items-center justify-center rounded-full",
+                        ["bg-coral-100 text-coral-800", "bg-butter-200 text-navy", "bg-mint-100 text-mint-800"][i],
                       )}
                       aria-hidden
                     >
@@ -85,7 +85,7 @@ export function About() {
         </div>
 
         {/* The people: the wireframe's "About Us" reveal */}
-        <div className="mt-16 rounded-[1.75rem] bg-sky-50 px-5 ring-1 ring-sky-200 sm:mt-20 sm:px-8">
+        <div className="mt-16 rounded-[2rem] bg-sky-50 px-5 ring-1 ring-sky-200 sm:mt-20 sm:px-8">
           <button
             type="button"
             aria-expanded={open}
@@ -136,7 +136,7 @@ export function About() {
                         aria-hidden
                         className={cn(
                           "hidden size-12 items-center justify-center rounded-full text-sm font-semibold sm:inline-flex",
-                          ["bg-royal text-white", "bg-gold text-navy", "bg-sky-200 text-navy", "bg-navy text-white", "bg-surface text-royal ring-1 ring-sky-300"][i],
+                          ["bg-royal text-white", "bg-butter-300 text-navy", "bg-coral-300 text-navy", "bg-mint-300 text-navy", "bg-sky-200 text-navy"][i],
                         )}
                       >
                         {initials(member.name)}

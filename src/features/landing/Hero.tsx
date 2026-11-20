@@ -1,7 +1,8 @@
 import { lazy, Suspense, useId, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Camera, Hand, Keyboard } from "lucide-react";
+import { ArrowRight, AudioLines, Camera, Hand, Keyboard } from "lucide-react";
 import { Arcs } from "@/components/brand/Arcs";
+import { SigningLoader } from "@/components/ui/SigningLoader";
 import { useIntro } from "./intro/introState";
 
 const HeroStage = lazy(() => import("./HeroStage"));
@@ -10,7 +11,7 @@ const SUGGESTIONS = ["Where is the pain?", "I need water.", "मुझे पा
 
 function StagePoster() {
   return (
-    <div className="relative h-full w-full" role="status" aria-label="Loading the 3D signer">
+    <div className="relative h-full w-full">
       <div
         aria-hidden
         data-intro-target
@@ -21,6 +22,9 @@ function StagePoster() {
         <ellipse cx="100" cy="58" rx="26" ry="32" fill="currentColor" />
         <path d="M40 220c2-60 26-90 60-90s58 30 60 90z" fill="currentColor" />
       </svg>
+      <div className="absolute inset-x-0 bottom-[6%] flex justify-center">
+        <SigningLoader label="Loading the 3D signer" size="sm" layout="inline" className="rounded-full bg-surface/90 px-4 py-2 shadow-card" />
+      </div>
     </div>
   );
 }
@@ -67,12 +71,15 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="intro-hold relative overflow-hidden bg-[linear-gradient(180deg,var(--color-sky-50)_0%,var(--color-sky-25)_78%,#ffffff_100%)]"
+      className="intro-hold relative overflow-hidden bg-[linear-gradient(180deg,var(--color-butter-100)_0%,var(--color-butter-50)_55%,var(--color-cream)_100%)]"
     >
+      {/* Colour blocks at the edges: one warm voice, one cool, meeting in the middle */}
+      <div aria-hidden className="pointer-events-none absolute top-[38%] -left-24 size-56 rounded-full bg-coral-200/70 sm:size-72" />
+      <div aria-hidden className="pointer-events-none absolute -right-28 bottom-[8%] size-64 rounded-full bg-mint-200/70 sm:size-80" />
       {/* Soft light behind the signer: the conversation's space */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-[6%] right-[-18%] aspect-square w-[min(80rem,120vw)] rounded-full bg-[radial-gradient(closest-side,var(--color-sky-200)_0%,rgb(220_232_255/0.55)_45%,transparent_72%)] lg:right-[-12%] lg:w-[64rem]"
+        className="pointer-events-none absolute top-[6%] right-[-18%] aspect-square w-[min(80rem,120vw)] rounded-full bg-[radial-gradient(closest-side,var(--color-sky-200)_0%,rgb(220_232_255/0.5)_45%,transparent_72%)] lg:right-[-12%] lg:w-[64rem]"
       />
       <div
         className={
@@ -82,7 +89,7 @@ export function Hero() {
       >
         {/* Headline */}
         <div className="min-w-0 [grid-area:text] lg:self-end">
-          <p className="inline-flex animate-rise items-center gap-2.5 rounded-full bg-surface/80 py-1.5 pr-4 pl-1.5 text-sm font-medium text-navy shadow-xs ring-1 ring-sky-300/70">
+          <p className="inline-flex animate-rise items-center gap-2.5 rounded-full bg-surface py-1.5 pr-4 pl-1.5 text-sm font-semibold text-navy shadow-xs ring-1 ring-butter-200">
             <span className="inline-flex size-7 items-center justify-center rounded-full bg-gold text-navy" aria-hidden>
               <Hand className="size-4" />
             </span>
@@ -116,27 +123,27 @@ export function Hero() {
         <div className="min-w-0 [grid-area:try] lg:self-start lg:pt-8">
           <form
             onSubmit={onSubmit}
-            className="animate-rise-lg rounded-[1.25rem] bg-surface p-3 shadow-[0_1px_2px_rgb(1_22_56/0.05),0_18px_40px_-22px_rgb(13_33_161/0.35)] ring-1 ring-sky-200 [animation-delay:340ms] sm:p-4"
+            className="animate-rise-lg rounded-[1.75rem] bg-surface p-3 shadow-[0_1px_2px_rgb(1_22_56/0.05),0_22px_44px_-24px_rgb(1_22_56/0.4)] ring-1 ring-butter-200 [animation-delay:340ms] sm:p-4"
           >
-            <label htmlFor={inputId} className="flex items-center gap-2.5 px-1 text-sm font-medium text-ink-2">
-              <span className="inline-flex size-6 items-center justify-center rounded-full bg-sky-100 text-royal" aria-hidden>
+            <label htmlFor={inputId} className="flex items-center gap-2.5 px-1 text-sm font-semibold text-ink-2">
+              <span className="inline-flex size-7 items-center justify-center rounded-full bg-coral-100 text-coral-800" aria-hidden>
                 <Keyboard className="size-3.5" />
               </span>
               Type in English or Hindi and watch it signed
             </label>
-            <div className="mt-3 flex items-stretch rounded-xl bg-sky-50 ring-1 ring-sky-200 transition-[box-shadow,background-color] focus-within:bg-surface focus-within:ring-2 focus-within:ring-royal">
+            <div className="mt-3 flex items-stretch rounded-full bg-cream ring-1 ring-line transition-[box-shadow,background-color] focus-within:bg-surface focus-within:ring-2 focus-within:ring-royal">
               <input
                 id={inputId}
                 value={draft}
                 onChange={(e) => setDraft(e.target.value.slice(0, 120))}
                 placeholder="Where is the pain?"
                 autoComplete="off"
-                className="h-14 min-w-0 flex-1 bg-transparent px-4 text-[1.0625rem] text-ink outline-none placeholder:text-ink-3 focus-visible:outline-none"
+                className="h-14 min-w-0 flex-1 bg-transparent pr-2 pl-5 text-[1.0625rem] text-ink outline-none placeholder:text-ink-3 focus-visible:outline-none"
               />
               <button
                 type="submit"
                 disabled={!draft.trim()}
-                className="m-1.5 inline-flex items-center gap-2 rounded-lg bg-royal px-4 text-[0.9375rem] font-medium text-white transition-colors hover:bg-brand-700 disabled:bg-sky-400"
+                className="press m-1.5 inline-flex items-center gap-2 rounded-full bg-royal px-5 text-[0.9375rem] font-semibold text-white hover:bg-brand-700 disabled:bg-sky-400"
               >
                 Sign it <ArrowRight className="size-4" aria-hidden />
               </button>
@@ -151,7 +158,7 @@ export function Hero() {
                     setDraft(s);
                     sign(s);
                   }}
-                  className="rounded-full bg-surface px-3 py-1.5 font-medium text-royal ring-1 ring-sky-300 transition-colors hover:bg-sky-50 hover:ring-royal/50"
+                  className="press rounded-full bg-sky-50 px-3.5 py-1.5 font-semibold text-royal ring-1 ring-sky-200 hover:bg-sky-100 hover:ring-royal/40"
                 >
                   {s}
                 </button>
@@ -159,21 +166,39 @@ export function Hero() {
             </div>
           </form>
 
-          <div className="mt-6 flex animate-rise-lg flex-col gap-3 [animation-delay:420ms] sm:flex-row sm:items-center sm:gap-5">
+          {/* Both directions, as equals */}
+          <div className="mt-6 grid animate-rise-lg gap-3 [animation-delay:420ms] sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             <Link
               to="/app/speech-to-sign"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-navy px-6 text-[0.9375rem] font-medium text-white transition-colors hover:bg-royal"
+              className="press group flex min-h-14 items-center gap-3 rounded-full bg-navy py-2 pr-5 pl-2 text-white hover:bg-royal"
             >
-              Open the translator <ArrowUpRight className="size-4" aria-hidden />
+              <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-coral-400 text-navy" aria-hidden>
+                <AudioLines className="size-5" />
+              </span>
+              <span className="min-w-0 leading-tight">
+                <span className="block text-[0.9375rem] font-bold whitespace-nowrap">
+                  Speech <span aria-hidden>→</span>
+                  <span className="sr-only">to</span> Sign
+                </span>
+                <span className="block text-[0.8125rem] text-white/75">Speak or type</span>
+              </span>
+              <ArrowRight className="ml-auto size-4 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
             </Link>
             <Link
               to="/app/sign-to-text"
-              className="inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-navy hover:text-royal"
+              className="press group flex min-h-14 items-center gap-3 rounded-full bg-surface py-2 pr-5 pl-2 text-navy ring-1 ring-line-strong hover:ring-navy/40"
             >
-              <span className="inline-flex size-8 items-center justify-center rounded-full bg-gold-100 text-navy" aria-hidden>
-                <Camera className="size-4" />
+              <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-mint-300 text-navy" aria-hidden>
+                <Camera className="size-5" />
               </span>
-              Or sign to the camera
+              <span className="min-w-0 leading-tight">
+                <span className="block text-[0.9375rem] font-bold whitespace-nowrap">
+                  Sign <span aria-hidden>→</span>
+                  <span className="sr-only">to</span> Text
+                </span>
+                <span className="block text-[0.8125rem] text-ink-3">Sign to the camera</span>
+              </span>
+              <ArrowRight className="ml-auto size-4 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
             </Link>
           </div>
         </div>

@@ -11,6 +11,7 @@ const MOMENTS = [
   {
     place: "Clinic front desk",
     domain: "Healthcare",
+    tone: "bg-coral-100 ring-coral-200",
     story:
       "The first question at any clinic is where it hurts. Without an interpreter, it becomes a note passed across the counter, and a guess.",
     from: { who: "Receptionist says", text: "Where is the pain?" },
@@ -19,6 +20,7 @@ const MOMENTS = [
   {
     place: "A classroom",
     domain: "Education",
+    tone: "bg-mint-100 ring-mint-200",
     story:
       "A Deaf student greets a new teacher who doesn't sign. The teacher reads it, hears it, and answers back by voice.",
     from: { who: "Student signs", gloss: ["Hello", "How are you"] },
@@ -27,6 +29,7 @@ const MOMENTS = [
   {
     place: "Railway ticket counter",
     domain: "Public services",
+    tone: "bg-sky-100 ring-sky-200",
     story:
       "Short, routine exchanges are where people are most often left out: a counter, a queue, and no time to find help.",
     from: { who: "Clerk says", text: "Your ticket is ready." },
@@ -50,7 +53,7 @@ function Bubble({ side, out }: { side: { who: string; text?: string; gloss?: str
       className={
         out
           ? "ml-auto w-fit max-w-full rounded-2xl rounded-br-sm bg-royal px-4 py-3 text-white"
-          : "w-fit max-w-full rounded-2xl rounded-bl-sm bg-surface px-4 py-3 ring-1 ring-sky-200"
+          : "w-fit max-w-full rounded-2xl rounded-bl-sm bg-surface px-4 py-3 ring-1 ring-line"
       }
     >
       <p className={out ? "text-xs font-semibold tracking-[0.08em] text-white/80 uppercase" : "eyebrow"}>{side.who}</p>
@@ -76,7 +79,7 @@ function Bubble({ side, out }: { side: { who: string; text?: string; gloss?: str
 
 export function WhyItMatters() {
   return (
-    <FluidSection id="why-it-matters" aria-labelledby="why-title" from="#ffffff" surface="bg-sky-50" className="scroll-mt-20 py-24 sm:py-32">
+    <FluidSection id="why-it-matters" aria-labelledby="why-title" from="#ffffff" surface="bg-butter-50" className="scroll-mt-20 py-24 sm:py-32">
       <div className="container-wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-x-10">
           <Reveal className="lg:col-span-7">
@@ -94,7 +97,7 @@ export function WhyItMatters() {
 
           <Reveal delay={120} className="lg:col-span-5 lg:self-end">
             <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              <div className="rounded-[1.5rem] bg-surface p-6 ring-1 ring-sky-200">
+              <div className="rounded-[1.75rem] bg-surface p-6 shadow-card ring-1 ring-line">
                 <dt className="sr-only">Certified ISL interpreters in India</dt>
                 <dd className="relative isolate inline-block text-[3rem] leading-none font-semibold tracking-[-0.05em] text-royal tabular-nums lg:text-[3.5rem]">
                   &lt;300
@@ -102,7 +105,7 @@ export function WhyItMatters() {
                 </dd>
                 <dd className="mt-4 text-[0.9375rem] leading-6 font-medium text-ink-2">certified ISL interpreters in India</dd>
               </div>
-              <div className="rounded-[1.5rem] bg-surface p-6 ring-1 ring-sky-200">
+              <div className="rounded-[1.75rem] bg-surface p-6 shadow-card ring-1 ring-line">
                 <dt className="sr-only">Deaf persons in India</dt>
                 <dd className="text-[3rem] leading-none font-semibold tracking-[-0.05em] text-navy lg:text-[3.5rem]">~50 lakh</dd>
                 <dd className="mt-4 text-[0.9375rem] leading-6 font-medium text-ink-2">deaf persons in India, Census 2011</dd>
@@ -127,7 +130,7 @@ export function WhyItMatters() {
           </Reveal>
           <ol className="mt-8 grid gap-5 lg:grid-cols-3">
             {MOMENTS.map((m, i) => (
-              <Reveal as="li" key={m.place} delay={i * 80} className="flex flex-col rounded-[1.75rem] bg-sky-100/70 p-6 ring-1 ring-sky-200 sm:p-7">
+              <Reveal as="li" key={m.place} delay={i * 80} className={`flex flex-col rounded-[2rem] p-6 ring-1 sm:p-7 ${m.tone}`}>
                 <p className="inline-flex w-fit items-center gap-2 rounded-full bg-surface px-3 py-1 text-[0.8125rem] font-semibold text-royal">
                   <span className="size-1.5 rounded-full bg-gold" aria-hidden />
                   {m.domain}
@@ -155,9 +158,9 @@ export function WhyItMatters() {
             {COMMITMENTS.map(([title, body], i) => {
               const Icon = COMMITMENT_ICONS[i]!;
               return (
-                <Reveal as="li" key={title} delay={i * 60} className="rounded-[1.5rem] bg-surface p-6 ring-1 ring-sky-200">
+                <Reveal as="li" key={title} delay={i * 60} className="rounded-[1.75rem] bg-surface p-6 shadow-card ring-1 ring-line">
                   <span
-                    className={i % 2 === 0 ? "inline-flex size-11 items-center justify-center rounded-2xl bg-sky-100 text-royal" : "inline-flex size-11 items-center justify-center rounded-2xl bg-gold-100 text-navy"}
+                    className={i % 2 === 0 ? "inline-flex size-11 items-center justify-center rounded-full bg-sky-100 text-royal" : "inline-flex size-11 items-center justify-center rounded-full bg-butter-200 text-navy"}
                     aria-hidden
                   >
                     <Icon className="size-5" />
@@ -172,8 +175,8 @@ export function WhyItMatters() {
 
         {/* Interpreters */}
         <Reveal className="mt-16 lg:mt-24">
-          <blockquote className="relative overflow-hidden rounded-[1.75rem] bg-gold-50 p-8 ring-1 ring-gold-200 sm:p-12">
-            <span aria-hidden className="block h-10 text-[5.5rem] leading-[0.9] font-semibold text-gold select-none">
+          <blockquote className="relative overflow-hidden rounded-[2rem] bg-butter-200 p-8 sm:p-12">
+            <span aria-hidden className="block h-10 text-[5.5rem] leading-[0.9] font-bold text-coral-400 select-none">
               &ldquo;
             </span>
             <p className="text-statement relative mt-2 max-w-4xl text-navy">Parlance supports professional interpreters. It never replaces them.</p>

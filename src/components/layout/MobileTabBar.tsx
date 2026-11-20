@@ -26,7 +26,7 @@ export function MobileTabBar({ items, label, activeAnchor }: MobileTabBarProps) 
   return (
     <nav
       aria-label={label}
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 rounded-t-[1.5rem] border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-10px_30px_-20px_rgb(1_22_56/0.35)] backdrop-blur-md md:hidden"
     >
       <ul className="mx-auto grid max-w-lg grid-cols-4">
         {items.map((item) => {
@@ -34,18 +34,17 @@ export function MobileTabBar({ items, label, activeAnchor }: MobileTabBarProps) 
           const content = (active: boolean) => (
             <span
               className={cn(
-                "relative flex h-16 flex-col items-center justify-center gap-1 text-[0.6875rem] leading-4 font-medium transition-colors",
-                active ? "text-navy" : "text-ink-3",
+                "relative flex h-16 flex-col items-center justify-center gap-1 text-[0.6875rem] leading-4 transition-colors",
+                active ? "font-bold text-navy" : "font-medium text-ink-3",
               )}
             >
               <span
                 aria-hidden
                 className={cn(
-                  "absolute top-1.5 size-1.5 rounded-full bg-gold transition-all duration-300",
-                  active ? "scale-100 opacity-100" : "scale-0 opacity-0",
+                  "inline-flex h-7 w-12 items-center justify-center rounded-full transition-[background-color,transform] duration-300",
+                  active ? "scale-100 bg-butter-200" : "scale-90 bg-transparent",
                 )}
-              />
-              <span className="mt-1 inline-flex h-6 items-center justify-center">
+              >
                 <Icon className="size-5" aria-hidden />
               </span>
               <span className="max-w-full truncate px-1" aria-hidden={item.ariaLabel ? true : undefined}>

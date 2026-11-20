@@ -134,14 +134,19 @@ export function HowItWorks() {
                       on ? "bg-gold ring-4 ring-gold-100" : "bg-sky-300",
                     )}
                   />
-                  <p className="flex items-center gap-2.5 text-sm font-medium text-royal">
-                    <span className="inline-flex size-8 items-center justify-center rounded-xl bg-sky-100">
+                  <p className="flex items-center gap-2.5 text-sm font-semibold text-navy">
+                    <span
+                      className={cn(
+                        "inline-flex size-9 items-center justify-center rounded-full",
+                        s.lane === "Speech → Sign" ? "bg-coral-100 text-coral-800" : "bg-mint-100 text-mint-800",
+                      )}
+                    >
                       <Icon className="size-4" aria-hidden />
                     </span>
                     <span className="tabular-nums">({i + 1})</span>
                     <span className="text-ink-3">{s.lane}</span>
                   </p>
-                  <h3 className="mt-4 text-[1.75rem] leading-tight font-semibold tracking-[-0.035em]">{s.title}</h3>
+                  <h3 className="mt-4 text-[1.75rem] leading-tight font-bold tracking-[-0.035em]">{s.title}</h3>
                   <p className="mt-3 max-w-[44ch] text-[1.0625rem] leading-[1.7] text-ink-2">{s.body}</p>
                   <p className="mt-4 text-[0.8125rem] font-medium tracking-[0.02em] text-ink-3">{s.detail}</p>
                   {/* Small screens: each step carries its own visual */}
@@ -159,7 +164,7 @@ export function HowItWorks() {
           {wide && (
             <div className="lg:col-span-7">
               <div className="sticky top-[calc(50vh-17rem)]">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-sky-50 shadow-[0_30px_60px_-36px_rgb(13_33_161/0.45)] ring-1 ring-sky-200">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] bg-sky-50 shadow-[0_30px_60px_-36px_rgb(13_33_161/0.45)] ring-1 ring-sky-200">
                   <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between border-b border-sky-200 bg-surface/90 px-5 py-3 backdrop-blur-sm">
                     <span className="flex items-center gap-2 text-sm font-medium text-navy">
                       {step.lane === "Speech → Sign" ? <AudioLines className="size-4 text-royal" aria-hidden /> : <Camera className="size-4 text-royal" aria-hidden />}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, LifeBuoy, ShieldCheck } from "lucide-react";
+import { ChevronDown, Hand, LifeBuoy, ShieldCheck } from "lucide-react";
 import { announce } from "@/components/ui/Toaster";
 import { toEnglish } from "@/engine/isl/grammar";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
@@ -130,9 +130,9 @@ export function SignToTextPage() {
   const subtitles = words.map((w) => glossLabel(w.word, library));
 
   return (
-    <div className="grid lg:h-[calc(100dvh-4rem)] lg:grid-cols-[minmax(0,1fr)_minmax(22rem,27rem)]">
+    <div className="grid gap-3 p-2 sm:gap-4 sm:p-3 lg:h-[calc(100dvh-4rem)] lg:grid-cols-[minmax(0,1fr)_minmax(22rem,27rem)] lg:p-4">
       <h1 className="sr-only">Sign to text</h1>
-      <div className="min-h-0">
+      <div className="min-h-0 overflow-hidden rounded-[1.75rem] shadow-card ring-1 ring-line">
         <CameraStage
           camera={camera}
           recognising={recognising}
@@ -150,11 +150,23 @@ export function SignToTextPage() {
         />
       </div>
 
-      <aside aria-label="Recognition and transcript" className="flex min-h-0 flex-col border-t border-line bg-surface lg:border-t-0 lg:border-l">
-        <div className="border-b border-line px-5 py-3.5">
+      <aside
+        aria-label="Recognition and transcript"
+        className="flex min-h-0 flex-col overflow-hidden rounded-[1.75rem] bg-surface shadow-card ring-1 ring-line"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-line px-4 py-3 sm:px-5">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-mint-300 text-navy" aria-hidden>
+              <Hand className="size-[1.125rem]" />
+            </span>
+            <p className="text-xs font-semibold text-mint-800">
+              Sign <span aria-hidden>→</span>
+              <span className="sr-only">to</span> Text
+            </p>
+          </div>
           <ServiceStatus service={service} />
         </div>
-        <div className="min-h-0 flex-1 space-y-8 overflow-y-auto px-5 py-6">
+        <div className="min-h-0 flex-1 space-y-7 overflow-y-auto px-4 py-5 sm:px-5">
           <section aria-label="Recognised sign" aria-live="off">
             <RecognitionReadout
               camera={camera}
@@ -166,7 +178,7 @@ export function SignToTextPage() {
               library={library}
             />
           </section>
-          <div className="border-t border-line pt-6">
+          <div>
             <SentencePanel
               words={words}
               english={english}
@@ -189,9 +201,11 @@ export function SignToTextPage() {
           </div>
         </div>
         <details className="group border-t border-line">
-          <summary className="flex min-h-14 list-none items-center justify-between gap-3 px-5 py-3 [&::-webkit-details-marker]:hidden">
-            <span className="flex items-center gap-2.5 text-[0.875rem] font-medium text-navy">
-              <ShieldCheck className="size-4 text-royal" aria-hidden />
+          <summary className="flex min-h-14 list-none items-center justify-between gap-3 px-5 py-3 hover:bg-cream [&::-webkit-details-marker]:hidden">
+            <span className="flex items-center gap-2.5 text-[0.875rem] font-semibold text-navy">
+              <span className="inline-flex size-7 items-center justify-center rounded-full bg-sky-100 text-royal" aria-hidden>
+                <ShieldCheck className="size-4" />
+              </span>
               Signs Parlance can recognise{metrics.loaded ? ` (${verifiedWords.length})` : ""}
             </span>
             <ChevronDown className="size-4 shrink-0 text-ink-3 transition-transform group-open:rotate-180" aria-hidden />
@@ -200,12 +214,14 @@ export function SignToTextPage() {
             <p className="text-xs leading-5 text-ink-3">
               Verified at 80% or more on recordings the model never trained on. Other signs are never output.
             </p>
-            <p className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5 text-[0.8125rem] font-semibold tracking-[0.04em] text-navy uppercase">
+            <p className="mt-3 flex flex-wrap gap-1.5 text-xs font-bold tracking-[0.04em] text-navy uppercase">
               {verifiedWords.map((word) => (
-                <span key={word}>{word}</span>
+                <span key={word} className="rounded-full bg-mint-50 px-2.5 py-1 ring-1 ring-mint-200">
+                  {word}
+                </span>
               ))}
             </p>
-            <Link to="/app/help#camera" className="mt-4 inline-flex min-h-10 items-center gap-1.5 text-[0.8125rem] font-medium text-royal hover:underline">
+            <Link to="/app/help#camera" className="mt-4 inline-flex min-h-10 items-center gap-1.5 text-[0.8125rem] font-semibold text-royal hover:underline">
               <LifeBuoy className="size-3.5" aria-hidden /> Camera tips
             </Link>
           </div>

@@ -36,7 +36,7 @@ export function StatusPill({ tone, children, className, srPrefix }: StatusPillPr
   return (
     <span
       className={cn(
-        "inline-flex h-7 items-center gap-1.5 rounded-xs border px-2.5 text-[0.8125rem] font-semibold whitespace-nowrap [&_svg]:size-3.5",
+        "inline-flex h-7 items-center gap-1.5 rounded-full border px-3 text-[0.8125rem] font-semibold whitespace-nowrap [&_svg]:size-3.5",
         wrap,
         className,
       )}
@@ -66,7 +66,7 @@ const noticeStyles = {
 
 export function Notice({ tone = "info", title, children, icon, action, className }: NoticeProps) {
   return (
-    <div className={cn("flex gap-3 rounded-md border p-3.5 sm:p-4", noticeStyles[tone], className)}>
+    <div className={cn("flex gap-3 rounded-2xl border p-4 sm:p-5", noticeStyles[tone], className)}>
       {icon && <span className="notice-icon mt-0.5 shrink-0 [&_svg]:size-5">{icon}</span>}
       <div className="min-w-0 flex-1">
         {title && <p className="text-[0.9375rem] leading-6 font-semibold text-ink">{title}</p>}

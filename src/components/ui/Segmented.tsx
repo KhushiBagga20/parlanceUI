@@ -50,7 +50,7 @@ export function Segmented<T extends string | number>({
       role="radiogroup"
       aria-label={label}
       className={cn(
-        "inline-flex items-center gap-0.5 rounded-sm border border-line-strong bg-surface p-0.5",
+        "inline-flex items-center gap-0.5 rounded-full border border-line-strong bg-surface p-1",
         block && "flex w-full",
         className,
       )}
@@ -73,11 +73,11 @@ export function Segmented<T extends string | number>({
             onClick={() => onChange(option.value)}
             onKeyDown={(event) => onKeyDown(event, index)}
             className={cn(
-              "inline-flex items-center justify-center gap-1.5 rounded-xs font-medium whitespace-nowrap transition-colors duration-150",
+              "press inline-flex items-center justify-center gap-1.5 rounded-full font-semibold whitespace-nowrap",
               "disabled:opacity-40",
-              size === "sm" ? "h-8 px-2.5 text-[0.8125rem] [&_svg]:size-4" : "h-10 px-3.5 text-sm [&_svg]:size-[1.125rem]",
+              size === "sm" ? "h-8 px-3 text-[0.8125rem] [&_svg]:size-4" : "h-10 px-4 text-sm [&_svg]:size-[1.125rem]",
               block && "flex-1",
-              selected ? "bg-navy text-white" : "text-ink-2 hover:bg-subtle hover:text-navy",
+              selected ? "bg-navy text-white shadow-sm" : "text-ink-2 hover:bg-butter-100 hover:text-navy",
             )}
           >
             {option.label}

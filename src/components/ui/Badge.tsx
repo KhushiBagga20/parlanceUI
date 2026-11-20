@@ -1,7 +1,7 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-export type Tone = "neutral" | "brand" | "gold" | "success" | "danger" | "warning" | "navy";
+export type Tone = "neutral" | "brand" | "gold" | "success" | "danger" | "warning" | "navy" | "coral" | "mint";
 
 const tones: Record<Tone, string> = {
   neutral: "bg-subtle text-ink-2 border-line",
@@ -11,6 +11,8 @@ const tones: Record<Tone, string> = {
   danger: "bg-danger-bg text-danger border-danger/20",
   warning: "bg-warning-bg text-warning border-gold-300",
   navy: "bg-navy text-white border-navy",
+  coral: "bg-coral-100 text-coral-800 border-coral-200",
+  mint: "bg-mint-100 text-mint-800 border-mint-200",
 };
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
@@ -23,8 +25,8 @@ export function Badge({ tone = "neutral", icon, size = "sm", className, children
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-xs border font-medium whitespace-nowrap",
-        size === "sm" ? "h-6 px-2 text-xs [&_svg]:size-3.5" : "h-7 px-2.5 text-[0.8125rem] [&_svg]:size-4",
+        "inline-flex items-center gap-1.5 rounded-full border font-semibold whitespace-nowrap",
+        size === "sm" ? "h-6 px-2.5 text-xs [&_svg]:size-3.5" : "h-7 px-3 text-[0.8125rem] [&_svg]:size-4",
         tones[tone],
         className,
       )}

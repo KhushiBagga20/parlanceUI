@@ -6,9 +6,11 @@ import { cn } from "@/lib/cn";
 import { AccessibilityMenu } from "./AccessibilityMenu";
 import { Logo } from "./Logo";
 
+/* Each direction keeps its colour everywhere: coral for Speech → Sign,
+   mint for Sign → Text. The words always carry the meaning too. */
 const MODES = [
-  { to: "/app/speech-to-sign", from: "Speech", target: "Sign", icon: AudioLines },
-  { to: "/app/sign-to-text", from: "Sign", target: "Text", icon: Hand },
+  { to: "/app/speech-to-sign", from: "Speech", target: "Sign", icon: AudioLines, pill: "bg-coral-100", chip: "bg-coral-400" },
+  { to: "/app/sign-to-text", from: "Sign", target: "Text", icon: Hand, pill: "bg-mint-100", chip: "bg-mint-400" },
 ];
 
 const TOOLS = [
@@ -49,36 +51,46 @@ export function AppHeader() {
             : "h-16 max-w-full translate-y-0 rounded-none border-transparent border-b-line bg-surface/95 px-4 shadow-none sm:px-6",
         )}
       >
-        <div className="flex min-w-0 items-center gap-8">
-          <Logo />
-          <nav aria-label="Translation direction" className="hidden h-full md:block">
-            <ul className="flex h-full items-stretch gap-6">
-              {MODES.map(({ to, from, target, icon: Icon }) => {
+        <div className="flex min-w-0 items-center gap-4 lg:gap-8">
+          {/* Between md and lg the direction switcher needs the room, even at large text sizes. */}
+          <Logo wordmarkClassName="md:max-lg:sr-only" />
+          <nav aria-label="Translation direction" className="hidden md:block">
+            <ul className="flex items-center gap-1 rounded-full bg-subtle p-1 ring-1 ring-line">
+              {MODES.map(({ to, from, target, icon: Icon, pill, chip }) => {
                 const active = pathname.startsWith(to);
                 return (
                   <li key={to} className="relative flex">
+                    {active && (
+                      <motion.span
+                        aria-hidden
+                        layoutId="app-mode-indicator"
+                        className={cn("absolute inset-0 rounded-full shadow-sm ring-1 ring-navy/10", pill)}
+                        transition={{ type: "spring", stiffness: 420, damping: 38 }}
+                      />
+                    )}
                     <NavLink
                       to={to}
                       className={cn(
-                        "flex items-center gap-2 text-[0.9375rem] font-medium transition-colors",
-                        active ? "text-navy" : "text-ink-3 hover:text-navy",
+                        "relative flex h-9 items-center gap-2 rounded-full px-3 py-1 text-[0.9375rem] font-semibold whitespace-nowrap transition-colors lg:pr-3.5 lg:pl-1",
+                        active ? "text-navy" : "text-ink-2 hover:text-navy",
                       )}
                     >
-                      <Icon className={cn("size-4", active ? "text-royal" : "")} aria-hidden />
+                      <span
+                        aria-hidden
+                        className={cn(
+                          "hidden size-7 items-center justify-center rounded-full transition-colors lg:inline-flex",
+                          active ? cn(chip, "text-navy") : "bg-surface text-ink-3",
+                        )}
+                      >
+                        <Icon className="size-4" />
+                      </span>
                       <span>{from}</span>
-                      <span aria-hidden className="text-ink-3/70">
+                      <span aria-hidden className="text-ink-3">
                         →
                       </span>
                       <span className="sr-only">to</span>
                       <span>{target}</span>
                     </NavLink>
-                    {active && (
-                      <motion.span
-                        layoutId="app-mode-indicator"
-                        className={cn("absolute inset-x-0 h-0.5 bg-royal", floating ? "bottom-2 rounded-full" : "-bottom-px")}
-                        transition={{ type: "spring", stiffness: 420, damping: 40 }}
-                      />
-                    )}
                   </li>
                 );
               })}
@@ -96,14 +108,13 @@ export function AppHeader() {
                     title={label}
                     className={({ isActive }) =>
                       cn(
-                        "inline-flex h-10 items-center gap-2 px-3 text-sm font-medium transition-colors",
-                        floating ? "rounded-full" : "rounded-sm",
-                        isActive ? "bg-navy text-white" : "text-ink-2 hover:bg-subtle hover:text-navy",
+                        "press inline-flex h-10 items-center gap-2 rounded-full px-3 text-sm font-semibold",
+                        isActive ? "bg-navy text-white" : "text-ink-2 hover:bg-butter-100 hover:text-navy",
                       )
                     }
                   >
                     <Icon className="size-4" aria-hidden />
-                    <span className="sr-only lg:not-sr-only">{label}</span>
+                    <span className="sr-only xl:not-sr-only">{label}</span>
                   </NavLink>
                 </li>
               ))}
@@ -115,9 +126,8 @@ export function AppHeader() {
             title="Help"
             className={({ isActive }) =>
               cn(
-                "inline-flex size-11 items-center justify-center md:hidden",
-                floating ? "rounded-full" : "rounded-sm",
-                isActive ? "bg-navy text-white" : "text-ink-2 hover:bg-subtle",
+                "press inline-flex size-11 items-center justify-center rounded-full md:hidden",
+                isActive ? "bg-navy text-white" : "text-ink-2 hover:bg-butter-100",
               )
             }
           >

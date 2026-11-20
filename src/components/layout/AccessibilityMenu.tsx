@@ -50,7 +50,7 @@ export function AccessibilityMenu({ align = "right" }: { align?: "left" | "right
           "inline-flex size-11 items-center justify-center rounded-full border transition-colors",
           open
             ? "border-royal bg-brand-50 text-royal"
-            : "border-line-strong bg-surface text-navy hover:border-brand-300 hover:bg-brand-25",
+            : "border-line-strong bg-surface text-navy hover:border-navy/30 hover:bg-butter-50",
         )}
       >
         <Accessibility className="size-5" aria-hidden />
@@ -62,7 +62,7 @@ export function AccessibilityMenu({ align = "right" }: { align?: "left" | "right
           role="dialog"
           aria-label="Accessibility options"
           className={cn(
-            "absolute top-[calc(100%+0.5rem)] z-50 w-[min(20rem,calc(100vw-2rem))] animate-rise rounded-lg border border-line bg-surface p-4 shadow-lg",
+            "absolute top-[calc(100%+0.5rem)] z-50 w-[min(20rem,calc(100vw-2rem))] animate-pop rounded-[1.5rem] border border-line bg-surface p-4 shadow-lg",
             align === "right" ? "right-0" : "left-0",
           )}
         >

@@ -70,14 +70,14 @@ export function Toaster() {
             <div
               key={t.id}
               role="status"
-              className="pointer-events-auto flex w-full max-w-sm animate-rise items-center gap-3 rounded-md border border-line bg-surface py-2.5 pr-2 pl-3.5 shadow-lg"
+              className="pointer-events-auto flex w-full max-w-sm animate-pop items-center gap-3 rounded-2xl border border-line bg-surface py-2.5 pr-2 pl-3.5 shadow-lg"
             >
               <Icon aria-hidden className={cn("size-5 shrink-0", toneStyles[t.tone])} />
               <p className="flex-1 text-sm font-medium text-ink">{t.message}</p>
               <button
                 type="button"
                 onClick={() => dismiss(t.id)}
-                className="inline-flex size-8 items-center justify-center rounded-xs text-ink-3 hover:bg-brand-50 hover:text-navy"
+                className="inline-flex size-8 items-center justify-center rounded-full text-ink-3 hover:bg-butter-100 hover:text-navy"
                 aria-label="Dismiss notification"
               >
                 <X className="size-4" aria-hidden />

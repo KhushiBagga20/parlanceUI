@@ -18,7 +18,18 @@ export function LogoMark({ className, inverse = false }: { className?: string; i
   );
 }
 
-export function Logo({ inverse = false, className, to = "/" }: { inverse?: boolean; className?: string; to?: string }) {
+export function Logo({
+  inverse = false,
+  className,
+  to = "/",
+  wordmarkClassName,
+}: {
+  inverse?: boolean;
+  className?: string;
+  to?: string;
+  /** Extra classes for the "Parlance" word, e.g. to hide it where space is tight. */
+  wordmarkClassName?: string;
+}) {
   return (
     <Link
       to={to}
@@ -26,7 +37,7 @@ export function Logo({ inverse = false, className, to = "/" }: { inverse?: boole
       aria-label="Parlance home"
     >
       <LogoMark inverse={inverse} />
-      <span className={cn("text-[1.1875rem] font-bold tracking-[-0.02em]", inverse ? "text-white" : "text-navy")}>
+      <span className={cn("text-[1.1875rem] font-bold tracking-[-0.02em]", inverse ? "text-white" : "text-navy", wordmarkClassName)}>
         Parlance
       </span>
     </Link>

@@ -1,5 +1,6 @@
 import { useEffect, useId, useState, type ReactNode } from "react";
-import { Accessibility, Camera, Languages, Lock, RotateCcw, Sparkles, Trash2, Volume2 } from "lucide-react";
+import { Accessibility, Camera, Languages, Lock, RotateCcw, SlidersHorizontal, Sparkles, Trash2, Volume2 } from "lucide-react";
+import { Pal } from "@/components/brand/Pal";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ConfirmDialog } from "@/components/ui/Dialog";
@@ -37,14 +38,16 @@ const SECTIONS = [
 function Section({ id, title, description, icon, children }: { id: string; title: string; description: string; icon: ReactNode; children: ReactNode }) {
   return (
     <Card id={id} className="scroll-mt-24">
-      <div className="flex items-start gap-3 border-b border-line px-5 py-5">
-        <span className="mt-1.5 shrink-0 text-royal [&_svg]:size-4">{icon}</span>
+      <div className="flex items-start gap-3.5 border-b border-line px-5 py-5 sm:px-6">
+        <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-butter-200 text-navy [&_svg]:size-[1.125rem]" aria-hidden>
+          {icon}
+        </span>
         <div>
-          <h2 className="text-xl leading-7 font-semibold tracking-[-0.025em]">{title}</h2>
+          <h2 className="text-xl leading-7 font-bold tracking-[-0.025em]">{title}</h2>
           <p className="mt-0.5 text-sm text-ink-3">{description}</p>
         </div>
       </div>
-      <div className="divide-y divide-line px-5">{children}</div>
+      <div className="divide-y divide-line px-5 sm:px-6">{children}</div>
     </Card>
   );
 }
@@ -141,7 +144,13 @@ export function SettingsPage() {
 
   return (
     <div className="container-app py-10 sm:py-14">
-      <WorkspaceHeader title="Settings" description="Preferences are saved in this browser. Nothing here is sent anywhere." />
+      <WorkspaceHeader
+        title="Settings"
+        description="Preferences are saved in this browser. Nothing here is sent anywhere."
+        icon={<SlidersHorizontal />}
+        tone="butter"
+        illustration={<Pal pose="rest" outfit="sky" skin="deep" hair="curly" className="h-36" />}
+      />
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[14rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,48rem)]">
         <nav aria-label="Settings sections" className="hidden lg:block">
@@ -150,7 +159,7 @@ export function SettingsPage() {
               <li key={id}>
                 <a
                   href={`#${id}`}
-                  className="flex items-center gap-2.5 rounded-sm px-3 py-2 text-sm font-medium text-ink-2 transition-colors hover:bg-surface hover:text-navy"
+                  className="flex items-center gap-2.5 rounded-full px-3.5 py-2 text-sm font-semibold text-ink-2 transition-colors hover:bg-surface hover:text-navy"
                 >
                   <Icon className="size-4 text-royal" aria-hidden />
                   {label}
@@ -334,7 +343,7 @@ export function SettingsPage() {
                   aria-invalid={serviceError ? true : undefined}
                   spellCheck={false}
                   autoCapitalize="off"
-                  className="h-11 flex-1 rounded-sm border border-line-strong bg-surface px-3 text-[0.9375rem] text-ink shadow-xs focus-visible:border-royal aria-invalid:border-danger"
+                  className="h-11 flex-1 rounded-xl border border-line-strong bg-surface px-3.5 text-[0.9375rem] text-ink shadow-xs focus-visible:border-royal aria-invalid:border-danger"
                 />
                 <div className="flex gap-2">
                   <Button variant="secondary" onClick={saveService} disabled={serviceDraft.trim() === s.serviceUrl}>
