@@ -2,11 +2,11 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { Link, type LinkProps } from "react-router-dom";
 import { cn } from "@/lib/cn";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "subtle" | "danger" | "inverse" | "dark";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "subtle" | "danger" | "inverse" | "dark" | "sun" | "voice" | "hands";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
-  "press inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold tracking-[-0.005em] select-none " +
+  "press inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-bold tracking-[-0.01em] select-none " +
   "disabled:opacity-45 disabled:pointer-events-none aria-disabled:opacity-45 aria-disabled:pointer-events-none";
 
 const sizes: Record<ButtonSize, string> = {
@@ -16,13 +16,16 @@ const sizes: Record<ButtonSize, string> = {
 };
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-royal text-white hover:bg-brand-700 active:bg-brand-800",
-  secondary: "bg-surface text-navy border border-line-strong hover:border-navy/40 hover:bg-butter-50",
-  ghost: "text-ink-2 hover:bg-butter-100 hover:text-navy",
-  subtle: "bg-sky-100 text-royal hover:bg-sky-200",
-  danger: "bg-surface text-danger border border-line-strong hover:bg-danger-bg hover:border-danger/40",
-  inverse: "bg-white text-navy hover:bg-brand-50",
-  dark: "bg-navy text-white hover:bg-[#0a2450]",
+  primary: "bg-cobalt-400 text-white hover:bg-cobalt-500",
+  secondary: "bg-surface text-navy border-2 border-navy hover:bg-sun-100",
+  ghost: "text-ink-2 hover:bg-paper-2 hover:text-navy",
+  subtle: "bg-cobalt-100 text-cobalt-800 hover:bg-cobalt-200",
+  danger: "bg-surface text-danger border-2 border-danger/60 hover:bg-danger-bg",
+  inverse: "bg-white text-navy hover:bg-sun-100",
+  dark: "bg-navy text-white hover:bg-cobalt-500",
+  sun: "bg-sun-400 text-navy hover:bg-sun-300",
+  voice: "bg-tangerine-400 text-navy hover:bg-tangerine-300",
+  hands: "bg-forest-400 text-white hover:bg-forest-500",
 };
 
 export function buttonClasses(options: {

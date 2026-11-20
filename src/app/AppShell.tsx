@@ -6,8 +6,8 @@ import { SkipLink } from "@/components/layout/SkipLink";
 import { useHashScroll } from "@/hooks/useHashScroll";
 
 const tabs = [
-  { to: "/app/speech-to-sign", label: "Speech → Sign", ariaLabel: "Speech to sign", icon: AudioLines },
-  { to: "/app/sign-to-text", label: "Sign → Text", ariaLabel: "Sign to text", icon: Hand },
+  { to: "/app/speech-to-sign", label: "Speech → Sign", ariaLabel: "Speech to sign", icon: AudioLines, tone: "voice" as const },
+  { to: "/app/sign-to-text", label: "Sign → Text", ariaLabel: "Sign to text", icon: Hand, tone: "hands" as const },
   { to: "/app/history", label: "History", icon: History },
   { to: "/app/settings", label: "Settings", icon: Settings },
 ];
@@ -17,7 +17,7 @@ export function AppShell() {
   const location = useLocation();
   useHashScroll();
   return (
-    <div className="min-h-dvh bg-canvas">
+    <div className="min-h-dvh bg-paper">
       <SkipLink />
       <AppHeader />
       <main id="main" tabIndex={-1} className="pb-safe-tabbar outline-none">

@@ -9,6 +9,8 @@ export interface TabItem {
   to: string;
   /** Spoken name when the visible label uses symbols. */
   ariaLabel?: string;
+  /** Direction colour for the active state (words still carry the meaning). */
+  tone?: "voice" | "hands";
 }
 
 interface MobileTabBarProps {
@@ -26,7 +28,7 @@ export function MobileTabBar({ items, label, activeAnchor }: MobileTabBarProps) 
   return (
     <nav
       aria-label={label}
-      className="fixed inset-x-0 bottom-0 z-40 rounded-t-[1.5rem] border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-10px_30px_-20px_rgb(1_22_56/0.35)] backdrop-blur-md md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 rounded-t-[1.75rem] border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden"
     >
       <ul className="mx-auto grid max-w-lg grid-cols-4">
         {items.map((item) => {
@@ -42,7 +44,13 @@ export function MobileTabBar({ items, label, activeAnchor }: MobileTabBarProps) 
                 aria-hidden
                 className={cn(
                   "inline-flex h-7 w-12 items-center justify-center rounded-full transition-[background-color,transform] duration-300",
-                  active ? "scale-100 bg-butter-200" : "scale-90 bg-transparent",
+                  !active
+                    ? "scale-90 bg-transparent"
+                    : item.tone === "voice"
+                      ? "scale-100 bg-tangerine-400 text-navy"
+                      : item.tone === "hands"
+                        ? "scale-100 bg-forest-400 text-white"
+                        : "scale-100 bg-navy text-white",
                 )}
               >
                 <Icon className="size-5" aria-hidden />

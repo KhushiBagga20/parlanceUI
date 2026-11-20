@@ -11,7 +11,7 @@ const MOMENTS = [
   {
     place: "Clinic front desk",
     domain: "Healthcare",
-    tone: "bg-coral-100 ring-coral-200",
+    tone: "bg-bubblegum-100 ring-bubblegum-200",
     story:
       "The first question at any clinic is where it hurts. Without an interpreter, it becomes a note passed across the counter, and a guess.",
     from: { who: "Receptionist says", text: "Where is the pain?" },
@@ -20,7 +20,7 @@ const MOMENTS = [
   {
     place: "A classroom",
     domain: "Education",
-    tone: "bg-mint-100 ring-mint-200",
+    tone: "bg-lilac-100 ring-lilac-400/40",
     story:
       "A Deaf student greets a new teacher who doesn't sign. The teacher reads it, hears it, and answers back by voice.",
     from: { who: "Student signs", gloss: ["Hello", "How are you"] },
@@ -29,7 +29,7 @@ const MOMENTS = [
   {
     place: "Railway ticket counter",
     domain: "Public services",
-    tone: "bg-sky-100 ring-sky-200",
+    tone: "bg-sun-100 ring-sun-200",
     story:
       "Short, routine exchanges are where people are most often left out: a counter, a queue, and no time to find help.",
     from: { who: "Clerk says", text: "Your ticket is ready." },
@@ -52,7 +52,7 @@ function Bubble({ side, out }: { side: { who: string; text?: string; gloss?: str
     <div
       className={
         out
-          ? "ml-auto w-fit max-w-full rounded-2xl rounded-br-sm bg-royal px-4 py-3 text-white"
+          ? "ml-auto w-fit max-w-full rounded-2xl rounded-br-sm bg-navy px-4 py-3 text-white"
           : "w-fit max-w-full rounded-2xl rounded-bl-sm bg-surface px-4 py-3 ring-1 ring-line"
       }
     >
@@ -68,7 +68,7 @@ function Bubble({ side, out }: { side: { who: string; text?: string; gloss?: str
               <span className={out ? "text-base leading-6 font-semibold tracking-[0.05em] whitespace-nowrap uppercase" : "text-base leading-6 font-semibold tracking-[0.05em] whitespace-nowrap text-navy uppercase"}>
                 {g}
               </span>
-              {i < side.gloss!.length - 1 && <span className="size-1.5 rounded-full bg-gold" aria-hidden />}
+              {i < side.gloss!.length - 1 && <span className="size-1.5 rounded-full bg-sun-400" aria-hidden />}
             </span>
           ))}
         </p>
@@ -79,14 +79,14 @@ function Bubble({ side, out }: { side: { who: string; text?: string; gloss?: str
 
 export function WhyItMatters() {
   return (
-    <FluidSection id="why-it-matters" aria-labelledby="why-title" from="#ffffff" surface="bg-butter-50" className="scroll-mt-20 py-24 sm:py-32">
+    <FluidSection id="why-it-matters" aria-labelledby="why-title" from="#ffffff" surface="bg-paper" className="scroll-mt-20 py-24 sm:py-32">
       <div className="container-wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-x-10">
           <Reveal className="lg:col-span-7">
             <SectionIndex index="02" label="Why it matters" />
             <h2 id="why-title" className="text-section mt-6">
               Most of life still runs
-              <br className="hidden sm:block" /> on <span className="text-royal">spoken language.</span>
+              <br className="hidden sm:block" /> on <span className="text-cobalt-400">spoken language.</span>
             </h2>
             <p className="mt-7 max-w-[52ch] text-[1.125rem] leading-[1.7] text-ink-2">
               Clinics, classrooms and public counters assume everyone can hear and speak. For ISL users that turns short,
@@ -97,25 +97,22 @@ export function WhyItMatters() {
 
           <Reveal delay={120} className="lg:col-span-5 lg:self-end">
             <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              <div className="rounded-[1.75rem] bg-surface p-6 shadow-card ring-1 ring-line">
+              <div className="grain relative overflow-hidden rounded-[2rem] bg-cobalt-400 p-7 text-white">
                 <dt className="sr-only">Certified ISL interpreters in India</dt>
-                <dd className="relative isolate inline-block text-[3rem] leading-none font-semibold tracking-[-0.05em] text-royal tabular-nums lg:text-[3.5rem]">
-                  &lt;300
-                  <span aria-hidden className="absolute inset-x-0 bottom-1 -z-10 h-3 rounded-full bg-gold/70" />
-                </dd>
-                <dd className="mt-4 text-[0.9375rem] leading-6 font-medium text-ink-2">certified ISL interpreters in India</dd>
+                <dd className="relative z-10 text-[3.25rem] leading-none font-extrabold tracking-[-0.05em] tabular-nums lg:text-[4rem]">&lt;300</dd>
+                <dd className="relative z-10 mt-4 text-[0.9375rem] leading-6 font-bold text-white/90">certified ISL interpreters in India</dd>
               </div>
-              <div className="rounded-[1.75rem] bg-surface p-6 shadow-card ring-1 ring-line">
+              <div className="grain relative overflow-hidden rounded-[2rem] bg-sun-400 p-7 text-navy">
                 <dt className="sr-only">Deaf persons in India</dt>
-                <dd className="text-[3rem] leading-none font-semibold tracking-[-0.05em] text-navy lg:text-[3.5rem]">~50 lakh</dd>
-                <dd className="mt-4 text-[0.9375rem] leading-6 font-medium text-ink-2">deaf persons in India, Census 2011</dd>
+                <dd className="relative z-10 text-[3.25rem] leading-none font-extrabold tracking-[-0.05em] lg:text-[4rem]">~50 lakh</dd>
+                <dd className="relative z-10 mt-4 text-[0.9375rem] leading-6 font-bold text-navy/85">deaf persons in India, Census 2011</dd>
               </div>
             </dl>
             <a
               href="https://islrtc.nic.in/?p=6487"
               target="_blank"
               rel="noreferrer"
-              className="mt-4 inline-flex min-h-6 items-center gap-1 text-xs leading-5 font-medium text-ink-3 hover:text-royal"
+              className="mt-4 inline-flex min-h-6 items-center gap-1 text-xs leading-5 font-semibold text-ink-3 hover:text-cobalt-400"
             >
               Source: ISLRTC, Government of India <ArrowUpRight className="size-3" aria-hidden />
               <span className="sr-only">(opens in a new tab)</span>
@@ -126,16 +123,16 @@ export function WhyItMatters() {
         {/* Moments */}
         <div className="mt-20 sm:mt-28">
           <Reveal>
-            <h3 className="text-[1.5rem] leading-tight font-semibold tracking-[-0.03em] sm:text-[1.75rem]">Three ordinary moments</h3>
+            <h3 className="text-[1.75rem] leading-tight font-extrabold tracking-[-0.04em] sm:text-[2.25rem]">Three ordinary moments</h3>
           </Reveal>
           <ol className="mt-8 grid gap-5 lg:grid-cols-3">
             {MOMENTS.map((m, i) => (
               <Reveal as="li" key={m.place} delay={i * 80} className={`flex flex-col rounded-[2rem] p-6 ring-1 sm:p-7 ${m.tone}`}>
-                <p className="inline-flex w-fit items-center gap-2 rounded-full bg-surface px-3 py-1 text-[0.8125rem] font-semibold text-royal">
-                  <span className="size-1.5 rounded-full bg-gold" aria-hidden />
+                <p className="inline-flex w-fit items-center gap-2 rounded-full bg-navy px-3 py-1 text-[0.8125rem] font-bold text-white">
+                  <span className="size-1.5 rounded-full bg-sun-400" aria-hidden />
                   {m.domain}
                 </p>
-                <h4 className="mt-4 text-[1.5rem] leading-tight font-semibold tracking-[-0.03em] text-navy">{m.place}</h4>
+                <h4 className="mt-4 text-[1.625rem] leading-tight font-extrabold tracking-[-0.04em] text-navy">{m.place}</h4>
                 <p className="mt-3 text-[1rem] leading-[1.65] text-ink-2">{m.story}</p>
                 <div className="mt-auto flex flex-col gap-2.5 pt-7">
                   <Bubble side={m.from} />
@@ -151,7 +148,7 @@ export function WhyItMatters() {
           <Reveal className="lg:col-span-4">
             <p className="eyebrow">What we hold ourselves to</p>
             <p className="text-statement mt-4 text-navy">
-              Silence over a <span className="text-royal">wrong word.</span>
+              Silence over a <span className="text-cobalt-400">wrong word.</span>
             </p>
           </Reveal>
           <ol className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
@@ -160,12 +157,12 @@ export function WhyItMatters() {
               return (
                 <Reveal as="li" key={title} delay={i * 60} className="rounded-[1.75rem] bg-surface p-6 shadow-card ring-1 ring-line">
                   <span
-                    className={i % 2 === 0 ? "inline-flex size-11 items-center justify-center rounded-full bg-sky-100 text-royal" : "inline-flex size-11 items-center justify-center rounded-full bg-butter-200 text-navy"}
+                    className={["inline-flex size-12 items-center justify-center rounded-full bg-cobalt-400 text-white", "inline-flex size-12 items-center justify-center rounded-full bg-sun-400 text-navy", "inline-flex size-12 items-center justify-center rounded-full bg-forest-400 text-white", "inline-flex size-12 items-center justify-center rounded-full bg-tangerine-400 text-navy"][i]}
                     aria-hidden
                   >
                     <Icon className="size-5" />
                   </span>
-                  <h3 className="mt-4 text-lg leading-6 font-semibold tracking-[-0.02em]">{title}</h3>
+                  <h3 className="mt-4 text-lg leading-6 font-extrabold tracking-[-0.025em]">{title}</h3>
                   <p className="mt-2 text-[0.9375rem] leading-[1.65] text-ink-2">{body}</p>
                 </Reveal>
               );
@@ -175,12 +172,12 @@ export function WhyItMatters() {
 
         {/* Interpreters */}
         <Reveal className="mt-16 lg:mt-24">
-          <blockquote className="relative overflow-hidden rounded-[2rem] bg-butter-200 p-8 sm:p-12">
-            <span aria-hidden className="block h-10 text-[5.5rem] leading-[0.9] font-bold text-coral-400 select-none">
+          <blockquote className="grain relative overflow-hidden rounded-[2.25rem] bg-bubblegum-400 p-8 sm:p-12">
+            <span aria-hidden className="relative z-10 block h-10 text-[5.5rem] leading-[0.9] font-extrabold text-navy select-none">
               &ldquo;
             </span>
-            <p className="text-statement relative mt-2 max-w-4xl text-navy">Parlance supports professional interpreters. It never replaces them.</p>
-            <footer className="relative mt-4 max-w-2xl text-[1rem] leading-7 text-ink-2">
+            <p className="text-statement relative z-10 mt-2 max-w-4xl text-navy">Parlance supports professional interpreters. It never replaces them.</p>
+            <footer className="relative z-10 mt-4 max-w-2xl text-[1rem] leading-7 font-medium text-navy/85">
               For diagnoses, consent, and any conversation with real consequences, book a qualified ISL interpreter.
               Parlance is for the short, everyday exchanges in between.
             </footer>

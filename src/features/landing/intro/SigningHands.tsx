@@ -284,7 +284,7 @@ interface SigningHandsProps {
   gap?: string;
 }
 
-export function SigningHands({ gloss, playing, speed = 1, from = 0, to = Infinity, onReady, onEnd, className, gap = "#0D21A1" }: SigningHandsProps) {
+export function SigningHands({ gloss, playing, speed = 1, from = 0, to = Infinity, onReady, onEnd, className, gap = "#1C4FD8" }: SigningHandsProps) {
   const [data, setData] = useState<Prepared | null>(null);
   const [{ pos, trail }, setPlayhead] = useState<{ pos: number; trail: P[] }>({ pos: 0, trail: [] });
   const cb = useRef({ onReady, onEnd });

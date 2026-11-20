@@ -2,14 +2,16 @@
 @import "@fontsource-variable/geist";
 
 /* ---------------------------------------------------------------------------
-   Parlance design tokens
-   Brand: Deep Navy #011638 · Royal Blue #0D21A1 · Ice White #EFF0F2
-          Golden Yellow #EEC643 · Charcoal #141414
-   Light theme first. Navy and royal carry interaction and emphasis; gold
-   marks "now". The studio palette (cream, butter, coral, mint) adds warmth:
-   coral is always Speech → Sign, mint is always Sign → Text, and both are
-   paired with words and icons, never used as the only signal. Text on a
-   coral, mint or butter block is navy; their -800 shades carry text on tints.
+   Parlance design tokens · "Rainbow" (v5)
+   Flat shapes on warm paper. Concentric arcs (the two-voices motif, grown
+   into a rainbow), pill segments, bold saturated colour and a fine print
+   grain. No soft drop shadows: depth comes from colour and overlap.
+
+   Direction colours, always paired with words and icons:
+     tangerine = Speech → Sign (navy text on it)
+     forest    = Sign → Text   (white text on it)
+   Cobalt is the action colour (white text). Sun marks "now" (navy text).
+   Tomato is decorative only; errors use the danger tokens with an icon.
    ------------------------------------------------------------------------- */
 @theme {
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
@@ -17,84 +19,104 @@
 
   /* Brand */
   --color-navy: #011638;
-  --color-royal: #0d21a1;
+  --color-royal: #1c4fd8;
   --color-ice: #eff0f2;
-  --color-gold: #eec643;
+  --color-gold: #ffc414;
   --color-ink: #141414;
 
-  /* Blue scale derived from Royal Blue and Deep Navy */
-  --color-brand-25: #f6f7fd;
-  --color-brand-50: #eef0fb;
-  --color-brand-100: #dee2f7;
-  --color-brand-200: #bfc6ef;
-  --color-brand-300: #97a3e2;
-  --color-brand-400: #5a6bd0;
-  --color-brand-500: #2b3eb9;
-  --color-brand-600: #0d21a1;
-  --color-brand-700: #0a1a84;
-  --color-brand-800: #06125f;
+  /* The rainbow */
+  --color-cobalt-50: #eef2fd;
+  --color-cobalt-100: #dce5fb;
+  --color-cobalt-200: #b5c7f5;
+  --color-cobalt-300: #7d9bec;
+  --color-cobalt-400: #1c4fd8;
+  --color-cobalt-500: #1640b3;
+  --color-cobalt-800: #12348f;
+
+  --color-forest-50: #eaf6ee;
+  --color-forest-100: #d3eedc;
+  --color-forest-200: #a6dcb9;
+  --color-forest-300: #5dbb80;
+  --color-forest-400: #0b7a3e;
+  --color-forest-500: #096532;
+  --color-forest-800: #075a2d;
+
+  --color-tangerine-50: #fff2ea;
+  --color-tangerine-100: #ffe2d0;
+  --color-tangerine-200: #ffc3a0;
+  --color-tangerine-300: #ff9a5e;
+  --color-tangerine-400: #ff6a1a;
+  --color-tangerine-800: #a33b00;
+
+  --color-sun-50: #fff9e3;
+  --color-sun-100: #fff0bd;
+  --color-sun-200: #ffe27a;
+  --color-sun-300: #ffd23f;
+  --color-sun-400: #ffc414;
+  --color-sun-800: #6b4e00;
+
+  --color-bubblegum-100: #fde3ee;
+  --color-bubblegum-200: #fac4dc;
+  --color-bubblegum-400: #f59cc4;
+
+  --color-tomato-100: #fddcda;
+  --color-tomato-400: #f0322b;
+  --color-tomato-800: #a3150f;
+
+  --color-lilac-100: #ece6fa;
+  --color-lilac-400: #b8a4e6;
+
+  /* Older scales, kept for the motion diagrams and intro, retuned to cobalt. */
+  --color-brand-25: #f5f7fe;
+  --color-brand-50: #eef2fd;
+  --color-brand-100: #dce5fb;
+  --color-brand-200: #b5c7f5;
+  --color-brand-300: #7d9bec;
+  --color-brand-400: #4d73e2;
+  --color-brand-500: #2a5bdc;
+  --color-brand-600: #1c4fd8;
+  --color-brand-700: #1640b3;
+  --color-brand-800: #12348f;
   --color-brand-900: #011638;
 
-  /* Light blues (v3): the dominant atmosphere. Derived from Royal Blue,
-     lighter and warmer than the brand tints, for surfaces and sections. */
-  --color-sky-25: #f7faff;
-  --color-sky-50: #edf3ff;  /* pale blue: page */
-  --color-sky-100: #e3ecff; /* light blue surface */
-  --color-sky-200: #dce8ff; /* powder blue: sections */
-  --color-sky-300: #c7d9ff; /* soft sky: rings, illustration */
-  --color-sky-400: #9dbaff;
-  --color-sky-500: #5b7ff0;
+  --color-sky-25: #f5f7fe;
+  --color-sky-50: #eef2fd;
+  --color-sky-100: #dce5fb;
+  --color-sky-200: #c9d7f8;
+  --color-sky-300: #b5c7f5;
+  --color-sky-400: #7d9bec;
+  --color-sky-500: #4d73e2;
 
-  /* Gold: warmth and "now". Marks, dots, highlights; never a whole section. */
-  --color-gold-50: #fdf8e8;
-  --color-gold-100: #fbf1cf;
-  --color-gold-200: #f7e3a1;
-  --color-gold-300: #f4dc8a;
-  --color-gold-400: #eec643;
+  --color-gold-50: #fff9e3;
+  --color-gold-100: #fff0bd;
+  --color-gold-200: #ffe27a;
+  --color-gold-300: #ffd23f;
+  --color-gold-400: #ffc414;
   --color-gold-800: #6b4e00;
 
-  /* Studio palette: warm surfaces and the two direction colours. */
-  --color-cream: #fffaf1;
-  --color-butter-50: #fff8e6;
-  --color-butter-100: #fff0c7;
-  --color-butter-200: #ffe29a;
-  --color-butter-300: #ffd56b;
-
-  --color-coral-50: #fff3ee;
-  --color-coral-100: #ffe1d5;
-  --color-coral-200: #ffc2aa;
-  --color-coral-300: #ffa585;
-  --color-coral-400: #ff8a65;
-  --color-coral-800: #b23c17;
-
-  --color-mint-50: #ecf9f2;
-  --color-mint-100: #d2f1e2;
-  --color-mint-200: #a9e3c8;
-  --color-mint-300: #7fd6ae;
-  --color-mint-400: #4cc594;
-  --color-mint-800: #0f6b45;
-
-  /* Neutrals (warm paper, so the colour blocks feel at home) */
-  --color-canvas: #faf6ef;
+  /* Paper and neutrals */
+  --color-paper: #efece6;
+  --color-paper-2: #e6e1d8;
+  --color-paper-50: #f7f5f1;
+  --color-canvas: #efece6;
   --color-surface: #ffffff;
-  --color-subtle: #f7f2e9;
-  --color-line: #e6dfd2;
-  --color-line-soft: #efe9df;
-  --color-line-strong: #cfc6b6;
-  --color-stage: #e3ecff;
-  --color-stage-2: #f3f7ff;
+  --color-subtle: #f7f5f1;
+  --color-line: #e2ddd3;
+  --color-line-soft: #ece8e0;
+  --color-line-strong: #cbc4b6;
+  --color-stage: #e6e1d8;
+  --color-stage-2: #f7f5f1;
   --color-ink-2: #3a4050;
   --color-ink-3: #565d6e;
 
   /* Status (always paired with an icon and text, never colour alone) */
-  --color-success: #12704f;
-  --color-success-bg: #e6f4ee;
+  --color-success: #0b6b37;
+  --color-success-bg: #d3eedc;
   --color-danger: #b42318;
-  --color-danger-bg: #fdeceb;
+  --color-danger-bg: #fddcda;
   --color-warning: #6b4e00;
-  --color-warning-bg: #fbf1cf;
+  --color-warning-bg: #fff0bd;
 
-  /* Soft, friendly corners everywhere. */
   --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 14px;
@@ -103,13 +125,13 @@
   --radius-2xl: 26px;
   --radius-3xl: 32px;
 
-  --shadow-xs: 0 1px 1px rgb(1 22 56 / 0.04);
-  --shadow-sm: 0 1px 2px rgb(1 22 56 / 0.05);
-  --shadow-md: 0 1px 2px rgb(1 22 56 / 0.05), 0 12px 32px -16px rgb(1 22 56 / 0.22);
-  --shadow-lg: 0 2px 6px rgb(1 22 56 / 0.06), 0 28px 60px -24px rgb(1 22 56 / 0.32);
-  --shadow-float: 0 1px 2px rgb(1 22 56 / 0.08), 0 18px 40px -18px rgb(1 22 56 / 0.45);
-  /* Cards: a soft lift off the warm canvas. */
-  --shadow-card: 0 1px 2px rgb(1 22 56 / 0.04), 0 14px 34px -22px rgb(1 22 56 / 0.28);
+  /* Flat by default. Only floating things (menus, toasts, dialogs) lift. */
+  --shadow-xs: 0 1px 0 rgb(1 22 56 / 0.06);
+  --shadow-sm: 0 1px 0 rgb(1 22 56 / 0.08);
+  --shadow-md: 0 2px 0 rgb(1 22 56 / 0.08), 0 12px 28px -18px rgb(1 22 56 / 0.3);
+  --shadow-lg: 0 2px 0 rgb(1 22 56 / 0.08), 0 24px 48px -24px rgb(1 22 56 / 0.4);
+  --shadow-float: 0 2px 0 rgb(1 22 56 / 0.1), 0 18px 40px -20px rgb(1 22 56 / 0.5);
+  --shadow-card: none;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -128,7 +150,10 @@
   --animate-pop: pop 0.42s var(--ease-spring) both;
   --animate-bob: bob 3.2s ease-in-out infinite;
   --animate-hand-wave: hand-wave 1.8s ease-in-out infinite;
-  --animate-hand-trail: hand-trail 1.8s ease-in-out infinite;
+  --animate-hand-bounce: hand-bounce 1.2s ease-in-out infinite;
+  --animate-arm-sway: arm-sway 5s ease-in-out infinite;
+  --animate-arc-slide: arc-slide 9s ease-in-out infinite;
+  --animate-dash-slide: dash-slide 10s ease-in-out infinite;
   --animate-dot-bounce: dot-bounce 1.2s ease-in-out infinite;
 
   @keyframes pop {
@@ -139,8 +164,9 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-4px); }
   }
-  /* An abstract, friendly wave for loading states. Starts and ends at rest so
-     a stopped (reduced-motion) animation leaves the hand upright. */
+  /* Hand motion is abstract (a hello wave, a bounce, a sway), never a sign.
+     Every loop starts and ends at rest, so a stopped animation leaves the
+     shape upright. */
   @keyframes hand-wave {
     0%, 100% { transform: rotate(0deg); }
     18% { transform: rotate(14deg); }
@@ -148,9 +174,24 @@
     54% { transform: rotate(11deg); }
     72% { transform: rotate(-4deg); }
   }
-  @keyframes hand-trail {
-    0%, 100% { opacity: 0; }
-    20%, 55% { opacity: 1; }
+  @keyframes hand-bounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    40% { transform: translateY(-14%) rotate(-6deg); }
+    70% { transform: translateY(2%) rotate(3deg); }
+  }
+  @keyframes arm-sway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(var(--sway, 6deg)); }
+  }
+  /* Pill segments drifting along their ring of the rainbow. */
+  @keyframes arc-slide {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(var(--slide, 14deg)); }
+  }
+  /* The same drift for the arched window, along the ring's path. */
+  @keyframes dash-slide {
+    0%, 100% { stroke-dashoffset: var(--o0); }
+    50% { stroke-dashoffset: var(--o1); }
   }
   @keyframes dot-bounce {
     0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
@@ -186,10 +227,6 @@
     from { opacity: 0; transform: translateY(28px); }
     to { opacity: 1; transform: none; }
   }
-  @keyframes grow {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
-  }
   @keyframes ripple {
     from { opacity: 0.9; transform: scale(0.55); }
     to { opacity: 0; transform: scale(1.25); }
@@ -201,14 +238,17 @@
   @keyframes blink {
     50% { opacity: 0; }
   }
-  @keyframes wave {
-    from { transform: scaleY(0.35); }
-    to { transform: scaleY(1); }
-  }
   @keyframes shimmer {
     from { background-position: -200% 0; }
     to { background-position: 200% 0; }
   }
+}
+
+/* Used from inline styles (voice level bars), so it lives outside @theme,
+   where it is always emitted. */
+@keyframes wave {
+  from { transform: scaleY(0.35); }
+  to { transform: scaleY(1); }
 }
 
 /* ---------------------------------------------------------------- base -- */
@@ -282,7 +322,7 @@
 @utility eyebrow {
   font-size: 0.75rem;
   line-height: 1rem;
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--color-ink-3);
@@ -291,32 +331,32 @@
 @utility text-display {
   font-size: clamp(3rem, 6.4vw, 6.25rem);
   line-height: 0.94;
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: -0.055em;
 }
 
-/* The hero headline. Sized so "One conversation." sits on one line in its
-   column from 320px phones (or 400% zoom) to 1920px desktops; it is never
-   clipped. Measured: that line is 7.83em wide in Geist 600. */
+/* The hero headline: heavy, tight, poster-like. Sized so "One conversation."
+   sits on one line in its column from 360px phones to 1920px desktops, and
+   wraps rather than clips at 320px or 400% zoom. */
 @utility text-hero {
-  font-size: clamp(2.2rem, 9.4vw, 4.5rem);
-  line-height: 1.02;
-  font-weight: 600;
-  letter-spacing: -0.045em;
-  @media (width >= 64rem) { font-size: clamp(3rem, 4.6vw, 3.9rem); }
+  font-size: clamp(2.1rem, 9vw, 4.4rem);
+  line-height: 0.98;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  @media (width >= 64rem) { font-size: clamp(2.5rem, 3.6vw, 3.6rem); }
 }
 
 @utility text-section {
-  font-size: clamp(2.25rem, 4.2vw, 3.75rem);
-  line-height: 1;
-  font-weight: 700;
+  font-size: clamp(2.25rem, 4.6vw, 4rem);
+  line-height: 0.98;
+  font-weight: 800;
   letter-spacing: -0.045em;
 }
 
 @utility text-statement {
   font-size: clamp(1.5rem, 2.4vw, 2.25rem);
-  line-height: 1.2;
-  font-weight: 500;
+  line-height: 1.15;
+  font-weight: 700;
   letter-spacing: -0.025em;
 }
 
@@ -348,14 +388,23 @@
   background-size: 28px 28px;
 }
 
-/* A soft dot pattern for stages: playful texture that stays quiet behind
-   the signer and the camera. */
-@utility dot-grid {
-  background-image: radial-gradient(rgb(13 33 161 / 0.11) 1.2px, transparent 1.4px);
-  background-size: 22px 22px;
+/* Print grain, as on a risograph poster. A static overlay (never animated),
+   so it costs one composite. Put it on a positioned colour block. */
+@utility grain {
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+  }
 }
 
-/* Focus rings on dark (navy) surfaces switch to gold so they stay visible. */
 @utility focus-inverse {
   & :focus-visible {
     outline-color: var(--color-gold);

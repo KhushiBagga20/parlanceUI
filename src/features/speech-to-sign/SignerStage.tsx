@@ -4,7 +4,7 @@
  */
 import { useReducer, useRef } from "react";
 import { Check, Expand, FlipHorizontal2, Hand, MessageCircle, Pause, PersonStanding, Play, Repeat, RotateCcw, Shrink } from "lucide-react";
-import { Arcs } from "@/components/brand/Arcs";
+import { RainbowWindow } from "@/components/brand/RainbowWindow";
 import { AvatarViewport } from "@/components/avatar/AvatarViewport";
 import { SigningLoader } from "@/components/ui/SigningLoader";
 import type { PlayerState, QueueItem, SignPlayer } from "@/avatar/playback";
@@ -41,7 +41,7 @@ function ToolButton({
       onClick={onClick}
       className={cn(
         "press inline-flex size-9 items-center justify-center rounded-full sm:size-10 [&_svg]:size-[1.125rem]",
-        pressed ? "bg-navy text-white" : "text-ink-2 hover:bg-butter-100 hover:text-navy",
+        pressed ? "bg-navy text-white" : "text-navy hover:bg-sun-200",
       )}
     >
       {children}
@@ -77,42 +77,41 @@ export function SignerStage({ queue, loading, state, onState, player, onPlayer }
           : "Paused";
 
   const statusIcon = loading ? (
-    <SigningLoader label={status} size="sm" decorative className="size-5" />
+    <SigningLoader label={status} size="sm" decorative inverse className="size-5" />
   ) : !has ? (
-    <MessageCircle className="size-4 text-ink-3" aria-hidden />
+    <MessageCircle className="size-4 text-white/75" aria-hidden />
   ) : state.playing ? (
     <span aria-hidden className="relative inline-flex size-2.5">
       <span className="absolute inset-0 animate-ping rounded-full bg-gold/70" />
-      <span className="relative size-2.5 rounded-full bg-gold ring-2 ring-navy/10" />
+      <span className="relative size-2.5 rounded-full bg-gold" />
     </span>
   ) : state.finished ? (
-    <Check className="size-4 text-success" aria-hidden />
+    <Check className="size-4 text-forest-300" aria-hidden />
   ) : (
-    <Pause className="size-4 text-royal" aria-hidden />
+    <Pause className="size-4 text-sun-400" aria-hidden />
   );
 
   return (
     <div
       ref={stageRef}
       className={cn(
-        "relative isolate flex h-full min-h-[26rem] flex-col overflow-hidden bg-[linear-gradient(180deg,var(--color-sky-25),var(--color-sky-100)_70%,var(--color-sky-200))]",
+        "relative isolate flex h-full min-h-[26rem] flex-col overflow-hidden bg-paper-2",
         fullscreen.active && "min-h-screen",
       )}
     >
-      <div aria-hidden className="dot-grid absolute inset-0 -z-10 opacity-70 [mask-image:radial-gradient(ellipse_65%_60%_at_50%_45%,black,transparent)]" />
-      <div aria-hidden className="absolute -top-16 -left-16 -z-10 size-48 rounded-full bg-coral-100/80" />
-      <div aria-hidden className="absolute -right-12 bottom-24 -z-10 size-40 rounded-full bg-butter-100/90" />
+      <div aria-hidden className="absolute -top-20 -left-20 -z-10 size-52 rounded-full bg-tangerine-400" />
+      <div aria-hidden className="absolute -right-16 bottom-28 -z-10 size-40 rounded-full bg-sun-400" />
 
       {/* top bar: status + toolbar */}
       <div className="relative z-10 flex items-start justify-between gap-3 p-3 sm:p-4">
         <p
-          className="flex min-w-0 items-center gap-2 rounded-full bg-surface/95 py-2 pr-4 pl-3 text-[0.8125rem] font-semibold whitespace-nowrap text-navy shadow-sm ring-1 ring-line"
+          className="flex min-w-0 items-center gap-2 rounded-full bg-navy py-2 pr-4 pl-3 text-[0.8125rem] font-bold whitespace-nowrap text-white"
           role="status"
         >
           <span className="inline-flex size-5 shrink-0 items-center justify-center">{statusIcon}</span>
           <span className="truncate">{status}</span>
         </p>
-        <div className="flex shrink-0 items-center gap-0.5 rounded-full bg-surface/95 p-1 shadow-sm ring-1 ring-line" role="toolbar" aria-label="Signer view">
+        <div className="flex shrink-0 items-center gap-0.5 rounded-full bg-surface p-1 ring-2 ring-navy" role="toolbar" aria-label="Signer view">
           <ToolButton label="Whole signer, including the face" pressed={view === "figure"} onClick={() => set("avatarView", "figure" as AvatarView)}>
             <PersonStanding aria-hidden />
           </ToolButton>
@@ -134,13 +133,19 @@ export function SignerStage({ queue, loading, state, onState, player, onPlayer }
         </div>
       </div>
 
-      {/* signer between the arcs */}
+      {/* The signer stands in a still rainbow window: plain white behind the
+          hands and face, colour only at the edges. Faded for the hands view,
+          where the hands fill more of the stage. */}
       <div className="relative min-h-0 flex-1">
-        <div
-          aria-hidden
-          className="absolute top-1/2 left-1/2 aspect-square h-[96%] max-w-[96%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,#ffffff_0%,rgb(255_255_255/0.65)_55%,transparent_100%)]"
+        <RainbowWindow
+          rings={5}
+          band={40}
+          fill="#FFFFFF"
+          className={cn(
+            "absolute top-0 bottom-0 left-1/2 w-[min(92%,30rem)] -translate-x-1/2 transition-opacity duration-300",
+            view === "hands" && "opacity-35",
+          )}
         />
-        <Arcs point={false} className="absolute top-1/2 left-1/2 aspect-square h-[96%] max-w-[96%] -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute inset-0">
           <AvatarViewport
             queue={queue}
@@ -160,13 +165,13 @@ export function SignerStage({ queue, loading, state, onState, player, onPlayer }
               size="sm"
               layout="inline"
               live={false}
-              className="animate-pop rounded-full bg-surface/95 px-4 py-2 shadow-card ring-1 ring-line"
+              className="animate-pop rounded-full bg-surface px-4 py-2 ring-2 ring-navy"
             />
           </div>
         )}
         {!has && !loading && (
           <div className="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center px-4">
-            <p className="max-w-sm animate-pop rounded-2xl rounded-b-md bg-surface/95 px-4 py-2.5 text-center text-[0.9375rem] leading-6 font-medium text-ink-2 shadow-card ring-1 ring-line">
+            <p className="max-w-sm animate-pop rounded-[1.25rem] rounded-b-md bg-sun-400 px-4 py-2.5 text-center text-[0.9375rem] leading-6 font-bold text-navy">
               Type or say a message, and the signer will perform it in ISL.
             </p>
           </div>
@@ -178,10 +183,10 @@ export function SignerStage({ queue, loading, state, onState, player, onPlayer }
         <div className="relative z-10 px-4 pb-3 text-center">
           {showCaptions && current && (
             <>
-              <p key={`${index}-${current.label}`} className="animate-pop text-[2.25rem] leading-none font-bold tracking-[-0.02em] text-navy uppercase sm:text-[3rem]">
+              <p key={`${index}-${current.label}`} className="animate-pop text-[2.5rem] leading-none font-extrabold tracking-[-0.03em] text-navy uppercase sm:text-[3.25rem]">
                 {current.label}
               </p>
-              <p className="mt-2 inline-flex items-center rounded-full bg-surface/80 px-3 py-0.5 text-[0.8125rem] font-semibold text-ink-2">
+              <p className="mt-2 inline-flex items-center rounded-full bg-surface px-3 py-0.5 text-[0.8125rem] font-bold text-ink-2">
                 {current.missing ? "No sign in the library yet, shown as text" : state.transitioning ? "Moving to the next sign" : `Sign ${index + 1} of ${queue.length}`}
               </p>
             </>
@@ -200,15 +205,15 @@ export function SignerStage({ queue, loading, state, onState, player, onPlayer }
                       rerender();
                     }}
                     className={cn(
-                      "press inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-bold tracking-[0.05em] uppercase",
+                      "press inline-flex h-10 items-center gap-1.5 rounded-full px-3.5 text-sm font-extrabold tracking-[0.05em] uppercase",
                       item.missing
-                        ? "border border-dashed border-ink-3/60 bg-surface/60 text-ink-3 line-through"
+                        ? "border-2 border-dashed border-ink-3/60 bg-surface/70 text-ink-3 line-through"
                         : now
-                          ? "bg-navy text-white shadow-sm"
-                          : "bg-surface/85 text-navy ring-1 ring-line hover:bg-butter-100",
+                          ? "bg-navy text-white"
+                          : "bg-surface text-navy ring-2 ring-navy/15 hover:bg-sun-100",
                     )}
                   >
-                    {now && !item.missing && <span aria-hidden className="size-1.5 rounded-full bg-gold" />}
+                    {now && !item.missing && <span aria-hidden className="size-2 rounded-full bg-gold" />}
                     {item.label}
                     {item.missing && <span className="sr-only"> (no sign yet)</span>}
                   </button>
@@ -221,7 +226,7 @@ export function SignerStage({ queue, loading, state, onState, player, onPlayer }
 
       {/* transport */}
       <div className="relative z-10 px-3 pb-3 sm:px-4 sm:pb-4">
-        <div className="focus-inverse mx-auto flex max-w-2xl items-center gap-2 rounded-full bg-navy p-1.5 text-white shadow-[var(--shadow-float)] sm:gap-3 sm:p-2">
+        <div className="focus-inverse mx-auto flex max-w-2xl items-center gap-2 rounded-full bg-navy p-1.5 text-white sm:gap-3 sm:p-2">
           <button
             type="button"
             disabled={!has || !player}
@@ -229,7 +234,7 @@ export function SignerStage({ queue, loading, state, onState, player, onPlayer }
               player?.toggle();
               rerender();
             }}
-            className="press inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-gold text-navy hover:bg-butter-300 disabled:bg-white/20 disabled:text-white/60"
+            className="press inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-sun-400 text-navy hover:bg-sun-300 disabled:bg-white/20 disabled:text-white/60"
             aria-label={state.playing ? "Pause signing" : "Play signing"}
           >
             {state.playing ? <Pause className="size-5" aria-hidden /> : <Play className="size-5 translate-x-px" aria-hidden />}
@@ -248,14 +253,20 @@ export function SignerStage({ queue, loading, state, onState, player, onPlayer }
             <RotateCcw className="size-[1.125rem]" aria-hidden />
           </button>
           <div
-            className="relative h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-white/15"
+            className="relative h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-white/15"
             role="progressbar"
             aria-label="Phrase progress"
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(overall * 100)}
           >
-            <div className="absolute inset-y-0 left-0 rounded-full bg-gold transition-[width] duration-100 ease-linear" style={{ width: `${overall * 100}%` }} />
+            {/* The progress fill is a slice of the rainbow. */}
+            <div
+              className="absolute inset-y-0 left-0 overflow-hidden rounded-full transition-[width] duration-100 ease-linear"
+              style={{ width: `${overall * 100}%` }}
+            >
+              <div className="h-full w-[min(42rem,70vw)] bg-[linear-gradient(90deg,var(--color-tangerine-400),var(--color-sun-400),var(--color-forest-300),var(--color-cobalt-300),var(--color-bubblegum-400))]" />
+            </div>
           </div>
           <span className="hidden w-12 shrink-0 text-right text-[0.8125rem] font-semibold tabular-nums text-white/75 sm:block">
             {has ? `${index + 1}/${queue.length}` : "0/0"}

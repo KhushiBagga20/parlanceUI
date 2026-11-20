@@ -28,18 +28,18 @@ type Tone = "neutral" | "success" | "warning" | "danger" | "muted";
 
 /* Every state pairs its colour with an icon and a written title. */
 const TONE: Record<Tone, { card: string; icon: string }> = {
-  neutral: { card: "bg-sky-50 ring-sky-200", icon: "bg-surface text-royal" },
-  success: { card: "bg-mint-50 ring-mint-200", icon: "bg-mint-300 text-navy" },
-  warning: { card: "bg-butter-50 ring-butter-200", icon: "bg-butter-200 text-gold-800" },
-  danger: { card: "bg-danger-bg ring-danger/20", icon: "bg-surface text-danger" },
-  muted: { card: "bg-cream ring-line", icon: "bg-surface text-ink-3" },
+  neutral: { card: "bg-cobalt-100", icon: "bg-cobalt-400 text-white" },
+  success: { card: "bg-forest-100", icon: "bg-forest-400 text-white" },
+  warning: { card: "bg-sun-100", icon: "bg-sun-400 text-navy" },
+  danger: { card: "bg-danger-bg", icon: "bg-surface text-danger" },
+  muted: { card: "bg-paper", icon: "bg-surface text-navy" },
 };
 
 function State({ icon, title, children, tone = "neutral", action }: { icon: ReactNode; title: ReactNode; children?: ReactNode; tone?: Tone; action?: ReactNode }) {
   return (
-    <div className={cn("min-h-[8.5rem] animate-pop rounded-[1.25rem] p-4 ring-1", TONE[tone].card)}>
-      <span className={cn("inline-flex size-9 items-center justify-center rounded-full shadow-xs [&_svg]:size-[1.125rem]", TONE[tone].icon)}>{icon}</span>
-      <div className="mt-2.5 text-xl leading-7 font-bold tracking-[-0.02em] text-navy">{title}</div>
+    <div className={cn("min-h-[8.5rem] animate-pop rounded-[1.75rem] p-5", TONE[tone].card)}>
+      <span className={cn("inline-flex size-10 items-center justify-center rounded-full [&_svg]:size-5", TONE[tone].icon)}>{icon}</span>
+      <div className="mt-3 text-[1.375rem] leading-7 font-extrabold tracking-[-0.03em] text-navy">{title}</div>
       {children && <div className="mt-1.5 text-[0.9375rem] leading-6 text-ink-2">{children}</div>}
       {action && <div className="mt-3 flex flex-wrap items-center gap-2">{action}</div>}
     </div>
@@ -50,20 +50,20 @@ function Meter({ value, threshold, label }: { value: number; threshold: number; 
   const pct = Math.round(value * 100);
   return (
     <div className="mt-3">
-      <div className="flex items-center justify-between text-xs font-medium text-ink-3">
+      <div className="flex items-center justify-between text-xs font-bold text-ink-2">
         <span>{label}</span>
         <span className="tabular-nums">{pct}%</span>
       </div>
       <div
-        className="relative mt-1.5 h-2 rounded-full bg-surface ring-1 ring-line"
+        className="relative mt-1.5 h-2.5 rounded-full bg-surface"
         role="meter"
         aria-label={label}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={pct}
       >
-        <div className={cn("absolute inset-y-0 left-0 rounded-full", value >= threshold ? "bg-success" : "bg-ink-3/50")} style={{ width: `${pct}%` }} />
-        <div aria-hidden className="absolute -top-1 -bottom-1 w-0.5 bg-navy" style={{ left: `${Math.round(threshold * 100)}%` }} />
+        <div className={cn("absolute inset-y-0 left-0 rounded-full", value >= threshold ? "bg-forest-400" : "bg-ink-3/50")} style={{ width: `${pct}%` }} />
+        <div aria-hidden className="absolute -top-1 -bottom-1 w-1 rounded-full bg-navy" style={{ left: `${Math.round(threshold * 100)}%` }} />
       </div>
       <p className="mt-1 text-xs text-ink-3">Line marks the {Math.round(threshold * 100)}% threshold</p>
     </div>
@@ -74,14 +74,14 @@ export function ServiceStatus({ service }: { service: RecognitionService }) {
   const c = service.connection;
   const view =
     c === "open"
-      ? { icon: <CheckCircle2 className="size-4 text-success" aria-hidden />, text: "Recognition service connected", pill: "bg-mint-50 ring-mint-200" }
+      ? { icon: <CheckCircle2 className="size-4 text-success" aria-hidden />, text: "Recognition service connected", pill: "bg-forest-100" }
       : c === "connecting"
-        ? { icon: <SigningLoader label="Connecting" decorative className="size-5" />, text: "Connecting to the recognition service", pill: "bg-sky-50 ring-sky-200" }
+        ? { icon: <SigningLoader label="Connecting" decorative className="size-5" />, text: "Connecting to the recognition service", pill: "bg-cobalt-100" }
         : c === "no-model"
-          ? { icon: <TriangleAlert className="size-4 text-gold-800" aria-hidden />, text: "Service running without a model", pill: "bg-butter-50 ring-butter-200" }
-          : { icon: <ServerOff className="size-4 text-danger" aria-hidden />, text: "Recognition service offline", pill: "bg-danger-bg ring-danger/20" };
+          ? { icon: <TriangleAlert className="size-4 text-sun-800" aria-hidden />, text: "Service running without a model", pill: "bg-sun-100" }
+          : { icon: <ServerOff className="size-4 text-danger" aria-hidden />, text: "Recognition service offline", pill: "bg-danger-bg" };
   return (
-    <p className={cn("flex w-fit items-center gap-2 rounded-full py-1.5 pr-3.5 pl-2.5 text-[0.8125rem] font-semibold text-navy ring-1", view.pill)} role="status">
+    <p className={cn("flex w-fit items-center gap-2 rounded-full py-1.5 pr-3.5 pl-2.5 text-[0.8125rem] font-bold text-navy", view.pill)} role="status">
       <span className="inline-flex size-5 items-center justify-center">{view.icon}</span>
       {view.text}
     </p>
@@ -92,8 +92,8 @@ export function RecognitionReadout({ camera, service, recognising, accepted, thr
   if (accepted) {
     const verified = trustOf(accepted.word, metrics) === "verified";
     return (
-      <State tone="success" icon={<BadgeCheck />} title={<span className="text-[2.75rem] leading-none tracking-[-0.03em] uppercase">{glossLabel(accepted.word, library)}</span>}>
-        <span className="font-medium text-success">Recognised and added{verified ? " · verified sign" : ""}</span>
+      <State tone="success" icon={<BadgeCheck />} title={<span className="text-[3rem] leading-none tracking-[-0.035em] uppercase">{glossLabel(accepted.word, library)}</span>}>
+        <span className="font-bold text-success">Recognised and added{verified ? " · verified sign" : ""}</span>
         <Meter value={accepted.confidence} threshold={threshold} label="Confidence" />
       </State>
     );
@@ -109,11 +109,11 @@ export function RecognitionReadout({ camera, service, recognising, accepted, thr
             <button
               type="button"
               onClick={service.retry}
-              className="press inline-flex h-9 items-center gap-1.5 rounded-full border border-line-strong bg-surface px-3.5 text-[0.8125rem] font-semibold text-navy hover:border-navy/40"
+              className="press inline-flex h-10 items-center gap-1.5 rounded-full border-2 border-navy bg-surface px-4 text-[0.8125rem] font-bold text-navy hover:bg-sun-100"
             >
               <RefreshCw className="size-3.5" aria-hidden /> {service.gaveUp ? "Try again" : "Retry now"}
             </button>
-            <Link to="/app/help#service" className="inline-flex h-9 items-center px-1 text-[0.8125rem] font-semibold text-royal hover:underline">
+            <Link to="/app/help#service" className="inline-flex h-10 items-center px-1 text-[0.8125rem] font-bold text-navy underline underline-offset-4 hover:text-cobalt-400">
               How to start it
             </Link>
           </>
@@ -167,8 +167,8 @@ export function RecognitionReadout({ camera, service, recognising, accepted, thr
     return (
       <State tone="neutral" icon={<ScanLine />} title="Watching your signing…">
         Collecting two seconds of movement before deciding.
-        <span className="mt-3 block h-1.5 overflow-hidden rounded-full bg-surface ring-1 ring-sky-200" aria-hidden>
-          <span className="block h-full rounded-full bg-royal transition-[width]" style={{ width: `${pct}%` }} />
+        <span className="mt-3 block h-2.5 overflow-hidden rounded-full bg-surface" aria-hidden>
+          <span className="block h-full rounded-full bg-cobalt-400 transition-[width]" style={{ width: `${pct}%` }} />
         </span>
       </State>
     );

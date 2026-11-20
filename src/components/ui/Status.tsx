@@ -5,10 +5,10 @@ import { cn } from "@/lib/cn";
 export type StatusTone = "idle" | "busy" | "live" | "success" | "warning" | "danger" | "off";
 
 const styles: Record<StatusTone, { wrap: string; icon: ReactNode }> = {
-  idle: { wrap: "bg-subtle text-ink-2 border-line", icon: <CircleDashed aria-hidden /> },
-  busy: { wrap: "bg-brand-50 text-royal border-brand-100", icon: <Loader2 aria-hidden className="animate-spin" /> },
+  idle: { wrap: "bg-paper-2 text-ink-2 border-transparent", icon: <CircleDashed aria-hidden /> },
+  busy: { wrap: "bg-cobalt-100 text-cobalt-800 border-transparent", icon: <Loader2 aria-hidden className="animate-spin" /> },
   live: {
-    wrap: "bg-brand-50 text-royal border-brand-100",
+    wrap: "bg-cobalt-100 text-cobalt-800 border-transparent",
     icon: (
       <span aria-hidden className="relative inline-flex size-2.5">
         <span className="absolute inline-flex size-full animate-ping rounded-full bg-royal/50" />
@@ -16,10 +16,10 @@ const styles: Record<StatusTone, { wrap: string; icon: ReactNode }> = {
       </span>
     ),
   },
-  success: { wrap: "bg-success-bg text-success border-success/20", icon: <CheckCircle2 aria-hidden /> },
-  warning: { wrap: "bg-warning-bg text-warning border-gold-300", icon: <TriangleAlert aria-hidden /> },
-  danger: { wrap: "bg-danger-bg text-danger border-danger/20", icon: <XCircle aria-hidden /> },
-  off: { wrap: "bg-subtle text-ink-3 border-line", icon: <CircleOff aria-hidden /> },
+  success: { wrap: "bg-success-bg text-success border-transparent", icon: <CheckCircle2 aria-hidden /> },
+  warning: { wrap: "bg-warning-bg text-warning border-transparent", icon: <TriangleAlert aria-hidden /> },
+  danger: { wrap: "bg-danger-bg text-danger border-transparent", icon: <XCircle aria-hidden /> },
+  off: { wrap: "bg-paper-2 text-ink-3 border-transparent", icon: <CircleOff aria-hidden /> },
 };
 
 interface StatusPillProps {
@@ -58,10 +58,10 @@ interface NoticeProps {
 }
 
 const noticeStyles = {
-  info: "border-brand-100 bg-brand-25 [&_.notice-icon]:text-royal",
-  warning: "border-gold-300 bg-gold-50 [&_.notice-icon]:text-gold-800",
-  danger: "border-danger/25 bg-danger-bg [&_.notice-icon]:text-danger",
-  success: "border-success/25 bg-success-bg [&_.notice-icon]:text-success",
+  info: "border-transparent bg-cobalt-100 [&_.notice-icon]:text-cobalt-800",
+  warning: "border-transparent bg-sun-100 [&_.notice-icon]:text-sun-800",
+  danger: "border-transparent bg-danger-bg [&_.notice-icon]:text-danger",
+  success: "border-transparent bg-success-bg [&_.notice-icon]:text-success",
 };
 
 export function Notice({ tone = "info", title, children, icon, action, className }: NoticeProps) {

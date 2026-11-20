@@ -41,10 +41,10 @@ export function Dialog({ open, onClose, title, description, children, footer }: 
       onClick={(event) => {
         if (event.target === ref.current) onClose();
       }}
-      className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-[1.75rem] border border-line bg-surface p-0 text-ink shadow-lg backdrop:bg-navy/40"
+      className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-[2rem] border-0 bg-surface p-0 text-ink shadow-lg backdrop:bg-navy/50"
     >
       <div className="flex items-start justify-between gap-3 px-5 pt-5">
-        <h2 id={titleId} className="text-lg leading-7 font-bold">
+        <h2 id={titleId} className="text-xl leading-7 font-extrabold tracking-[-0.025em]">
           {title}
         </h2>
         <IconButton label="Close dialog" icon={<X />} size="sm" onClick={onClose} className="-mt-1 -mr-2" />
@@ -55,7 +55,7 @@ export function Dialog({ open, onClose, title, description, children, footer }: 
         </div>
       )}
       {children && <div className="px-5 pt-4">{children}</div>}
-      {footer && <div className="mt-5 flex flex-wrap justify-end gap-2 border-t border-line bg-cream px-5 py-4">{footer}</div>}
+      {footer && <div className="mt-5 flex flex-wrap justify-end gap-2 border-t border-line bg-paper-50 px-5 py-4">{footer}</div>}
     </dialog>
   );
 }

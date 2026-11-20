@@ -6,7 +6,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw } from "lucide-react";
-import { Arcs } from "@/components/brand/Arcs";
+import { RainbowWindow } from "@/components/brand/RainbowWindow";
 import { AvatarViewport } from "@/components/avatar/AvatarViewport";
 import { announce } from "@/components/ui/Toaster";
 import type { PlayerState, SignPlayer } from "@/avatar/playback";
@@ -104,13 +104,20 @@ export default function HeroStage({
 
   return (
     <div ref={hostRef} className="relative h-full w-full">
-      {/* stage disc + arcs */}
+      {/* The signer stands in an arched window of rainbow rings. The circle is
+          where the welcome scene collapses into. */}
+      <RainbowWindow
+        rings={6}
+        band={64}
+        fill="#FFFFFF"
+        animate
+        className="absolute inset-x-[2%] top-0 bottom-[20%] sm:inset-x-[8%] lg:inset-x-[10%]"
+      />
       <div
         aria-hidden
         data-intro-target
-        className="absolute top-[1%] left-1/2 aspect-square h-[80%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,#ffffff_0%,var(--color-stage-2)_55%,var(--color-stage)_88%,transparent_100%)]"
+        className="pointer-events-none absolute top-[12%] left-1/2 aspect-square h-[60%] -translate-x-1/2 rounded-full"
       />
-      <Arcs draw point={false} className="absolute top-[1%] left-1/2 aspect-square h-[80%] -translate-x-1/2" />
 
       <div className="absolute inset-x-[6%] top-0 bottom-[20%]">
         <AvatarViewport
@@ -130,46 +137,44 @@ export default function HeroStage({
 
       {/* Left annotation, attached to the arc: what was said */}
       <div
-        className="pointer-events-none absolute top-[7%] left-0 hidden w-[12rem] animate-float rounded-2xl rounded-bl-sm bg-surface/95 px-4 py-3 shadow-[0_14px_32px_-18px_rgb(13_33_161/0.45)] ring-1 ring-sky-200 xl:block"
+        className="pointer-events-none absolute top-[8%] left-0 hidden w-[12rem] animate-float rounded-[1.5rem] rounded-bl-md bg-tangerine-400 px-4 py-3 xl:block"
         aria-hidden
       >
-        <p className="eyebrow">Input</p>
-        <p className="mt-1 text-[1.0625rem] leading-6 font-medium text-navy">{current ? current.input : "…"}</p>
+        <p className="text-xs font-extrabold tracking-[0.08em] text-navy/80 uppercase">You said</p>
+        <p className="mt-1 text-[1.0625rem] leading-6 font-bold text-navy">{current ? current.input : "…"}</p>
       </div>
 
       {/* Right annotation, attached to the arc: grammar on the face */}
       <div
-        className="pointer-events-none absolute top-[18%] right-0 hidden w-[12rem] animate-float rounded-2xl rounded-br-sm bg-surface/95 px-4 py-3 text-right shadow-[0_14px_32px_-18px_rgb(13_33_161/0.45)] ring-1 ring-sky-200 [animation-delay:-3s] xl:block"
+        className="pointer-events-none absolute top-[22%] right-0 hidden w-[12rem] animate-float rounded-[1.5rem] rounded-br-md bg-forest-400 px-4 py-3 text-right [animation-delay:-3s] xl:block"
         aria-hidden
       >
-        <p className="eyebrow flex items-center justify-end gap-1.5">
-          <span className="size-1.5 rounded-full bg-gold" />
+        <p className="flex items-center justify-end gap-1.5 text-xs font-extrabold tracking-[0.08em] text-white/85 uppercase">
+          <span className="size-1.5 rounded-full bg-sun-400" />
           ISL gloss
         </p>
-        <p className="mt-1 text-[0.9375rem] leading-6 text-ink-2">
+        <p className="mt-1 text-[0.9375rem] leading-6 font-bold tracking-[0.03em] text-white uppercase">
           {current?.gloss.notation || "…"}
         </p>
       </div>
 
       {/* Gloss rail with the gold point under the active sign */}
       <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-3">
-        <div className="flex max-w-full flex-wrap items-end justify-center gap-x-5 gap-y-2 px-2" aria-hidden>
+        <div className="flex max-w-full flex-wrap items-center justify-center gap-1.5 px-2" aria-hidden>
           {current?.gloss.tokens.map((item, i) => (
-            <span key={`${item.gloss}-${i}`} className="flex flex-col items-center gap-2">
-              <span
-                className={cn(
-                  "text-[1.0625rem] leading-none font-semibold tracking-[0.04em] uppercase transition-colors duration-300 sm:text-xl",
-                  item.missing ? "text-ink-3 line-through decoration-1" : i === active ? "text-navy" : "text-ink-3",
-                )}
-              >
-                {item.label}
-              </span>
-              <span
-                className={cn(
-                  "size-1.5 rounded-full transition-all duration-300",
-                  i === active && !item.missing ? "scale-125 bg-gold" : "bg-line-strong",
-                )}
-              />
+            <span
+              key={`${item.gloss}-${i}`}
+              className={cn(
+                "inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm leading-none font-extrabold tracking-[0.04em] uppercase transition-colors duration-300 sm:h-10 sm:gap-2 sm:px-4 sm:text-lg",
+                item.missing
+                  ? "border-2 border-dashed border-ink-3/50 text-ink-3 line-through decoration-2"
+                  : i === active
+                    ? "bg-navy text-white"
+                    : "bg-surface text-navy ring-2 ring-navy/10",
+              )}
+            >
+              {i === active && !item.missing && <span className="size-2 rounded-full bg-sun-400" />}
+              {item.label}
             </span>
           ))}
         </div>
@@ -186,7 +191,7 @@ export default function HeroStage({
               player?.toggle();
             }}
             disabled={!player || !queue?.length}
-            className="inline-flex size-9 items-center justify-center rounded-full border border-line-strong bg-surface text-navy transition-colors hover:border-navy/40 disabled:opacity-40"
+            className="press inline-flex size-10 items-center justify-center rounded-full border-2 border-navy bg-surface text-navy hover:bg-sun-100 disabled:opacity-40"
             aria-label={playing ? "Pause the signer" : "Play the signer"}
             title={playing ? "Pause" : "Play"}
           >
@@ -200,13 +205,13 @@ export default function HeroStage({
               else player?.restart();
             }}
             disabled={!player || !queue?.length}
-            className="inline-flex size-9 items-center justify-center rounded-full border border-line-strong bg-surface text-navy transition-colors hover:border-navy/40 disabled:opacity-40"
+            className="press inline-flex size-10 items-center justify-center rounded-full border-2 border-navy bg-surface text-navy hover:bg-sun-100 disabled:opacity-40"
             aria-label="Replay the phrase"
             title="Replay"
           >
             <RotateCcw className="size-3.5" aria-hidden />
           </button>
-          <span className="ml-1 text-[0.8125rem] font-medium text-ink-3" aria-hidden>
+          <span className="ml-1 text-[0.8125rem] font-bold text-ink-2" aria-hidden>
             {!current ? "Preparing the signer…" : playing ? `Signing ${active + 1} of ${queue?.length ?? 0}` : demo ? "Next phrase…" : "Ready"}
           </span>
         </div>

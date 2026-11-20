@@ -1,11 +1,12 @@
 /**
- * The Parlance loading indicator: a friendly hand that waves while something
- * is being prepared, with three dots and the status in words.
+ * The Parlance loading indicator: a flat hand waving in front of a small
+ * rainbow, with three dots and the status in words.
  *
  * The movement is an abstract hello wave, not an ISL sign, and it must never
- * be labelled as one. Under reduced motion the hand and dots hold still and
- * only the words change.
+ * be labelled as one. Under reduced motion the hand, rainbow and dots hold
+ * still and only the words change.
  */
+import { WavingHand, HandShape } from "@/components/brand/Hands";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/cn";
 
@@ -24,31 +25,33 @@ interface SigningLoaderProps {
   /** For dark surfaces. */
   inverse?: boolean;
   /**
-   * Draw only the moving hand, with no words, for use as an icon inside an
+   * Draw only the waving hand, with no words, for use as an icon inside an
    * element that already states the status in text.
    */
   decorative?: boolean;
   className?: string;
 }
 
-/* Fingers, palm and thumb. Drawn twice: once stroked (the outline), then
-   filled on top, so the outline wraps the whole hand without inner seams. */
-const HAND = (
-  <>
-    <rect x="19" y="13" width="6.6" height="25" rx="3.3" />
-    <rect x="26.2" y="8.5" width="6.6" height="29" rx="3.3" />
-    <rect x="33.4" y="11" width="6.6" height="27" rx="3.3" />
-    <rect x="40.6" y="17" width="6" height="22" rx="3" />
-    <rect x="19" y="26" width="27.6" height="25" rx="11" />
-    <rect x="12.5" y="28" width="7.5" height="18" rx="3.75" transform="rotate(-32 17 44)" />
-  </>
-);
-
 const SIZES = {
-  sm: { svg: "size-6", dot: "size-1", text: "text-[0.8125rem]" },
-  md: { svg: "size-12", dot: "size-1.5", text: "text-sm" },
-  lg: { svg: "size-20", dot: "size-2", text: "text-base" },
+  sm: { svg: "h-6 w-9", dot: "size-1", text: "text-[0.8125rem]" },
+  md: { svg: "h-14 w-20", dot: "size-1.5", text: "text-sm" },
+  lg: { svg: "h-24 w-36", dot: "size-2", text: "text-base" },
 };
+
+/* Three rings: radius, colour, and a sliding highlight. */
+const RINGS = [
+  { r: 51, color: "#1C4FD8", pill: "#5DBB80", from: 150, to: 110 },
+  { r: 41, color: "#F59CC4", pill: "#F0322B", from: 70, to: 32 },
+  { r: 31, color: "#FFC414", pill: "#FF6A1A", from: 130, to: 92 },
+];
+
+function arc(r: number, from: number, to: number) {
+  const p = (deg: number) => {
+    const a = (deg * Math.PI) / 180;
+    return `${(60 + r * Math.cos(a)).toFixed(2)} ${(82 - r * Math.sin(a)).toFixed(2)}`;
+  };
+  return `M${p(from)}A${r} ${r} 0 0 1 ${p(to)}`;
+}
 
 export function SigningLoader({
   label,
@@ -62,47 +65,42 @@ export function SigningLoader({
 }: SigningLoaderProps) {
   const reduced = useReducedMotion();
   const s = SIZES[size];
-  const outline = inverse ? "#FFFFFF" : "#011638";
 
-  const hand = (
-    <svg viewBox="0 0 64 64" aria-hidden className={cn("shrink-0 overflow-visible", decorative && className ? className : s.svg)}>
-      {/* motion marks either side of the fingertips */}
-      <g
-        fill="none"
-        stroke={inverse ? "#EEC643" : "#0D21A1"}
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        className={reduced ? "opacity-0" : "animate-hand-trail"}
-      >
-        <path d="M52 9.5c3.5 3 5 7 4.5 11.5" />
-        <path d="M12 9.5C8.5 12.5 7 16.5 7.5 21" />
-      </g>
-      <g className={reduced ? undefined : "animate-hand-wave"} style={{ transformBox: "view-box", transformOrigin: "32px 58px" }}>
-        <g fill={outline} stroke={outline} strokeWidth="3.6" strokeLinejoin="round">
-          {HAND}
-        </g>
-        <g fill="#FFD56B">{HAND}</g>
-        <path d="M24 44.5q8.5 4 17 0" fill="none" stroke="#011638" strokeOpacity="0.18" strokeWidth="2" strokeLinecap="round" />
-        <rect x="21.5" y="49.5" width="22.5" height="12.5" rx="4.5" fill={inverse ? "#FFFFFF" : "#0D21A1"} />
-      </g>
-    </svg>
-  );
-
-  if (decorative) return hand;
+  if (decorative) {
+    return <WavingHand color="sun" cuff={inverse ? "#FFFFFF" : "#1C4FD8"} motion="wave" className={cn("size-5", className)} />;
+  }
 
   return (
     <div
       role={live ? "status" : undefined}
-      className={cn(
-        "inline-flex items-center",
-        layout === "stack" ? "flex-col gap-2 text-center" : "flex-row gap-2.5",
-        className,
-      )}
-      data-reduced-motion={reduced ? "" : undefined}
+      className={cn("inline-flex items-center", layout === "stack" ? "flex-col gap-2 text-center" : "flex-row gap-2.5", className)}
     >
-      {hand}
+      <svg viewBox="0 0 120 84" aria-hidden className={cn(s.svg, "shrink-0 overflow-visible")}>
+        {RINGS.map((ring, i) => (
+          <g key={ring.r}>
+            <path d={arc(ring.r, 180, 0)} fill="none" stroke={ring.color} strokeWidth="10.4" />
+            <g
+              className={reduced ? undefined : "animate-arc-slide"}
+              style={{
+                transformBox: "view-box",
+                transformOrigin: "60px 82px",
+                ["--slide" as string]: i % 2 ? "-22deg" : "24deg",
+                animationDuration: `${2.4 + i * 0.5}s`,
+              }}
+            >
+              <path d={arc(ring.r, ring.from, ring.to)} fill="none" stroke={ring.pill} strokeWidth="10" strokeLinecap="round" />
+            </g>
+          </g>
+        ))}
+        <g className={reduced ? undefined : "animate-hand-wave"} style={{ transformBox: "view-box", transformOrigin: "60px 84px" }}>
+          <rect x="49" y="74" width="22" height="12" rx="4" fill={inverse ? "#FFFFFF" : "#011638"} />
+          <g transform="translate(60 76) scale(0.5)">
+            <HandShape color="white" />
+          </g>
+        </g>
+      </svg>
 
-      <span className={cn("inline-flex items-center gap-2 font-semibold", s.text, inverse ? "text-white" : "text-navy", hideLabel && "sr-only")}>
+      <span className={cn("inline-flex items-center gap-2 font-bold", s.text, inverse ? "text-white" : "text-navy", hideLabel && "sr-only")}>
         {label}
         <span aria-hidden className="inline-flex items-center gap-1">
           {[0, 150, 300].map((delay) => (

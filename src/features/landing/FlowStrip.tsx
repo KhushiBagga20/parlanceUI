@@ -25,25 +25,25 @@ function Sequence({ steps, tone }: { steps: Step[]; tone: "primary" | "secondary
           <span className="flex items-center gap-3">
             <span
               className={cn(
-                "inline-flex size-10 items-center justify-center rounded-2xl sm:size-12",
-                tone === "primary" ? "bg-coral-300 text-navy" : "bg-mint-300 text-navy",
+                "inline-flex size-10 items-center justify-center rounded-full sm:size-12",
+                tone === "primary" ? "bg-tangerine-400 text-navy" : "bg-forest-300 text-navy",
               )}
             >
               <Icon className="size-5 sm:size-[1.375rem]" aria-hidden />
             </span>
             <span
               className={cn(
-                "text-2xl font-bold tracking-[-0.035em] sm:text-[2rem]",
-                "text-navy",
+                "text-2xl font-extrabold tracking-[-0.04em] sm:text-[2.25rem]",
+                "text-white",
               )}
             >
               {label}
             </span>
           </span>
           {i < steps.length - 1 ? (
-            <ArrowRight className="size-5 text-royal/70" aria-hidden />
+            <ArrowRight className="size-5 text-white/60" aria-hidden />
           ) : (
-            <span className={cn("size-2 rounded-full", tone === "primary" ? "bg-gold" : "bg-royal")} aria-hidden />
+            <span className={cn("size-2.5 rounded-full", tone === "primary" ? "bg-sun-400" : "bg-bubblegum-400")} aria-hidden />
           )}
         </Fragment>
       ))}
@@ -74,19 +74,19 @@ function Row({ steps, reverse, tone, still }: { steps: Step[]; reverse?: boolean
 export function FlowStrip() {
   const reduced = useReducedMotion();
   return (
-    <FluidSection aria-label="How a conversation flows" from="#fffaf1" surface="bg-sky-200" depth={120} className="py-12 sm:py-16">
+    <FluidSection aria-label="How a conversation flows" from="#efece6" surface="bg-cobalt-400 grain" depth={120} className="py-14 sm:py-20">
       <p className="sr-only">
         A hearing person speaks, Parlance signs it, and the signer understands. In reverse, a signer signs, Parlance
         shows the text, and the hearing person hears it as voice.
       </p>
       <div aria-hidden className="space-y-5">
-        <div className="container-wide flex items-center gap-2 text-xs font-semibold tracking-[0.08em] text-navy/75 uppercase">
-          <AudioLines className="size-3.5 text-royal" /> Hearing person to signer
+        <div className="container-wide flex items-center gap-2 text-xs font-extrabold tracking-[0.08em] text-white/85 uppercase">
+          <AudioLines className="size-3.5 text-tangerine-400" /> Hearing person to signer
         </div>
         <Row steps={FORWARD} tone="primary" still={reduced} />
         <Row steps={REVERSE} tone="secondary" reverse still={reduced} />
-        <div className="container-wide flex items-center justify-end gap-2 text-xs font-semibold tracking-[0.08em] text-navy/75 uppercase">
-          Signer to hearing person <Hand className="size-3.5 text-royal" />
+        <div className="container-wide flex items-center justify-end gap-2 text-xs font-extrabold tracking-[0.08em] text-white/85 uppercase">
+          Signer to hearing person <Hand className="size-3.5 text-forest-300" />
         </div>
       </div>
     </FluidSection>

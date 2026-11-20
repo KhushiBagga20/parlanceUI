@@ -26,6 +26,16 @@ import {
 } from "@/stores/settings";
 import { WorkspaceHeader } from "../shared/WorkspaceHeader";
 
+/* Each section gets its own colour chip; the heading always names it. */
+const SECTION_TONES: Record<string, string> = {
+  language: "bg-tangerine-400 text-navy",
+  signer: "bg-cobalt-400 text-white",
+  audio: "bg-sun-400 text-navy",
+  camera: "bg-forest-400 text-white",
+  accessibility: "bg-bubblegum-400 text-navy",
+  privacy: "bg-navy text-white",
+};
+
 const SECTIONS = [
   { id: "language", label: "Language", icon: Languages },
   { id: "signer", label: "Signer", icon: Sparkles },
@@ -39,11 +49,11 @@ function Section({ id, title, description, icon, children }: { id: string; title
   return (
     <Card id={id} className="scroll-mt-24">
       <div className="flex items-start gap-3.5 border-b border-line px-5 py-5 sm:px-6">
-        <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-butter-200 text-navy [&_svg]:size-[1.125rem]" aria-hidden>
+        <span className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full [&_svg]:size-5 ${SECTION_TONES[id] ?? "bg-sun-400 text-navy"}`} aria-hidden>
           {icon}
         </span>
         <div>
-          <h2 className="text-xl leading-7 font-bold tracking-[-0.025em]">{title}</h2>
+          <h2 className="text-[1.375rem] leading-7 font-extrabold tracking-[-0.035em]">{title}</h2>
           <p className="mt-0.5 text-sm text-ink-3">{description}</p>
         </div>
       </div>
@@ -148,8 +158,8 @@ export function SettingsPage() {
         title="Settings"
         description="Preferences are saved in this browser. Nothing here is sent anywhere."
         icon={<SlidersHorizontal />}
-        tone="butter"
-        illustration={<Pal pose="rest" outfit="sky" skin="deep" hair="curly" className="h-36" />}
+        tone="sun"
+        illustration={<Pal pose="rest" outfit="cobalt" skin="deep" hair="curly" className="h-32" />}
       />
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[14rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,48rem)]">
@@ -159,9 +169,11 @@ export function SettingsPage() {
               <li key={id}>
                 <a
                   href={`#${id}`}
-                  className="flex items-center gap-2.5 rounded-full px-3.5 py-2 text-sm font-semibold text-ink-2 transition-colors hover:bg-surface hover:text-navy"
+                  className="flex items-center gap-2.5 rounded-full px-2 py-1.5 text-sm font-bold text-ink-2 transition-colors hover:bg-surface hover:text-navy"
                 >
-                  <Icon className="size-4 text-royal" aria-hidden />
+                  <span className={`inline-flex size-7 items-center justify-center rounded-full ${SECTION_TONES[id] ?? ""}`} aria-hidden>
+                    <Icon className="size-3.5" />
+                  </span>
                   {label}
                 </a>
               </li>
@@ -343,7 +355,7 @@ export function SettingsPage() {
                   aria-invalid={serviceError ? true : undefined}
                   spellCheck={false}
                   autoCapitalize="off"
-                  className="h-11 flex-1 rounded-xl border border-line-strong bg-surface px-3.5 text-[0.9375rem] text-ink shadow-xs focus-visible:border-royal aria-invalid:border-danger"
+                  className="h-11 flex-1 rounded-2xl border-2 border-line bg-surface px-4 text-[0.9375rem] font-semibold text-ink focus-visible:border-cobalt-400 aria-invalid:border-danger"
                 />
                 <div className="flex gap-2">
                   <Button variant="secondary" onClick={saveService} disabled={serviceDraft.trim() === s.serviceUrl}>

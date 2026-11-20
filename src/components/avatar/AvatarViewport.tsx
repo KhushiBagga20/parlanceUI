@@ -68,7 +68,7 @@ export function AvatarViewport({
       )}
       {status === "error" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
-          <span className="inline-flex size-12 items-center justify-center rounded-full bg-coral-100 text-coral-800">
+          <span className="inline-flex size-12 items-center justify-center rounded-full bg-tangerine-100 text-tangerine-800">
             <MonitorX className="size-6" aria-hidden />
           </span>
           <p className="text-[0.9375rem] font-semibold text-navy" role="status">The 3D signer could not load.</p>

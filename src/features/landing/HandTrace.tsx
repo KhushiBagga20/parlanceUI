@@ -19,8 +19,8 @@ const BONES: [number, number][] = [
   [0, 17],
 ];
 const HANDS = [
-  { wrist: 0, world: 2, elbow: 3, colour: "#0D21A1" },
-  { wrist: 65, world: 67, elbow: 4, colour: "#B8901A" },
+  { wrist: 0, world: 2, elbow: 3, colour: "#1C4FD8" },
+  { wrist: 65, world: 67, elbow: 4, colour: "#E0540A" },
 ];
 const POSE = 130;
 const VIEW_W = 160;
@@ -152,18 +152,18 @@ export function HandTrace({ glosses, onSign, playing = true, className, variant 
   return (
     <svg viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} className={cn("h-full w-full", className)} aria-hidden>
       {variant === "camera" ? (
-        <g fill="none" stroke="#97A3E2" strokeWidth="0.8" strokeLinecap="round">
+        <g fill="none" stroke="#7D9BEC" strokeWidth="0.8" strokeLinecap="round">
           <path d="M8 18V8h10M152 18V8h-10M8 102v10h10M152 102v10h-10" />
         </g>
       ) : null}
       {/* A neutral head-and-shoulders reference, so the hands read as signing space. */}
-      <g fill={variant === "camera" ? "#E3E7F4" : "#DEE2F7"}>
+      <g fill={variant === "camera" ? "#ECE8E0" : "#DCE5FB"}>
         <ellipse cx="80" cy="44" rx="13" ry="16" />
         <path d="M80 76c-17 0-27 9-29 26l-2 18h62l-2-18c-2-17-12-26-29-26z" />
       </g>
       {hands.map(({ hand, drawn }) =>
         drawn?.elbow ? (
-          <g key={`arm-${hand.wrist}`} stroke={variant === "camera" ? "#D2D8EC" : "#C9D0F0"} strokeLinecap="round" fill="none">
+          <g key={`arm-${hand.wrist}`} stroke={variant === "camera" ? "#E2DDD3" : "#B5C7F5"} strokeLinecap="round" fill="none">
             <line x1={drawn.shoulder[0]} y1={drawn.shoulder[1]} x2={drawn.elbow[0]} y2={drawn.elbow[1]} strokeWidth="7" />
             <line x1={drawn.elbow[0]} y1={drawn.elbow[1]} x2={drawn.points[0]![0]} y2={drawn.points[0]![1]} strokeWidth="5.5" />
           </g>

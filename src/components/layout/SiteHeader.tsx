@@ -70,7 +70,7 @@ export function SiteHeader({ active }: { active: string | null }) {
         className={cn(
           "relative mx-auto flex items-center justify-between gap-3 border transition-[max-width,translate,height,padding,background-color,border-color,box-shadow,border-radius] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
           floating
-            ? "translate-y-2.5 h-[3.25rem] max-w-[min(64rem,calc(100%-1.25rem))] rounded-[1.625rem] border-line bg-surface/95 pr-1.5 pl-4 shadow-[0_1px_2px_rgb(1_22_56/0.06),0_12px_32px_-14px_rgb(1_22_56/0.28)] backdrop-blur-sm sm:pl-5 md:translate-y-3 md:h-14 md:rounded-[1.75rem] md:pr-2"
+            ? "translate-y-2.5 h-[3.25rem] max-w-[min(64rem,calc(100%-1.25rem))] rounded-[1.625rem] border-line bg-surface/95 pr-1.5 pl-4 shadow-md backdrop-blur-sm sm:pl-5 md:translate-y-3 md:h-14 md:rounded-[1.75rem] md:pr-2"
             : "translate-y-0 h-16 max-w-[1320px] rounded-none border-transparent bg-transparent px-5 shadow-none sm:px-8 md:h-[4.5rem] xl:px-10",
         )}
       >
@@ -83,15 +83,15 @@ export function SiteHeader({ active }: { active: string | null }) {
               href={`#${section.id}`}
               aria-current={active === section.id ? "location" : undefined}
               className={cn(
-                "relative flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[0.9375rem] font-semibold whitespace-nowrap transition-colors",
-                active === section.id ? "bg-butter-100 text-navy" : "text-ink-2 hover:bg-butter-50 hover:text-navy",
+                "relative flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[0.9375rem] font-bold whitespace-nowrap transition-colors",
+                active === section.id ? "bg-navy text-white" : "text-ink-2 hover:bg-paper-2 hover:text-navy",
               )}
             >
               <span
                 aria-hidden
                 className={cn(
-                  "size-1.5 rounded-full bg-gold transition-all duration-300",
-                  active === section.id ? "scale-100 opacity-100" : "scale-0 opacity-0",
+                  "h-1.5 rounded-full bg-gold transition-all duration-300",
+                  active === section.id ? "w-1.5 scale-100 opacity-100" : "-mr-1.5 w-0 scale-0 opacity-0",
                 )}
               />
               {section.label}
@@ -114,7 +114,7 @@ export function SiteHeader({ active }: { active: string | null }) {
             ref={menuButton}
             type="button"
             className={cn(
-              "press inline-flex size-11 items-center justify-center rounded-full text-navy hover:bg-butter-100 lg:hidden",
+              "press inline-flex size-11 items-center justify-center rounded-full text-navy hover:bg-paper-2 lg:hidden",
             )}
             aria-expanded={menuOpen}
             aria-controls={menuId}
@@ -144,10 +144,10 @@ export function SiteHeader({ active }: { active: string | null }) {
                   key={section.id}
                   href={`#${section.id}`}
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between rounded-2xl px-4 py-3 text-base font-semibold text-navy hover:bg-butter-50"
+                  className="flex items-center justify-between rounded-2xl px-4 py-3 text-base font-bold text-navy hover:bg-paper"
                 >
                   {section.label}
-                  {active === section.id && <span className="size-1.5 rounded-full bg-gold" aria-hidden />}
+                  {active === section.id && <span className="size-2 rounded-full bg-sun-400" aria-hidden />}
                 </a>
               ))}
               <div className="my-2 h-px bg-line" />
@@ -155,9 +155,9 @@ export function SiteHeader({ active }: { active: string | null }) {
                 <Link
                   key={to}
                   to={to}
-                  className="flex items-center gap-3 rounded-2xl px-4 py-3 text-base font-medium text-ink-2 hover:bg-butter-50 hover:text-navy"
+                  className="flex items-center gap-3 rounded-2xl px-4 py-3 text-base font-semibold text-ink-2 hover:bg-paper hover:text-navy"
                 >
-                  <Icon className="size-5 text-royal" aria-hidden />
+                  <Icon className="size-5 text-cobalt-400" aria-hidden />
                   {label}
                 </Link>
               ))}

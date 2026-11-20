@@ -47,10 +47,10 @@ export function AccessibilityMenu({ align = "right" }: { align?: "left" | "right
         title="Accessibility options"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex size-11 items-center justify-center rounded-full border transition-colors",
+          "inline-flex size-11 items-center justify-center rounded-full border-2 transition-colors",
           open
-            ? "border-royal bg-brand-50 text-royal"
-            : "border-line-strong bg-surface text-navy hover:border-navy/30 hover:bg-butter-50",
+            ? "border-navy bg-navy text-white"
+            : "border-navy/80 bg-surface text-navy hover:bg-sun-100",
         )}
       >
         <Accessibility className="size-5" aria-hidden />
@@ -62,11 +62,11 @@ export function AccessibilityMenu({ align = "right" }: { align?: "left" | "right
           role="dialog"
           aria-label="Accessibility options"
           className={cn(
-            "absolute top-[calc(100%+0.5rem)] z-50 w-[min(20rem,calc(100vw-2rem))] animate-pop rounded-[1.5rem] border border-line bg-surface p-4 shadow-lg",
+            "absolute top-[calc(100%+0.5rem)] z-50 w-[min(20rem,calc(100vw-2rem))] animate-pop rounded-[1.75rem] border border-line bg-surface p-4 shadow-lg",
             align === "right" ? "right-0" : "left-0",
           )}
         >
-          <p className="text-sm font-bold text-navy">Accessibility</p>
+          <p className="text-base font-extrabold tracking-[-0.02em] text-navy">Accessibility</p>
           <div className="mt-3 space-y-4">
             <div>
               <p className="mb-1.5 text-[0.8125rem] font-semibold text-ink-2" id={`${panelId}-text`}>
@@ -104,7 +104,7 @@ export function AccessibilityMenu({ align = "right" }: { align?: "left" | "right
           <Link
             to="/app/settings#accessibility"
             onClick={() => setOpen(false)}
-            className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-royal hover:underline"
+            className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-cobalt-400 hover:underline"
           >
             All settings <ArrowRight className="size-4" aria-hidden />
           </Link>

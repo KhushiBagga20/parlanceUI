@@ -1,6 +1,7 @@
 /**
- * Friendly illustrated people for invitations and empty states: flat shapes,
- * round heads, the Parlance palette. Purely decorative (aria-hidden).
+ * Flat illustrated people: a round head, a bowl of hair, a big bust of
+ * colour. Drawn from simple SVG shapes in the Parlance palette and purely
+ * decorative (aria-hidden).
  *
  * The poses are deliberately not signs. "rest" has the arms down, "wave" is a
  * casual open-hand hello wave, and "hold" holds a phone. Never describe or
@@ -9,16 +10,18 @@
 import { useId } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/cn";
+import { HandShape, type HandColor } from "./Hands";
 
 export type PalPose = "rest" | "wave" | "hold";
 
 const SKIN = { light: "#F6D2B8", medium: "#D9A27A", deep: "#8D5A3B" } as const;
 const OUTFIT = {
-  royal: "#0D21A1",
-  coral: "#FF8A65",
-  mint: "#4CC594",
-  sky: "#5B7FF0",
-  butter: "#FFD56B",
+  cobalt: "#1C4FD8",
+  forest: "#0B7A3E",
+  tangerine: "#FF6A1A",
+  lilac: "#B8A4E6",
+  sun: "#FFC414",
+  bubblegum: "#F59CC4",
   navy: "#011638",
 } as const;
 const HAIR_COLOR = { navy: "#011638", brown: "#4A2C1A", ink: "#141414" } as const;
@@ -39,12 +42,12 @@ function Hair({ style, fill }: { style: NonNullable<PalProps["hair"]>; fill: str
     return (
       <g fill={fill}>
         {[
-          [34, 46, 10],
-          [40, 34, 11],
-          [52, 27, 11],
-          [66, 26, 11],
-          [79, 33, 11],
-          [86, 45, 10],
+          [35, 50, 10],
+          [40, 36, 11],
+          [52, 28, 11.5],
+          [67, 27, 11.5],
+          [80, 35, 11],
+          [85, 49, 10],
         ].map(([cx, cy, r]) => (
           <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} />
         ))}
@@ -53,15 +56,16 @@ function Hair({ style, fill }: { style: NonNullable<PalProps["hair"]>; fill: str
   }
   return (
     <g fill={fill}>
-      <path d="M31.5 55C29 35 42 25 60 25s31 10 28.5 30c-3-7-9-11.5-16-13-6 4.5-17 6.5-28 4.5-6 1.5-10.5 4.5-13 8.5Z" />
-      {style === "bun" && <circle cx="60" cy="22" r="9.5" />}
+      {/* A bowl cut with a straight fringe. */}
+      <path d="M31 60C29 36 42 24 60 24s31 12 29 36c-1-6-3-10-6-13H37c-3 3-5 7-6 13Z" />
+      {style === "bun" && <circle cx="60" cy="19" r="10" />}
     </g>
   );
 }
 
 export function Pal({
   pose = "rest",
-  outfit = "royal",
+  outfit = "cobalt",
   skin = "light",
   hair = "short",
   hairColor = "navy",
@@ -73,43 +77,35 @@ export function Pal({
   const clipId = `pal-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const body = OUTFIT[outfit];
   const tone = SKIN[skin];
+  const handColor: HandColor = skin;
 
   return (
     <svg viewBox="0 0 120 140" aria-hidden className={cn("shrink-0 overflow-visible", className)}>
       <g className={moving ? "animate-bob" : undefined}>
-        {/* body */}
-        <path d="M17 140c0-35 18-55 43-55s43 20 43 55Z" fill={body} />
-        <path d="M49 86.5a11 8 0 0 0 22 0Z" fill={tone} />
-        {pose === "rest" && (
-          <g stroke="#011638" strokeOpacity="0.16" strokeWidth="2" strokeLinecap="round">
-            <path d="M35 112v26M85 112v26" />
-          </g>
-        )}
+        {/* body: one big bust of colour */}
+        <path d="M14 140c0-36 19-56 46-56s46 20 46 56Z" fill={body} />
+        <path d="M50 86c2 7 18 7 20 0Z" fill={tone} />
 
         {/* head */}
-        <circle cx="32.5" cy="58" r="5" fill={tone} />
-        <circle cx="87.5" cy="58" r="5" fill={tone} />
-        <circle cx="60" cy="55" r="27.5" fill={tone} />
+        <circle cx="33" cy="60" r="5" fill={tone} />
+        <circle cx="87" cy="60" r="5" fill={tone} />
+        <circle cx="60" cy="57" r="27" fill={tone} />
         <Hair style={hair} fill={HAIR_COLOR[hairColor]} />
-        <ellipse cx="50.5" cy="57" rx="2.8" ry="3.4" fill="#011638" />
-        <ellipse cx="69.5" cy="57" rx="2.8" ry="3.4" fill="#011638" />
-        <circle cx="44.5" cy="66" r="4" fill="#FF8A65" opacity="0.35" />
-        <circle cx="75.5" cy="66" r="4" fill="#FF8A65" opacity="0.35" />
-        <path d="M53.5 67q6.5 5.5 13 0" fill="none" stroke="#011638" strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="51" cy="61" r="2.9" fill="#011638" />
+        <circle cx="69" cy="61" r="2.9" fill="#011638" />
+        <path d="M55 70q5 4 10 0" fill="none" stroke="#011638" strokeWidth="2.4" strokeLinecap="round" />
 
         {pose === "wave" && (
-          <>
-            <path d="M35 112v26" stroke="#011638" strokeOpacity="0.16" strokeWidth="2" strokeLinecap="round" />
-            {/* A casual hello wave of an open hand, from the shoulder. */}
-            <g
-              className={moving ? "animate-hand-wave" : undefined}
-              style={{ transformBox: "view-box", transformOrigin: "88px 104px" }}
-            >
-              <path d="M87 104 103 74" stroke={body} strokeWidth="13" strokeLinecap="round" />
-              <rect x="97" y="51" width="15" height="20" rx="7.5" fill={tone} />
-              <rect x="93.5" y="61" width="6.5" height="11" rx="3.25" fill={tone} transform="rotate(-32 96.75 66.5)" />
+          /* A casual hello wave of an open hand, from the shoulder. */
+          <g
+            className={moving ? "animate-hand-wave" : undefined}
+            style={{ transformBox: "view-box", transformOrigin: "92px 104px" }}
+          >
+            <path d="M90 108 106 80" stroke={body} strokeWidth="15" strokeLinecap="round" />
+            <g transform="translate(107 78) scale(0.36)">
+              <HandShape color={handColor} />
             </g>
-          </>
+          </g>
         )}
 
         {pose === "hold" && (
@@ -122,12 +118,12 @@ export function Pal({
             <rect x="45" y="91" width="30" height="44" rx="6.5" fill="#011638" />
             <g clipPath={`url(#${clipId})`}>
               <rect x="47" y="93" width="26" height="40" fill="#FFFFFF" />
-              <rect x="50.5" y="99" width="16" height="7.5" rx="3.75" fill="#FFD56B" />
-              <rect x="54" y="110" width="15.5" height="7.5" rx="3.75" fill="#A9E3C8" />
-              <rect x="50.5" y="121" width="11" height="7.5" rx="3.75" fill="#FFC2AA" />
+              <rect x="50.5" y="99" width="16" height="7.5" rx="3.75" fill="#FFC414" />
+              <rect x="54" y="110" width="15.5" height="7.5" rx="3.75" fill="#5DBB80" />
+              <rect x="50.5" y="121" width="11" height="7.5" rx="3.75" fill="#FF6A1A" />
             </g>
-            <circle cx="45.5" cy="115" r="6.5" fill={tone} />
-            <circle cx="74.5" cy="115" r="6.5" fill={tone} />
+            <circle cx="45.5" cy="115" r="7" fill={tone} />
+            <circle cx="74.5" cy="115" r="7" fill={tone} />
           </g>
         )}
       </g>

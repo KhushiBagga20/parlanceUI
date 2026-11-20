@@ -84,8 +84,8 @@ export function HistoryPage() {
         title="History"
         description="Completed translations from both directions, stored only in this browser."
         icon={<HistoryIcon />}
-        tone="sky"
-        illustration={<Pal pose="hold" outfit="mint" skin="medium" hair="bun" className="h-36" />}
+        tone="cobalt"
+        illustration={<Pal pose="hold" outfit="sun" skin="medium" hair="bun" className="h-32" />}
         action={
           entries.length > 0 ? (
             <div className="flex gap-2">
@@ -100,16 +100,16 @@ export function HistoryPage() {
         }
       />
 
-      <div className="mt-5 flex items-start gap-3 rounded-2xl bg-surface px-4 py-3.5 text-sm leading-6 text-ink-2 shadow-xs ring-1 ring-line">
-        <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-sky-100 text-royal" aria-hidden>
+      <div className="mt-5 flex items-start gap-3 rounded-[1.5rem] bg-surface px-4 py-3.5 text-sm leading-6 text-ink-2 ring-1 ring-line">
+        <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-forest-400 text-white" aria-hidden>
           <Lock className="size-3.5" />
         </span>
         <p>
-          <span className="font-semibold text-ink">Retention: {RETENTION_LABELS[retention].toLowerCase()}.</span>{" "}
+          <span className="font-extrabold text-ink">Retention: {RETENTION_LABELS[retention].toLowerCase()}.</span>{" "}
           {retention === "off"
             ? "New translations are not being saved."
             : "Only text is kept. Camera video and audio are never stored."}{" "}
-          <Link to="/app/settings#privacy" className="font-semibold text-royal underline-offset-2 hover:underline">
+          <Link to="/app/settings#privacy" className="font-bold text-navy underline underline-offset-4 hover:text-cobalt-400">
             Change
           </Link>
         </p>
@@ -119,7 +119,7 @@ export function HistoryPage() {
         <Card className="mt-5">
           <EmptyState
             icon={<HistoryIcon />}
-            illustration={<Pal pose="rest" outfit="coral" skin="light" hair="short" hairColor="brown" className="h-28" />}
+            illustration={<Pal pose="rest" outfit="tangerine" skin="light" hair="short" hairColor="brown" className="h-24" />}
             title={retention === "off" ? "History is turned off" : "No translations yet"}
             action={
               <>
@@ -159,7 +159,7 @@ export function HistoryPage() {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search text or gloss"
-                className="h-10 w-full rounded-full border border-line-strong bg-surface pr-4 pl-9 text-sm text-ink shadow-xs placeholder:text-ink-3 focus-visible:border-royal"
+                className="h-11 w-full rounded-full border-2 border-navy bg-surface pr-4 pl-9 text-sm font-semibold text-ink placeholder:text-ink-3 focus-visible:border-cobalt-400"
               />
             </label>
           </div>
@@ -174,7 +174,7 @@ export function HistoryPage() {
             <div className="mt-4 space-y-6">
               {groups.map(([day, items]) => (
                 <section key={day} aria-label={day}>
-                  <h2 className="mb-3 inline-flex items-center rounded-full bg-butter-200 px-3 py-1 text-xs font-bold tracking-[0.06em] text-navy uppercase">{day}</h2>
+                  <h2 className="mb-3 inline-flex items-center rounded-full bg-navy px-3.5 py-1 text-xs font-extrabold tracking-[0.06em] text-white uppercase">{day}</h2>
                   <Card>
                     <ul className="divide-y divide-line">
                       {items.map((entry) => (
@@ -182,8 +182,8 @@ export function HistoryPage() {
                           <span
                             className={
                               entry.direction === "speech-to-sign"
-                                ? "inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-coral-300 text-navy"
-                                : "inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-mint-300 text-navy"
+                                ? "inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-tangerine-400 text-navy"
+                                : "inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-forest-400 text-white"
                             }
                             aria-hidden
                           >
@@ -191,7 +191,7 @@ export function HistoryPage() {
                           </span>
                           <div className="min-w-0 flex-1">
                             <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-ink-3">
-                              <span className={entry.direction === "speech-to-sign" ? "text-coral-800" : "text-mint-800"}>
+                              <span className={entry.direction === "speech-to-sign" ? "text-tangerine-800" : "text-forest-800"}>
                                 {entry.direction === "speech-to-sign" ? (
                                   <DirectionLabel from="Speech" to="Sign" />
                                 ) : (
@@ -203,13 +203,13 @@ export function HistoryPage() {
                               <span aria-hidden>·</span>
                               <time dateTime={new Date(entry.createdAt).toISOString()}>{formatTime(entry.createdAt)}</time>
                             </div>
-                            <p className="mt-1 text-[1.0625rem] leading-7 font-semibold text-ink">{entry.text}</p>
-                            <p className="mt-1 w-fit rounded-full bg-cream px-2.5 py-0.5 text-xs font-bold tracking-[0.05em] text-navy uppercase ring-1 ring-line">
+                            <p className="mt-1 text-[1.125rem] leading-7 font-bold text-ink">{entry.text}</p>
+                            <p className="mt-1.5 w-fit rounded-full bg-paper px-2.5 py-0.5 text-xs font-extrabold tracking-[0.05em] text-navy uppercase">
                               <span className="sr-only">ISL gloss: </span>
                               {entry.gloss}
                             </p>
                             {entry.missing.length > 0 && (
-                              <Badge tone="gold" className="mt-2">
+                              <Badge tone="gold" size="md" className="mt-2">
                                 No sign yet: {entry.missing.join(", ")}
                               </Badge>
                             )}

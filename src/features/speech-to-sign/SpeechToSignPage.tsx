@@ -121,7 +121,7 @@ export function SpeechToSignPage() {
   return (
     <div className="grid gap-3 p-2 sm:gap-4 sm:p-3 lg:h-[calc(100dvh-4rem)] lg:grid-cols-[minmax(0,1fr)_minmax(22rem,27rem)] lg:p-4">
       <h1 className="sr-only">Speech to sign</h1>
-      <div className="h-[min(62svh,36rem)] min-h-[24rem] min-w-0 overflow-hidden rounded-[1.75rem] shadow-card ring-1 ring-line lg:h-auto">
+      <div className="h-[min(64svh,38rem)] min-h-[26rem] min-w-0 overflow-hidden rounded-[2rem] lg:h-auto">
         <SignerStage
           queue={queue}
           loading={signs.status === "loading"}
@@ -131,7 +131,7 @@ export function SpeechToSignPage() {
           onPlayer={setPlayer}
         />
       </div>
-      <div className="min-h-0 rounded-[1.75rem] shadow-card ring-1 ring-line lg:overflow-hidden">
+      <div className="min-h-0 rounded-[2rem] ring-1 ring-line lg:overflow-hidden">
         <ConversationPanel
           exchanges={exchanges}
           activeId={activeId}

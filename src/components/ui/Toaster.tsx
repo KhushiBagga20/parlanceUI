@@ -45,9 +45,9 @@ export const announce = (message: string) => useToastStore.getState().announce(m
 
 const icons = { success: CheckCircle2, info: Info, warning: TriangleAlert };
 const toneStyles = {
-  success: "text-success",
-  info: "text-royal",
-  warning: "text-gold-800",
+  success: "text-forest-300",
+  info: "text-cobalt-300",
+  warning: "text-sun-400",
 };
 
 export function Toaster() {
@@ -70,14 +70,14 @@ export function Toaster() {
             <div
               key={t.id}
               role="status"
-              className="pointer-events-auto flex w-full max-w-sm animate-pop items-center gap-3 rounded-2xl border border-line bg-surface py-2.5 pr-2 pl-3.5 shadow-lg"
+              className="pointer-events-auto flex w-full max-w-sm animate-pop items-center gap-3 rounded-full bg-navy py-2 pr-2 pl-4 text-white shadow-lg"
             >
               <Icon aria-hidden className={cn("size-5 shrink-0", toneStyles[t.tone])} />
-              <p className="flex-1 text-sm font-medium text-ink">{t.message}</p>
+              <p className="flex-1 text-sm font-semibold text-white">{t.message}</p>
               <button
                 type="button"
                 onClick={() => dismiss(t.id)}
-                className="inline-flex size-8 items-center justify-center rounded-full text-ink-3 hover:bg-butter-100 hover:text-navy"
+                className="inline-flex size-8 items-center justify-center rounded-full text-white/70 hover:bg-white/10 hover:text-white focus-visible:outline-gold"
                 aria-label="Dismiss notification"
               >
                 <X className="size-4" aria-hidden />

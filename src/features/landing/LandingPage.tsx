@@ -18,8 +18,8 @@ import { WhyItMatters } from "./WhyItMatters";
 const SECTION_IDS = LANDING_SECTIONS.map((s) => s.id);
 
 const TABS = [
-  { to: "/app/speech-to-sign", label: "Speech → Sign", ariaLabel: "Speech to sign", icon: AudioLines },
-  { to: "/app/sign-to-text", label: "Sign → Text", ariaLabel: "Sign to text", icon: Hand },
+  { to: "/app/speech-to-sign", label: "Speech → Sign", ariaLabel: "Speech to sign", icon: AudioLines, tone: "voice" as const },
+  { to: "/app/sign-to-text", label: "Sign → Text", ariaLabel: "Sign to text", icon: Hand, tone: "hands" as const },
   { to: "#how-it-works", label: "How it works", icon: Workflow },
   { to: "#about", label: "About us", icon: Users },
 ];
@@ -32,7 +32,7 @@ export function LandingPage() {
   const replay = useIntro((s) => s.replay);
 
   return (
-    <div className="min-h-dvh bg-cream" data-intro={phase === "playing" ? "playing" : undefined}>
+    <div className="min-h-dvh bg-paper" data-intro={phase === "playing" ? "playing" : undefined}>
       <SkipLink />
       <IntroScene />
       <SiteHeader active={active} />

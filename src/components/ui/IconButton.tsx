@@ -18,10 +18,10 @@ const sizes = {
 };
 
 const variants = {
-  ghost: "text-ink-2 hover:bg-butter-100 hover:text-navy",
-  outline: "bg-surface text-navy border border-line-strong hover:border-navy/40 hover:bg-butter-50",
-  primary: "bg-royal text-white hover:bg-brand-700",
-  subtle: "bg-sky-100 text-royal hover:bg-sky-200",
+  ghost: "text-ink-2 hover:bg-paper-2 hover:text-navy",
+  outline: "bg-surface text-navy border-2 border-navy/80 hover:bg-sun-100",
+  primary: "bg-cobalt-400 text-white hover:bg-cobalt-500",
+  subtle: "bg-cobalt-100 text-cobalt-800 hover:bg-cobalt-200",
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(

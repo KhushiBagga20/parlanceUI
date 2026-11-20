@@ -43,9 +43,9 @@ export function About() {
 
         <div className="mt-8 grid gap-12 lg:grid-cols-12 lg:gap-x-10">
           <Reveal className="lg:col-span-8">
-            <p className="text-[1.75rem] leading-[1.25] font-medium tracking-[-0.03em] text-navy sm:text-[2.5rem] sm:leading-[1.18]">
+            <p className="text-[1.75rem] leading-[1.2] font-bold tracking-[-0.035em] text-navy sm:text-[2.5rem] sm:leading-[1.12]">
               Parlance pairs the original Parlance interface with the Remy signer. The project is built around one idea:{" "}
-              <span className="box-decoration-clone bg-[linear-gradient(transparent_62%,rgb(238_198_67/0.5)_62%,rgb(238_198_67/0.5)_92%,transparent_92%)] text-royal">
+              <span className="box-decoration-clone bg-[linear-gradient(transparent_60%,var(--color-sun-400)_60%,var(--color-sun-400)_92%,transparent_92%)] text-cobalt-400">
                 two people should be able to take turns on the same screen
               </span>
               , each in
@@ -63,18 +63,18 @@ export function About() {
               {BELIEFS.map(([title, body], i) => {
                 const Icon = BELIEF_ICONS[i]!;
                 return (
-                  <li key={title} className="flex gap-4 rounded-[1.5rem] bg-cream p-5 ring-1 ring-line">
+                  <li key={title} className="flex gap-4 rounded-[1.75rem] bg-paper p-5">
                     <span
                       className={cn(
                         "inline-flex size-10 shrink-0 items-center justify-center rounded-full",
-                        ["bg-coral-100 text-coral-800", "bg-butter-200 text-navy", "bg-mint-100 text-mint-800"][i],
+                        ["bg-tangerine-400 text-navy", "bg-sun-400 text-navy", "bg-forest-400 text-white"][i],
                       )}
                       aria-hidden
                     >
                       <Icon className="size-5" />
                     </span>
                     <div>
-                      <h3 className="text-base font-semibold tracking-[-0.015em]">{title}</h3>
+                      <h3 className="text-base font-extrabold tracking-[-0.02em]">{title}</h3>
                       <p className="mt-1.5 text-[0.9375rem] leading-6 text-ink-2">{body}</p>
                     </div>
                   </li>
@@ -85,7 +85,7 @@ export function About() {
         </div>
 
         {/* The people: the wireframe's "About Us" reveal */}
-        <div className="mt-16 rounded-[2rem] bg-sky-50 px-5 ring-1 ring-sky-200 sm:mt-20 sm:px-8">
+        <div className="mt-16 rounded-[2.25rem] bg-paper px-5 sm:mt-20 sm:px-8">
           <button
             type="button"
             aria-expanded={open}
@@ -94,15 +94,15 @@ export function About() {
             className="group flex w-full items-center justify-between gap-6 py-7 text-left"
           >
             <span>
-              <span className="block text-[1.75rem] leading-tight font-semibold tracking-[-0.035em] text-navy sm:text-[2.25rem]">
+              <span className="block text-[1.75rem] leading-tight font-extrabold tracking-[-0.04em] text-navy sm:text-[2.5rem]">
                 The people who built it
               </span>
               <span className="mt-1 block text-[0.9375rem] text-ink-3">Team APX_GP · The Builder&rsquo;s Theory 1.0</span>
             </span>
             <span
               className={cn(
-                "inline-flex size-12 shrink-0 items-center justify-center rounded-full border transition-colors",
-                open ? "border-royal bg-royal text-white" : "border-sky-300 bg-surface text-royal group-hover:border-royal",
+                "inline-flex size-12 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                open ? "border-navy bg-navy text-white" : "border-navy bg-surface text-navy group-hover:bg-sun-100",
               )}
               aria-hidden
             >
@@ -129,19 +129,19 @@ export function About() {
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.08 + i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                      className="grid grid-cols-[3rem_1fr_auto] items-center gap-4 border-t border-sky-200 py-5 sm:grid-cols-[4rem_3.5rem_1fr_auto] sm:gap-6"
+                      className="grid grid-cols-[3rem_1fr_auto] items-center gap-4 border-t border-line-strong py-5 sm:grid-cols-[4rem_3.5rem_1fr_auto] sm:gap-6"
                     >
-                      <span className="text-sm font-semibold text-royal tabular-nums">{member.slot}</span>
+                      <span className="text-sm font-extrabold text-cobalt-400 tabular-nums">{member.slot}</span>
                       <span
                         aria-hidden
                         className={cn(
                           "hidden size-12 items-center justify-center rounded-full text-sm font-semibold sm:inline-flex",
-                          ["bg-royal text-white", "bg-butter-300 text-navy", "bg-coral-300 text-navy", "bg-mint-300 text-navy", "bg-sky-200 text-navy"][i],
+                          ["bg-cobalt-400 text-white", "bg-sun-400 text-navy", "bg-tangerine-400 text-navy", "bg-forest-400 text-white", "bg-bubblegum-400 text-navy"][i],
                         )}
                       >
                         {initials(member.name)}
                       </span>
-                      <span className="text-[1.375rem] leading-tight font-medium tracking-[-0.025em] text-navy sm:text-[1.75rem]">
+                      <span className="text-[1.375rem] leading-tight font-bold tracking-[-0.03em] text-navy sm:text-[1.75rem]">
                         {member.name}
                       </span>
                       <span className="text-sm text-ink-3">Team APX_GP</span>

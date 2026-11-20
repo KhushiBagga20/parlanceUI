@@ -143,12 +143,12 @@ function Scene({ onReveal, onDone }: { onReveal: () => void; onDone: () => void 
   return (
     <div ref={root} className={leaving ? "pointer-events-none fixed inset-0 z-[80]" : "fixed inset-0 z-[80]"}>
       {/* Behind the rising panel, the page stays hidden. */}
-      {!signing && <div aria-hidden className="absolute inset-0 bg-sky-50" />}
+      {!signing && <div aria-hidden className="absolute inset-0 bg-paper" />}
 
       <div ref={mask} className="absolute inset-0" aria-hidden>
         <div
           ref={panel}
-          className="absolute inset-0 overflow-hidden bg-[radial-gradient(70%_60%_at_50%_44%,#2c44c9_0%,#0d21a1_58%,#0a1a84_100%)]"
+          className="absolute inset-0 overflow-hidden bg-cobalt-400"
           style={{ transform: "translateY(100%)" }}
         >
           <div className="absolute top-5 left-5 flex items-center gap-2.5 sm:top-6 sm:left-8">
