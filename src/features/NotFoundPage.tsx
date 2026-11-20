@@ -10,8 +10,8 @@ export function NotFoundPage() {
   useDocumentTitle("Page not found");
   return (
     <div className="relative flex min-h-dvh flex-col overflow-hidden bg-paper">
-      <Reach side="right" at="18%" tilt={8} hand="bubblegum" sleeve="#0B7A3E" reach="6rem" size="12rem" className="max-md:hidden" />
-      <Reach side="bottom" at="58%" tilt={-10} hand="sun" sleeve="#1C4FD8" reach="7rem" size="12rem" delay={2} className="max-md:hidden" />
+      <Reach side="right" at="18%" tilt={8} hand="bubblegum" sleeve="#3C5A99" reach="6rem" size="12rem" className="max-md:hidden" />
+      <Reach side="bottom" at="58%" tilt={-10} hand="sun" sleeve="#3C5A99" reach="7rem" size="12rem" delay={2} className="max-md:hidden" />
       <header className="container-page flex h-16 items-center">
         <Logo />
       </header>

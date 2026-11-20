@@ -1,30 +1,15 @@
 /**
- * An arched window framed by rainbow rings: concentric bands that rise from
- * the floor, curve over the top and come back down. It frames a standing
- * figure (the 3D signer) with calm, plain space behind the hands and face,
- * where signs must stay legible.
+ * An arched window that frames a standing figure (the 3D signer) with calm,
+ * plain space behind the hands and face, where signs must stay legible.
  *
+ * v6: a single muted mustard band with a fine outline. The rainbow rings now
+ * live only in the site footer. Props are kept for existing call sites.
  * The geometry is measured from the container, so the top stays a true
  * semicircle at any size. Decorative (aria-hidden); children render in the
- * opening. Pill segments can drift along the rings; never under reduced
- * motion, and best left still where signs are being read.
+ * opening.
  */
-import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { GRAIN, RAINBOW, RINGS } from "./RainbowArch";
-
-/* Pills per ring, along the path: [start %, length %, from colour, to colour]. 0 is the left foot, 100 the right. */
-const PILLS: [number, number, string, string][][] = [
-  [[30, 14, RAINBOW.forest, RAINBOW.cobalt], [70, 12, RAINBOW.forest, RAINBOW.forest]],
-  [[40, 13, RAINBOW.bubblegum, RAINBOW.cobalt]],
-  [[22, 10, RAINBOW.tomato, RAINBOW.bubblegum], [62, 13, RAINBOW.bubblegum, RAINBOW.tomato]],
-  [[48, 12, RAINBOW.sun, RAINBOW.tomato]],
-  [[28, 12, RAINBOW.forest, RAINBOW.sun], [74, 10, RAINBOW.tangerine, RAINBOW.tomato]],
-  [[52, 12, RAINBOW.bubblegum, RAINBOW.cobalt]],
-  [[36, 12, RAINBOW.tomato, RAINBOW.bubblegum]],
-  [[58, 12, RAINBOW.sun, RAINBOW.bubblegum]],
-];
 
 interface RainbowWindowProps {
   /** Number of rings, 1 to 8. */
@@ -64,22 +49,9 @@ function closed(w: number, h: number, inset: number) {
   return `${ringPath(w, h, inset)}Z`;
 }
 
-export function RainbowWindow({
-  rings = 5,
-  band = 56,
-  fill,
-  animate = false,
-  offset = 0,
-  className,
-  children,
-  innerClassName,
-}: RainbowWindowProps) {
-  const reduced = useReducedMotion();
-  const raw = useId();
-  const id = `rw-${raw.replace(/[^a-zA-Z0-9_-]/g, "")}`;
+export function RainbowWindow({ band = 56, fill, className, children, innerClassName }: RainbowWindowProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
-  const [visible, setVisible] = useState(true);
 
   useLayoutEffect(() => {
     const node = ref.current;
@@ -92,19 +64,8 @@ export function RainbowWindow({
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const node = ref.current;
-    if (!node || typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver(([entry]) => setVisible(entry?.isIntersecting ?? true));
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   const { w, h } = size;
-  const count = Math.max(1, Math.min(8, rings));
-  const thickness = Math.min(band, w / 4);
-  const rw = thickness / count;
-  const moving = animate && !reduced;
+  const thickness = Math.min(band, w / 4) * 0.5;
   const ready = w > 0 && h > 0;
   const radius = ready ? shape(w, h, thickness).r : 0;
 
@@ -112,76 +73,8 @@ export function RainbowWindow({
     <div ref={ref} className={cn(!/\b(absolute|fixed|sticky)\b/.test(className ?? "") && "relative", className)}>
       {ready && (
         <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden className="absolute inset-0 overflow-hidden">
-          <defs>
-            {Array.from({ length: count }, (_, i) => {
-              const ring = RINGS[(i + offset) % RINGS.length]!;
-              return (
-                <linearGradient key={`b${i}`} id={`${id}-b${i}`} gradientUnits="userSpaceOnUse" x1="0" x2={w} y1="0" y2="0">
-                  <stop offset="0" stopColor={ring.base[0]} />
-                  <stop offset="1" stopColor={ring.base[1]} />
-                </linearGradient>
-              );
-            })}
-            {Array.from({ length: count }, (_, i) =>
-              (PILLS[(i + offset) % PILLS.length] ?? []).map((pill, j) => (
-                <linearGradient key={`p${i}-${j}`} id={`${id}-p${i}-${j}`} gradientUnits="userSpaceOnUse" x1="0" x2={w} y1="0" y2="0">
-                  <stop offset="0" stopColor={pill[2]} />
-                  <stop offset="1" stopColor={pill[3]} />
-                </linearGradient>
-              )),
-            )}
-            <pattern id={`${id}-grain`} width="90" height="90" patternUnits="userSpaceOnUse">
-              <image href={GRAIN} width="90" height="90" />
-            </pattern>
-          </defs>
-
-          {fill && <path d={closed(w, h, thickness)} fill={fill} />}
-
-          {Array.from({ length: count }, (_, i) => {
-            const inset = (i + 0.5) * rw;
-            const d = ringPath(w, h, inset);
-            return (
-              <g key={i}>
-                <path d={d} fill="none" stroke={`url(#${id}-b${i})`} strokeWidth={rw + 0.6} />
-                {(PILLS[(i + offset) % PILLS.length] ?? []).map(([start, length], j) => {
-                  const drift = (i + j) % 2 === 0 ? 6 : -5;
-                  const style: CSSProperties = moving
-                    ? ({
-                        "--o0": `${-start}`,
-                        "--o1": `${-(start + drift)}`,
-                        animationDuration: `${9 + ((i * 3 + j * 5) % 7)}s`,
-                        animationDelay: `${-((i * 1.7 + j) % 5)}s`,
-                        animationPlayState: visible ? "running" : "paused",
-                      } as CSSProperties)
-                    : {};
-                  return (
-                    <path
-                      key={j}
-                      d={d}
-                      pathLength={100}
-                      fill="none"
-                      stroke={`url(#${id}-p${i}-${j})`}
-                      strokeWidth={rw - 0.4}
-                      strokeLinecap="round"
-                      strokeDasharray={`${length} 300`}
-                      strokeDashoffset={-start}
-                      className={moving ? "animate-dash-slide" : undefined}
-                      style={style}
-                    />
-                  );
-                })}
-              </g>
-            );
-          })}
-
-          {/* print grain over the rings only */}
-          <path
-            d={`${closed(w, h, 0)}${closed(w, h, thickness)}`}
-            fillRule="evenodd"
-            fill={`url(#${id}-grain)`}
-            opacity="0.3"
-            style={{ mixBlendMode: "multiply" }}
-          />
+          <path d={`${closed(w, h, 0)}${closed(w, h, thickness)}`} fillRule="evenodd" fill="var(--color-sun-200)" />
+          <path d={closed(w, h, thickness)} fill={fill ?? "var(--color-surface)"} stroke="var(--color-line-strong)" strokeWidth="1.5" />
         </svg>
       )}
       <div

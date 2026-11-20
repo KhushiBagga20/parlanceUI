@@ -16,19 +16,19 @@ export type PalPose = "rest" | "wave" | "hold";
 
 const SKIN = { light: "#F6D2B8", medium: "#D9A27A", deep: "#8D5A3B" } as const;
 const OUTFIT = {
-  cobalt: "#1C4FD8",
-  forest: "#0B7A3E",
-  tangerine: "#FF6A1A",
-  lilac: "#B8A4E6",
-  sun: "#FFC414",
-  bubblegum: "#F59CC4",
-  navy: "#011638",
+  cobalt: "#3C5A99",
+  forest: "#3C5A99",
+  tangerine: "#E3826B",
+  lilac: "#A9B4CC",
+  sun: "#E6C55C",
+  bubblegum: "#E3A797",
+  navy: "#233059",
   /* Muted tones for calm surfaces. */
   slate: "#3D4A6B",
   clay: "#C0714D",
-  sage: "#5E8C76",
+  sage: "#6680B3",
 } as const;
-const HAIR_COLOR = { navy: "#011638", brown: "#4A2C1A", ink: "#141414" } as const;
+const HAIR_COLOR = { navy: "#233059", brown: "#4A2C1A", ink: "#233059" } as const;
 
 interface PalProps {
   pose?: PalPose;
@@ -95,9 +95,9 @@ export function Pal({
         <circle cx="87" cy="60" r="5" fill={tone} />
         <circle cx="60" cy="57" r="27" fill={tone} />
         <Hair style={hair} fill={HAIR_COLOR[hairColor]} />
-        <circle cx="51" cy="61" r="2.9" fill="#011638" />
-        <circle cx="69" cy="61" r="2.9" fill="#011638" />
-        <path d="M55 70q5 4 10 0" fill="none" stroke="#011638" strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="51" cy="61" r="2.9" fill="#233059" />
+        <circle cx="69" cy="61" r="2.9" fill="#233059" />
+        <path d="M55 70q5 4 10 0" fill="none" stroke="#233059" strokeWidth="2.4" strokeLinecap="round" />
 
         {pose === "wave" && (
           /* A casual hello wave of an open hand, from the shoulder. */
@@ -119,12 +119,12 @@ export function Pal({
                 <rect x="47" y="93" width="26" height="40" rx="5" />
               </clipPath>
             </defs>
-            <rect x="45" y="91" width="30" height="44" rx="6.5" fill="#011638" />
+            <rect x="45" y="91" width="30" height="44" rx="6.5" fill="#233059" />
             <g clipPath={`url(#${clipId})`}>
               <rect x="47" y="93" width="26" height="40" fill="#FFFFFF" />
-              <rect x="50.5" y="99" width="16" height="7.5" rx="3.75" fill="#FFC414" />
-              <rect x="54" y="110" width="15.5" height="7.5" rx="3.75" fill="#5DBB80" />
-              <rect x="50.5" y="121" width="11" height="7.5" rx="3.75" fill="#FF6A1A" />
+              <rect x="50.5" y="99" width="16" height="7.5" rx="3.75" fill="#E6C55C" />
+              <rect x="54" y="110" width="15.5" height="7.5" rx="3.75" fill="#8EA0C6" />
+              <rect x="50.5" y="121" width="11" height="7.5" rx="3.75" fill="#E3826B" />
             </g>
             <circle cx="45.5" cy="115" r="7" fill={tone} />
             <circle cx="74.5" cy="115" r="7" fill={tone} />

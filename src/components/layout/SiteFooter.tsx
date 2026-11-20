@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, AudioLines, Camera, Hand, Play, Users, Workflow } from "lucide-react";
+import { RainbowRings } from "@/components/brand/RainbowArch";
+import { SignHands } from "@/components/brand/SignHands";
 import { Logo } from "./Logo";
 
 /** The wireframe's four destinations, as the footer's index. */
@@ -22,38 +24,43 @@ const MORE = [
 export function SiteFooter({ onReplayIntro }: { onReplayIntro?: () => void }) {
   return (
     <footer>
-      {/* A last, quiet invitation with both ways in */}
-      <section aria-labelledby="footer-cta" className="bg-surface py-20 sm:py-24">
-        <div className="container-wide">
-          <div className="grid items-center gap-8 rounded-[2rem] border border-line bg-paper-50 px-6 py-10 sm:px-12 sm:py-14 lg:grid-cols-[minmax(0,1fr)_auto]">
-            <div className="max-w-xl">
-              <h2 id="footer-cta" className="text-section">
-                Start a conversation.
-              </h2>
-              <p className="mt-4 text-[1.0625rem] leading-7 text-ink-2">
-                Choose the side you&rsquo;re on. Both directions run in your browser, with no account. For anything
-                consequential, such as a diagnosis or consent, book a qualified ISL interpreter.
-              </p>
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-              <Link
-                to="/app/speech-to-sign"
-                className="press inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-navy px-6 text-[0.9375rem] font-semibold text-white hover:bg-cobalt-500"
-              >
-                <AudioLines className="size-[1.125rem]" aria-hidden />
-                Speech <span aria-hidden>→</span>
-                <span className="sr-only">to</span> Sign
-                <ArrowRight className="size-4" aria-hidden />
-              </Link>
-              <Link
-                to="/app/sign-to-text"
-                className="press inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-line-strong bg-surface px-6 text-[0.9375rem] font-semibold text-navy hover:border-navy/40"
-              >
-                <Camera className="size-[1.125rem]" aria-hidden />
-                Sign <span aria-hidden>→</span>
-                <span className="sr-only">to</span> Text
-                <ArrowRight className="size-4" aria-hidden />
-              </Link>
+      {/* A last invitation with both ways in. The rainbow lives only here. */}
+      <section aria-labelledby="footer-cta" className="pt-24 sm:pt-32">
+        <div className="container-wide flex flex-col items-center gap-5 text-center">
+          <p className="font-mono text-[0.78rem] tracking-[0.14em] text-ink-2 uppercase">Ready when you are</p>
+          <h2 id="footer-cta" className="text-section">
+            Let&rsquo;s talk <em>with our hands.</em>
+          </h2>
+          <p className="max-w-xl text-[1.0625rem] leading-7 text-ink-2">
+            Choose the side you&rsquo;re on. Both directions run in your browser, with no account. For anything
+            consequential, such as a diagnosis or consent, book a qualified ISL interpreter.
+          </p>
+          <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/app/speech-to-sign"
+              className="press inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-navy px-6 text-[0.9375rem] font-semibold text-white hover:bg-cobalt-500"
+            >
+              <AudioLines className="size-[1.125rem]" aria-hidden />
+              Speech <span aria-hidden>→</span>
+              <span className="sr-only">to</span> Sign
+              <ArrowRight className="size-4" aria-hidden />
+            </Link>
+            <Link
+              to="/app/sign-to-text"
+              className="press inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-navy bg-transparent px-6 text-[0.9375rem] font-semibold text-navy hover:bg-surface"
+            >
+              <Camera className="size-[1.125rem]" aria-hidden />
+              Sign <span aria-hidden>→</span>
+              <span className="sr-only">to</span> Text
+              <ArrowRight className="size-4" aria-hidden />
+            </Link>
+          </div>
+        </div>
+        <div className="relative mx-auto mt-14 w-full max-w-[980px] px-4 sm:px-8" aria-hidden>
+          <RainbowRings rings={7} opening={0.56} className="w-full" />
+          <div className="absolute inset-x-0 bottom-0 flex justify-center">
+            <div className="animate-float">
+              <SignHands letter="HELLO" size="clamp(200px, 30vw, 340px)" sleeve="var(--color-tomato-400)" />
             </div>
           </div>
         </div>

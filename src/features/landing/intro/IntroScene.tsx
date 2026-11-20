@@ -188,7 +188,7 @@ function Scene({ onReveal, onDone }: { onReveal: () => void; onDone: () => void 
       </div>
 
       <svg aria-hidden className="pointer-events-none absolute inset-0 size-full">
-        <circle ref={rim} r="0" fill="none" stroke="#EEC643" strokeWidth="3" style={{ opacity: 0 }} />
+        <circle ref={rim} r="0" fill="none" stroke="#E6C55C" strokeWidth="3" style={{ opacity: 0 }} />
       </svg>
 
       <button

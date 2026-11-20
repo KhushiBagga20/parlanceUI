@@ -73,7 +73,7 @@ const HAND_CONNECTIONS: [number, number][] = [
   [0, 17],
 ];
 /** Left and right hand, in Parlance royal blue and gold. */
-const HAND_COLOURS = ["#0D21A1", "#EEC643"];
+const HAND_COLOURS = ["#0D21A1", "#E6C55C"];
 
 export function useCameraTracking({ onVector, sending, showLandmarks, cameraId, onCameraMissing }: Options): CameraTracking {
   const videoRef = useRef<HTMLVideoElement>(null);

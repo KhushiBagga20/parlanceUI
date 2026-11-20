@@ -65,7 +65,7 @@ function SignVignette() {
         <Pal pose="rest" outfit="sage" skin="deep" hair="bun" className="h-28 sm:h-32" />
         {/* camera framing corners */}
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute -inset-2 size-[calc(100%+1rem)]" fill="none">
-          <path d="M3 18V8a5 5 0 0 1 5-5h10M97 18V8a5 5 0 0 0-5-5H82M3 82v10a5 5 0 0 0 5 5h10M97 82v10a5 5 0 0 1-5 5H82" stroke="#565D6E" strokeWidth="2" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+          <path d="M3 18V8a5 5 0 0 1 5-5h10M97 18V8a5 5 0 0 0-5-5H82M3 82v10a5 5 0 0 0 5 5h10M97 82v10a5 5 0 0 1-5 5H82" stroke="#64687F" strokeWidth="2" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
         </svg>
       </div>
       <ArrowRight className="mb-12 size-5 shrink-0 text-ink-3" />

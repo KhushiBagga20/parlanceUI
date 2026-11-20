@@ -11,12 +11,12 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/cn";
 
 export const HAND_COLORS = {
-  sun: { fill: "#FFC414", shade: "#E0A500" },
-  bubblegum: { fill: "#F59CC4", shade: "#E27BAA" },
-  cobalt: { fill: "#1C4FD8", shade: "#1640B3" },
-  tangerine: { fill: "#FF6A1A", shade: "#E0540A" },
-  lilac: { fill: "#B8A4E6", shade: "#9C86D6" },
-  white: { fill: "#FFFFFF", shade: "#E2DDD3" },
+  sun: { fill: "#E6C55C", shade: "#C9A640" },
+  bubblegum: { fill: "#E3A797", shade: "#CF8A7C" },
+  cobalt: { fill: "#3C5A99", shade: "#33508A" },
+  tangerine: { fill: "#E3826B", shade: "#CF6150" },
+  lilac: { fill: "#A9B4CC", shade: "#8E99B8" },
+  white: { fill: "#FFFFFF", shade: "#E0D6C3" },
   light: { fill: "#F6D2B8", shade: "#E3B697" },
   medium: { fill: "#D9A27A", shade: "#C48A62" },
   deep: { fill: "#8D5A3B", shade: "#76492E" },
@@ -56,7 +56,7 @@ interface ArmProps {
 }
 
 /** A sleeved forearm with a hand, wrist at (0, 0), pointing up. */
-export function ArmShape({ hand = "sun", sleeve = "#1C4FD8", cuff = "#FFFFFF", length = 220 }: ArmProps) {
+export function ArmShape({ hand = "sun", sleeve = "#3C5A99", cuff = "#FFFFFF", length = 220 }: ArmProps) {
   return (
     <g>
       <rect x="-21" y="4" width="42" height={length} rx="10" fill={sleeve} />
@@ -150,7 +150,7 @@ interface WavingHandProps {
 }
 
 /** A single flat hand with a short cuff, as an inline graphic. */
-export function WavingHand({ color = "sun", cuff = "#1C4FD8", motion = "wave", className, style }: WavingHandProps) {
+export function WavingHand({ color = "sun", cuff = "#3C5A99", motion = "wave", className, style }: WavingHandProps) {
   const reduced = useReducedMotion();
   const anim = reduced || motion === "still" ? undefined : motion === "wave" ? "animate-hand-wave" : "animate-hand-bounce";
   return (

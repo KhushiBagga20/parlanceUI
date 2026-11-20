@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, AudioLines, Hand, History, LifeBuoy, Menu, Settings, X } from "lucide-react";
+import { ArrowUpRight, AudioLines, GraduationCap, Hand, History, LifeBuoy, Menu, Settings, X } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { AccessibilityMenu } from "./AccessibilityMenu";
@@ -8,6 +8,7 @@ import { Logo } from "./Logo";
 
 export const LANDING_SECTIONS = [
   { id: "how-it-works", label: "How it works" },
+  { id: "try-it", label: "Try it" },
   { id: "why-it-matters", label: "Why it matters" },
   { id: "about", label: "About" },
 ] as const;
@@ -15,6 +16,7 @@ export const LANDING_SECTIONS = [
 const APP_LINKS = [
   { to: "/app/speech-to-sign", label: "Speech to sign", icon: AudioLines },
   { to: "/app/sign-to-text", label: "Sign to text", icon: Hand },
+  { to: "/app/learn", label: "Learn the alphabet", icon: GraduationCap },
   { to: "/app/history", label: "History", icon: History },
   { to: "/app/settings", label: "Settings", icon: Settings },
   { to: "/app/help", label: "Help and limits", icon: LifeBuoy },

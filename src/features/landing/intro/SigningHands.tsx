@@ -284,7 +284,7 @@ interface SigningHandsProps {
   gap?: string;
 }
 
-export function SigningHands({ gloss, playing, speed = 1, from = 0, to = Infinity, onReady, onEnd, className, gap = "#011638" }: SigningHandsProps) {
+export function SigningHands({ gloss, playing, speed = 1, from = 0, to = Infinity, onReady, onEnd, className, gap = "#233059" }: SigningHandsProps) {
   const [data, setData] = useState<Prepared | null>(null);
   const [{ pos, trail }, setPlayhead] = useState<{ pos: number; trail: P[] }>({ pos: 0, trail: [] });
   const cb = useRef({ onReady, onEnd });
@@ -360,14 +360,14 @@ export function SigningHands({ gloss, playing, speed = 1, from = 0, to = Infinit
             y1={trail[i]![1]}
             x2={pt[0]}
             y2={pt[1]}
-            stroke="#EEC643"
+            stroke="#E6C55C"
             strokeOpacity={((i + 1) / trail.length) * 0.9}
             strokeWidth={0.4 + ((i + 1) / trail.length) * 1.4}
           />
         ))}
       </g>
       {hands.map(({ h, pose }) => (
-        <Hand key={h} id={`hand-${h}`} hand={pose} size={data!.size[h]} gap={gap} fill={h === data?.lead ? "#F7FAFF" : "#C7D9FF"} />
+        <Hand key={h} id={`hand-${h}`} hand={pose} size={data!.size[h]} gap={gap} fill={h === data?.lead ? "#F8F3EA" : "#CBD4E6"} />
       ))}
     </svg>
   );

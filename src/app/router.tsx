@@ -3,12 +3,15 @@ import { AppShell } from "./AppShell";
 import { PageLoader } from "./PageLoader";
 import { RootLayout } from "./RootLayout";
 import { RouteError } from "./RouteError";
+import { routeGate, shouldGate } from "./routeGate";
 
 /* Every page is its own chunk: the landing page never downloads MediaPipe,
    and the camera workspace never downloads the landing illustrations. */
 export const router = createBrowserRouter([
   {
     Component: RootLayout,
+    loader: routeGate,
+    shouldRevalidate: shouldGate,
     ErrorBoundary: RouteError,
     HydrateFallback: PageLoader,
     children: [
@@ -40,6 +43,10 @@ export const router = createBrowserRouter([
           {
             path: "settings",
             lazy: async () => ({ Component: (await import("@/features/settings/SettingsPage")).SettingsPage }),
+          },
+          {
+            path: "learn",
+            lazy: async () => ({ Component: (await import("@/features/learn/LearnPage")).LearnPage }),
           },
           {
             path: "help",

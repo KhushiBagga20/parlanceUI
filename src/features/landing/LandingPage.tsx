@@ -6,12 +6,8 @@ import { SkipLink } from "@/components/layout/SkipLink";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { useHashScroll } from "@/hooks/useHashScroll";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
-import { IntroScene } from "./intro/IntroScene";
-import { useIntro } from "./intro/introState";
 import { About } from "./About";
-import { Directions } from "./Directions";
-import { Hero } from "./Hero";
-import { HowItWorks } from "./HowItWorks";
+import { HandsHero, HowItWorksCards, PhraseMarquee, PhrasePosters, SpellYourName, TwoWays } from "./HandsLanding";
 import { WhyItMatters } from "./WhyItMatters";
 
 const SECTION_IDS = LANDING_SECTIONS.map((s) => s.id);
@@ -23,26 +19,27 @@ const TABS = [
   { to: "#about", label: "About us", icon: Users },
 ];
 
+/* The first-visit welcome now lives in app/RouteTransition (a wave, then "HI"). */
 export function LandingPage() {
   useDocumentTitle(null);
   const active = useScrollSpy(SECTION_IDS);
   useHashScroll();
-  const phase = useIntro((s) => s.phase);
-  const replay = useIntro((s) => s.replay);
 
   return (
-    <div className="min-h-dvh bg-paper-50" data-intro={phase === "playing" ? "playing" : undefined}>
+    <div className="min-h-dvh overflow-x-clip bg-paper">
       <SkipLink />
-      <IntroScene />
       <SiteHeader active={active} />
       <main id="main" tabIndex={-1} className="outline-none">
-        <Hero />
-        <Directions />
-        <HowItWorks />
+        <HandsHero />
+        <PhraseMarquee />
+        <HowItWorksCards />
+        <SpellYourName />
+        <PhrasePosters />
+        <TwoWays />
         <WhyItMatters />
         <About />
       </main>
-      <SiteFooter onReplayIntro={replay} />
+      <SiteFooter />
       <MobileTabBar items={TABS} label="Quick navigation" activeAnchor={active} />
     </div>
   );

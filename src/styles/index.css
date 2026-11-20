@@ -1,8 +1,18 @@
 @import "tailwindcss";
-@import "@fontsource-variable/geist";
+@import "@fontsource-variable/bricolage-grotesque/standard.css";
+@import "@fontsource-variable/manrope";
+@import "@fontsource/dm-mono/400.css";
+@import "@fontsource/dm-mono/500.css";
 
 /* ---------------------------------------------------------------------------
-   Parlance design tokens · "Rainbow" (v5)
+   Parlance design tokens · "Warm paper" (v6, from the warm-paper redesign)
+   Warm cream paper, muted cobalt / mustard / terracotta, Bricolage Grotesque
+   headings, Manrope body, DM Mono labels. The token names below are kept from
+   v5 so every component picks up the new palette without code changes:
+     tangerine → terracotta (Speech → Sign), forest → cobalt blue (Sign → Text),
+     cobalt → deep navy blue (actions), sun → mustard ("now").
+
+   Previous header, for reference: "Rainbow" (v5)
    Flat shapes on warm paper. Concentric arcs (the two-voices motif, grown
    into a rainbow), pill segments, bold saturated colour and a fine print
    grain. No soft drop shadows: depth comes from colour and overlap.
@@ -14,108 +24,111 @@
    Tomato is decorative only; errors use the danger tokens with an icon.
    ------------------------------------------------------------------------- */
 @theme {
-  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 
   /* Brand */
-  --color-navy: #011638;
-  --color-royal: #1c4fd8;
-  --color-ice: #eff0f2;
-  --color-gold: #ffc414;
-  --color-ink: #141414;
+  --color-navy: #233059;
+  --color-royal: #3c5a99;
+  --color-ice: #f4ede0;
+  --color-gold: #e6c55c;
+  --color-ink: #233059;
 
   /* The rainbow */
-  --color-cobalt-50: #eef2fd;
-  --color-cobalt-100: #dce5fb;
-  --color-cobalt-200: #b5c7f5;
-  --color-cobalt-300: #7d9bec;
-  --color-cobalt-400: #1c4fd8;
-  --color-cobalt-500: #1640b3;
-  --color-cobalt-800: #12348f;
+  --color-cobalt-50: #eceef4;
+  --color-cobalt-100: #d9dde9;
+  --color-cobalt-200: #b4bcd3;
+  --color-cobalt-300: #7f8bb0;
+  --color-cobalt-400: #2f3f73;
+  --color-cobalt-500: #263460;
+  --color-cobalt-800: #1d284d;
 
-  --color-forest-50: #eaf6ee;
-  --color-forest-100: #d3eedc;
-  --color-forest-200: #a6dcb9;
-  --color-forest-300: #5dbb80;
-  --color-forest-400: #0b7a3e;
-  --color-forest-500: #096532;
-  --color-forest-800: #075a2d;
+  --color-forest-50: #eef1f7;
+  --color-forest-100: #dde3ef;
+  --color-forest-200: #bcc8df;
+  --color-forest-300: #8ea0c6;
+  --color-forest-400: #3c5a99;
+  --color-forest-500: #33508a;
+  --color-forest-800: #2a4275;
 
-  --color-tangerine-50: #fff2ea;
-  --color-tangerine-100: #ffe2d0;
-  --color-tangerine-200: #ffc3a0;
-  --color-tangerine-300: #ff9a5e;
-  --color-tangerine-400: #ff6a1a;
-  --color-tangerine-800: #a33b00;
+  --color-tangerine-50: #fbefe9;
+  --color-tangerine-100: #f6dcd2;
+  --color-tangerine-200: #eebcab;
+  --color-tangerine-300: #e69a85;
+  --color-tangerine-400: #e3826b;
+  --color-tangerine-800: #8f3a2b;
 
-  --color-sun-50: #fff9e3;
-  --color-sun-100: #fff0bd;
-  --color-sun-200: #ffe27a;
-  --color-sun-300: #ffd23f;
-  --color-sun-400: #ffc414;
-  --color-sun-800: #6b4e00;
+  --color-sun-50: #fbf5e2;
+  --color-sun-100: #f6e9bf;
+  --color-sun-200: #efd88f;
+  --color-sun-300: #eacf74;
+  --color-sun-400: #e6c55c;
+  --color-sun-800: #6b5418;
 
-  --color-bubblegum-100: #fde3ee;
-  --color-bubblegum-200: #fac4dc;
-  --color-bubblegum-400: #f59cc4;
+  --color-bubblegum-100: #f6e2dc;
+  --color-bubblegum-200: #efcfc5;
+  --color-bubblegum-400: #e3a797;
 
-  --color-tomato-100: #fddcda;
-  --color-tomato-400: #f0322b;
-  --color-tomato-800: #a3150f;
+  --color-tomato-100: #f6dcd6;
+  --color-tomato-400: #cf6150;
+  --color-tomato-800: #8f3a2b;
 
-  --color-lilac-100: #ece6fa;
-  --color-lilac-400: #b8a4e6;
+  --color-lilac-100: #e6e9f0;
+  --color-lilac-400: #a9b4cc;
 
   /* Older scales, kept for the motion diagrams and intro, retuned to cobalt. */
-  --color-brand-25: #f5f7fe;
-  --color-brand-50: #eef2fd;
-  --color-brand-100: #dce5fb;
-  --color-brand-200: #b5c7f5;
-  --color-brand-300: #7d9bec;
-  --color-brand-400: #4d73e2;
-  --color-brand-500: #2a5bdc;
-  --color-brand-600: #1c4fd8;
-  --color-brand-700: #1640b3;
-  --color-brand-800: #12348f;
-  --color-brand-900: #011638;
+  --color-brand-25: #f6f7fa;
+  --color-brand-50: #eef1f7;
+  --color-brand-100: #dde3ef;
+  --color-brand-200: #bcc8df;
+  --color-brand-300: #8ea0c6;
+  --color-brand-400: #6680b3;
+  --color-brand-500: #4b68a6;
+  --color-brand-600: #3c5a99;
+  --color-brand-700: #33508a;
+  --color-brand-800: #2a4275;
+  --color-brand-900: #233059;
 
-  --color-sky-25: #f5f7fe;
-  --color-sky-50: #eef2fd;
-  --color-sky-100: #dce5fb;
-  --color-sky-200: #c9d7f8;
-  --color-sky-300: #b5c7f5;
-  --color-sky-400: #7d9bec;
-  --color-sky-500: #4d73e2;
+  --color-sky-25: #f6f7fa;
+  --color-sky-50: #eef1f7;
+  --color-sky-100: #dde3ef;
+  --color-sky-200: #cbd4e6;
+  --color-sky-300: #bcc8df;
+  --color-sky-400: #8ea0c6;
+  --color-sky-500: #6680b3;
 
-  --color-gold-50: #fff9e3;
-  --color-gold-100: #fff0bd;
-  --color-gold-200: #ffe27a;
-  --color-gold-300: #ffd23f;
-  --color-gold-400: #ffc414;
-  --color-gold-800: #6b4e00;
+  --color-gold-50: #fbf5e2;
+  --color-gold-100: #f6e9bf;
+  --color-gold-200: #efd88f;
+  --color-gold-300: #eacf74;
+  --color-gold-400: #e6c55c;
+  --color-gold-800: #6b5418;
 
   /* Paper and neutrals */
-  --color-paper: #efece6;
-  --color-paper-2: #e6e1d8;
-  --color-paper-50: #f7f5f1;
-  --color-canvas: #efece6;
-  --color-surface: #ffffff;
-  --color-subtle: #f7f5f1;
-  --color-line: #e2ddd3;
-  --color-line-soft: #ece8e0;
-  --color-line-strong: #cbc4b6;
-  --color-stage: #e6e1d8;
-  --color-stage-2: #f7f5f1;
-  --color-ink-2: #3a4050;
-  --color-ink-3: #565d6e;
+  --font-display: "Bricolage Grotesque Variable", "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --color-paper: #f4ede0;
+  --color-paper-2: #ebe2d1;
+  --color-paper-50: #f8f3ea;
+  --color-canvas: #f4ede0;
+  --color-surface: #fffaf2;
+  --color-subtle: #f8f3ea;
+  --color-line: #e0d6c3;
+  --color-line-soft: #e9e1d1;
+  --color-line-strong: #cdbfa6;
+  --color-stage: #ebe2d1;
+  --color-stage-2: #f8f3ea;
+  --color-ink-2: #4a5478;
+  --color-ink-3: #64687f;
 
   /* Status (always paired with an icon and text, never colour alone) */
-  --color-success: #0b6b37;
-  --color-success-bg: #d3eedc;
-  --color-danger: #b42318;
-  --color-danger-bg: #fddcda;
-  --color-warning: #6b4e00;
-  --color-warning-bg: #fff0bd;
+  --color-success: #2f6b47;
+  --color-success-bg: #dfeadf;
+  --color-danger: #a8382b;
+  --color-danger-bg: #f6dcd6;
+  --color-warning: #6b5418;
+  --color-warning-bg: #f6e9bf;
 
   --radius-xs: 6px;
   --radius-sm: 10px;
@@ -126,11 +139,11 @@
   --radius-3xl: 32px;
 
   /* Flat by default. Only floating things (menus, toasts, dialogs) lift. */
-  --shadow-xs: 0 1px 0 rgb(1 22 56 / 0.06);
-  --shadow-sm: 0 1px 0 rgb(1 22 56 / 0.08);
-  --shadow-md: 0 2px 0 rgb(1 22 56 / 0.08), 0 12px 28px -18px rgb(1 22 56 / 0.3);
-  --shadow-lg: 0 2px 0 rgb(1 22 56 / 0.08), 0 24px 48px -24px rgb(1 22 56 / 0.4);
-  --shadow-float: 0 2px 0 rgb(1 22 56 / 0.1), 0 18px 40px -20px rgb(1 22 56 / 0.5);
+  --shadow-xs: 0 1px 0 rgb(35 48 89 / 0.06);
+  --shadow-sm: 0 1px 0 rgb(35 48 89 / 0.08);
+  --shadow-md: 0 2px 0 rgb(35 48 89 / 0.08), 0 12px 28px -18px rgb(35 48 89 / 0.3);
+  --shadow-lg: 0 2px 0 rgb(35 48 89 / 0.08), 0 24px 48px -24px rgb(35 48 89 / 0.4);
+  --shadow-float: 0 2px 0 rgb(35 48 89 / 0.1), 0 18px 40px -20px rgb(35 48 89 / 0.5);
   --shadow-card: none;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -199,9 +212,9 @@
   }
 
   @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgb(180 35 24 / 0.38); }
-    70% { box-shadow: 0 0 0 10px rgb(180 35 24 / 0); }
-    100% { box-shadow: 0 0 0 0 rgb(180 35 24 / 0); }
+    0% { box-shadow: 0 0 0 0 rgb(168 56 43 / 0.38); }
+    70% { box-shadow: 0 0 0 10px rgb(168 56 43 / 0); }
+    100% { box-shadow: 0 0 0 0 rgb(168 56 43 / 0); }
   }
   @keyframes marquee {
     from { transform: translateX(0); }
@@ -266,7 +279,6 @@
     background: var(--color-canvas);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv01";
     font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -277,9 +289,12 @@
   *, *::before, *::after { font-style: normal !important; }
   em, i, cite, address, dfn, var { font-style: normal; }
   em { font-weight: 600; }
+  :is(h1, h2, h3) em { font-weight: inherit; color: var(--color-tomato-400); }
 
   h1, h2, h3, h4 {
     color: var(--color-navy);
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
     letter-spacing: -0.025em;
     text-wrap: balance;
   }
@@ -328,6 +343,7 @@
 }
 
 @utility text-display {
+  font-family: var(--font-display);
   font-size: clamp(3rem, 6.4vw, 6.25rem);
   line-height: 0.96;
   font-weight: 700;
@@ -337,6 +353,7 @@
 /* The landing headline: confident but not shouty. Wraps rather than clips
    from 320px phones and at 400% zoom. */
 @utility text-hero {
+  font-family: var(--font-display);
   font-size: clamp(2.375rem, 8.4vw, 4.25rem);
   line-height: 1.02;
   font-weight: 700;
@@ -345,6 +362,7 @@
 }
 
 @utility text-section {
+  font-family: var(--font-display);
   font-size: clamp(2rem, 3.6vw, 3.25rem);
   line-height: 1.05;
   font-weight: 700;
@@ -352,6 +370,7 @@
 }
 
 @utility text-statement {
+  font-family: var(--font-display);
   font-size: clamp(1.375rem, 2.2vw, 2rem);
   line-height: 1.25;
   font-weight: 600;
@@ -369,8 +388,8 @@
 
 @utility hairline-grid {
   background-image:
-    linear-gradient(to right, rgb(1 22 56 / 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(1 22 56 / 0.045) 1px, transparent 1px);
+    linear-gradient(to right, rgb(35 48 89 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(35 48 89 / 0.045) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
@@ -381,8 +400,8 @@
 
 @utility grid-paper {
   background-image:
-    linear-gradient(to right, rgb(13 33 161 / 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(13 33 161 / 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgb(60 90 153 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(60 90 153 / 0.05) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
@@ -451,3 +470,170 @@ html[data-motion="full"] { scroll-behavior: smooth; }
 }
 .avatar-canvas { cursor: grab; }
 .avatar-canvas:active { cursor: grabbing; }
+
+/* ------------------------------------------------ fingerspelling hands --
+   <SignHands> (components/brand/SignHands.tsx). Pose comes from CSS custom
+   properties set by lib/fingerspell, so letters change by transition only.
+   Smooth ease-out, no overshoot, no per-letter pop: it keeps two-hand moves
+   from wobbling. */
+.sign-hands {
+  --hand-ease: cubic-bezier(0.33, 1, 0.68, 1);
+  --hand-fill: var(--color-surface);
+  --hand-ink: var(--color-navy);
+  --hand-sleeve: var(--color-royal);
+  width: var(--hand-size);
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.sh-scene {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  transform: translate(var(--sx), var(--sy)) scale(var(--ss));
+  transition: transform 0.5s var(--hand-ease);
+}
+.sign-hands--crop .sh-scene { transform: none; }
+.sh-hand {
+  transform-box: view-box;
+  transform-origin: 100px 168px;
+  transition: transform 0.5s var(--hand-ease), opacity 0.3s ease;
+}
+.sh-hand[data-h="b"] {
+  --hand-fill-h: color-mix(in srgb, var(--hand-fill) 84%, var(--hand-ink));
+  transform: translate(var(--bx), var(--by)) rotate(var(--brot)) scale(-1, 1);
+  opacity: var(--bo);
+}
+.sh-hand[data-h="d"] {
+  transform: translate(var(--dx), var(--dy)) rotate(var(--drot));
+  opacity: var(--do);
+}
+.sh-inner { transform-box: view-box; transform-origin: 100px 230px; }
+.sh-digit {
+  transform-box: view-box;
+  transform-origin: var(--ox) var(--oy);
+  transform: rotate(var(--r));
+  transition: transform 0.45s var(--hand-ease);
+}
+[data-h="b"] [data-d="t"] { --e: var(--bte); --r: var(--btr); }
+[data-h="b"] [data-d="i"] { --e: var(--bie); --r: var(--bir); }
+[data-h="b"] [data-d="m"] { --e: var(--bme); --r: var(--bmr); }
+[data-h="b"] [data-d="r"] { --e: var(--bre); --r: var(--brr); }
+[data-h="b"] [data-d="p"] { --e: var(--bpe); --r: var(--bpr); }
+[data-h="d"] [data-d="t"] { --e: var(--dte); --r: var(--dtr); }
+[data-h="d"] [data-d="i"] { --e: var(--die); --r: var(--dir); }
+[data-h="d"] [data-d="m"] { --e: var(--dme); --r: var(--dmr); }
+[data-h="d"] [data-d="r"] { --e: var(--dre); --r: var(--drr); }
+[data-h="d"] [data-d="p"] { --e: var(--dpe); --r: var(--dpr); }
+.sh-digit line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: var(--e) 3;
+  transition: stroke-dasharray 0.42s var(--hand-ease);
+}
+.sh-digit .o { stroke: var(--hand-ink); stroke-width: 25; }
+.sh-digit .n { stroke: var(--hand-fill); stroke-width: 18; }
+.sh-thumb .o { stroke-width: 27; }
+.sh-thumb .n { stroke-width: 20; }
+.sh-palm { fill: var(--hand-fill); stroke: var(--hand-ink); stroke-width: 3.5; stroke-linejoin: round; }
+[data-h="b"] .sh-digit .n { stroke: var(--hand-fill-h); }
+[data-h="b"] .sh-palm { fill: var(--hand-fill-h); }
+.sh-crease, .sh-cuff { fill: none; stroke: var(--hand-ink); stroke-width: 3; stroke-linecap: round; opacity: 0.35; }
+.sh-cuff { opacity: 0.5; }
+.sh-sleeve { fill: var(--hand-sleeve); stroke: var(--hand-ink); stroke-width: 3.5; }
+.sh-marks { transform: translate(var(--mx), var(--my)); }
+.sh-motion {
+  fill: none;
+  stroke: var(--color-tomato-400);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.sh-motion path[pathLength] { stroke-dasharray: 1 1; stroke-dashoffset: 1; }
+.sign-hands[data-motion="j"] [data-for="j"],
+.sign-hands[data-motion="z"] [data-for="z"],
+.sign-hands[data-motion="brush"] [data-for="brush"],
+.sign-hands[data-motion="circle"] [data-for="circle"],
+.sign-hands[data-motion="wave"] [data-for="wave"] { opacity: 1; }
+.sign-hands[data-motion="j"] [data-for="j"] path[pathLength],
+.sign-hands[data-motion="z"] [data-for="z"] path[pathLength],
+.sign-hands[data-motion="brush"] [data-for="brush"] path[pathLength],
+.sign-hands[data-motion="circle"] [data-for="circle"] path[pathLength],
+.sign-hands[data-motion="wave"] [data-for="wave"] path[pathLength] {
+  animation: sh-draw 0.7s 0.2s ease forwards;
+}
+.sign-hands[data-motion="wave"] [data-h="d"] .sh-inner { animation: sh-wave 1.1s ease-in-out infinite; }
+@keyframes sh-draw { to { stroke-dashoffset: 0; } }
+@keyframes sh-wave {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(12deg); }
+}
+
+.sh-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.sh-tile {
+  width: 2.2em;
+  height: 2.6em;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1.5px solid var(--color-line-strong);
+  background: rgb(255 250 242 / 0.6);
+  color: var(--color-navy);
+  transition: transform 0.3s var(--ease-out-soft), background 0.25s, color 0.25s, border-color 0.25s;
+}
+.sh-tile.is-space { width: 1em; border-color: transparent; background: none; }
+.sh-tile.is-on { background: var(--color-navy); color: var(--color-surface); border-color: var(--color-navy); transform: translateY(-4px); }
+.sh-tile.is-done { color: var(--color-ink-3); }
+
+/* ---------------------------------------------- page-change overlay -- */
+.rt {
+  --x: 50%;
+  --y: 50%;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  background: var(--color-paper-2);
+  clip-path: circle(0% at var(--x) var(--y));
+  pointer-events: none;
+  visibility: hidden;
+}
+.rt[data-phase="in"] {
+  visibility: visible;
+  pointer-events: auto;
+  clip-path: circle(150% at var(--x) var(--y));
+  transition: clip-path 0.6s var(--ease-out-soft);
+}
+.rt[data-phase="out"] {
+  visibility: visible;
+  clip-path: circle(0% at 50% 46%);
+  transition: clip-path 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.rt__stage { display: grid; justify-items: center; gap: 18px; width: min(420px, 92vw); }
+.rt__tiles { min-height: 2.8em; font-size: 1.2rem; }
+.rt__caption {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+.rt__caption span {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 1.3rem;
+  color: var(--color-tomato-400);
+  margin-left: 0.2em;
+}

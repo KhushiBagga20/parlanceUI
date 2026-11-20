@@ -1,12 +1,13 @@
 /**
- * The Parlance loading indicator: a flat hand waving in front of a small
- * rainbow, with three dots and the status in words.
+ * The Parlance loading indicator: two hands fingerspelling the ISL vowels
+ * (A E I O U: the pointing hand touches each fingertip in turn), with three
+ * dots and the status in words.
  *
- * The movement is an abstract hello wave, not an ISL sign, and it must never
- * be labelled as one. Under reduced motion the hand, rainbow and dots hold
- * still and only the words change.
+ * Under reduced motion the hands rest and only the words change. The
+ * `decorative` variant is a single small waving hand for use as an icon.
  */
-import { WavingHand, HandShape } from "@/components/brand/Hands";
+import { useRef } from "react";
+import { SignHands, useFingerspell } from "@/components/brand/SignHands";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/cn";
 
@@ -35,30 +36,10 @@ interface SigningLoaderProps {
 }
 
 const SIZES = {
-  sm: { svg: "h-6 w-9", dot: "size-1", text: "text-[0.8125rem]" },
-  md: { svg: "h-14 w-20", dot: "size-1.5", text: "text-sm" },
-  lg: { svg: "h-24 w-36", dot: "size-2", text: "text-base" },
+  sm: { hands: "3.75rem", dot: "size-1", text: "text-[0.8125rem]" },
+  md: { hands: "7rem", dot: "size-1.5", text: "text-sm" },
+  lg: { hands: "11rem", dot: "size-2", text: "text-base" },
 };
-
-/* Three rings: radius, colour, and a sliding highlight. */
-const RINGS = [
-  { r: 51, color: "#1C4FD8", pill: "#5DBB80", from: 150, to: 110 },
-  { r: 41, color: "#F59CC4", pill: "#F0322B", from: 70, to: 32 },
-  { r: 31, color: "#FFC414", pill: "#FF6A1A", from: 130, to: 92 },
-];
-const QUIET_RINGS = [
-  { r: 51, color: "#E2DDD3", pill: "#CBC4B6", from: 150, to: 110 },
-  { r: 41, color: "#FFE2D0", pill: "#FFC3A0", from: 70, to: 32 },
-  { r: 31, color: "#D3EEDC", pill: "#A6DCB9", from: 130, to: 92 },
-];
-
-function arc(r: number, from: number, to: number) {
-  const p = (deg: number) => {
-    const a = (deg * Math.PI) / 180;
-    return `${(60 + r * Math.cos(a)).toFixed(2)} ${(82 - r * Math.sin(a)).toFixed(2)}`;
-  };
-  return `M${p(from)}A${r} ${r} 0 0 1 ${p(to)}`;
-}
 
 export function SigningLoader({
   label,
@@ -68,14 +49,21 @@ export function SigningLoader({
   hideLabel = false,
   inverse = false,
   decorative = false,
-  tone = "bright",
   className,
 }: SigningLoaderProps) {
   const reduced = useReducedMotion();
   const s = SIZES[size];
+  const ref = useRef<SVGSVGElement>(null);
+  useFingerspell(ref, "AEIOU", { run: !decorative && !reduced, interval: 520, loop: true, pause: 400 });
 
   if (decorative) {
-    return <WavingHand color="sun" cuff={inverse ? "#FFFFFF" : "#1C4FD8"} motion="wave" className={cn("size-5", className)} />;
+    return (
+      <span className={cn("inline-block", className)} aria-hidden>
+        <span className={cn("block size-full origin-bottom", !reduced && "animate-hand-wave")}>
+          <SignHands letter="OPEN" crop size="100%" sleeve={inverse ? "#FFFAF2" : "var(--color-royal)"} />
+        </span>
+      </span>
+    );
   }
 
   return (
@@ -83,31 +71,7 @@ export function SigningLoader({
       role={live ? "status" : undefined}
       className={cn("inline-flex items-center", layout === "stack" ? "flex-col gap-2 text-center" : "flex-row gap-2.5", className)}
     >
-      <svg viewBox="0 0 120 84" aria-hidden className={cn(s.svg, "shrink-0 overflow-visible")}>
-        {(tone === "quiet" ? QUIET_RINGS : RINGS).map((ring, i) => (
-          <g key={ring.r}>
-            <path d={arc(ring.r, 180, 0)} fill="none" stroke={ring.color} strokeWidth="10.4" />
-            <g
-              className={reduced ? undefined : "animate-arc-slide"}
-              style={{
-                transformBox: "view-box",
-                transformOrigin: "60px 82px",
-                ["--slide" as string]: i % 2 ? "-22deg" : "24deg",
-                animationDuration: `${2.4 + i * 0.5}s`,
-              }}
-            >
-              <path d={arc(ring.r, ring.from, ring.to)} fill="none" stroke={ring.pill} strokeWidth="10" strokeLinecap="round" />
-            </g>
-          </g>
-        ))}
-        <g className={reduced ? undefined : "animate-hand-wave"} style={{ transformBox: "view-box", transformOrigin: "60px 84px" }}>
-          <rect x="49" y="74" width="22" height="12" rx="4" fill={inverse ? "#FFFFFF" : "#011638"} />
-          <g transform="translate(60 76) scale(0.5)">
-            <HandShape color="white" />
-          </g>
-        </g>
-      </svg>
-
+      <SignHands ref={ref} letter="REST" size={s.hands} className="shrink-0" />
       <span className={cn("inline-flex items-center gap-2 font-bold", s.text, inverse ? "text-white" : "text-navy", hideLabel && "sr-only")}>
         {label}
         <span aria-hidden className="inline-flex items-center gap-1">

@@ -313,8 +313,8 @@ function CameraState({ camera }: { camera: CameraTracking }) {
           <div className="relative w-48 sm:w-60" aria-hidden>
             <RainbowArch rings={5} opening={0.5} offset={4} className="w-full" />
             <Pal pose="rest" outfit="cobalt" skin="deep" hair="curly" className="absolute bottom-0 left-1/2 h-[62%] -translate-x-1/2" />
-            <WavingHand color="sun" cuff="#011638" motion="bounce" className="absolute bottom-0 left-[4%] h-[46%]" />
-            <WavingHand color="bubblegum" cuff="#0B7A3E" motion="bounce" className="absolute right-[4%] bottom-0 h-[46%] -scale-x-100" style={{ animationDelay: "-0.6s" }} />
+            <WavingHand color="sun" cuff="#233059" motion="bounce" className="absolute bottom-0 left-[4%] h-[46%]" />
+            <WavingHand color="bubblegum" cuff="#3C5A99" motion="bounce" className="absolute right-[4%] bottom-0 h-[46%] -scale-x-100" style={{ animationDelay: "-0.6s" }} />
           </div>
           <p className="mt-5 text-2xl font-extrabold tracking-[-0.035em] text-navy sm:text-[1.75rem]">Sign to the camera</p>
           <p className="mt-2 max-w-sm text-[0.9375rem] leading-6 text-ink-2">

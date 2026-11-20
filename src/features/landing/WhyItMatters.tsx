@@ -79,7 +79,7 @@ function Bubble({ side, out }: { side: { who: string; text?: string; gloss?: str
 
 export function WhyItMatters() {
   return (
-    <FluidSection id="why-it-matters" aria-labelledby="why-title" from="#f7f5f1" surface="bg-surface" className="scroll-mt-20 py-24 sm:py-32">
+    <FluidSection id="why-it-matters" aria-labelledby="why-title" from="#F8F3EA" surface="bg-surface" className="scroll-mt-20 py-24 sm:py-32">
       <div className="container-wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-x-10">
           <Reveal className="lg:col-span-7">

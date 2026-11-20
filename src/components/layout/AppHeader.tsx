@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
-import { AudioLines, Hand, History, LifeBuoy, Settings } from "lucide-react";
+import { AudioLines, GraduationCap, Hand, History, LifeBuoy, Settings } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { AccessibilityMenu } from "./AccessibilityMenu";
 import { Logo } from "./Logo";
@@ -14,6 +14,7 @@ const MODES = [
 ];
 
 const TOOLS = [
+  { to: "/app/learn", label: "Learn", icon: GraduationCap },
   { to: "/app/history", label: "History", icon: History },
   { to: "/app/settings", label: "Settings", icon: Settings },
   { to: "/app/help", label: "Help", icon: LifeBuoy },

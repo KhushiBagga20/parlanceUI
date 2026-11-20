@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { AudioLines, Hand, History, Settings } from "lucide-react";
+import { AudioLines, GraduationCap, Hand, History, Settings } from "lucide-react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { SkipLink } from "@/components/layout/SkipLink";
@@ -8,6 +8,7 @@ import { useHashScroll } from "@/hooks/useHashScroll";
 const tabs = [
   { to: "/app/speech-to-sign", label: "Speech → Sign", ariaLabel: "Speech to sign", icon: AudioLines, tone: "voice" as const },
   { to: "/app/sign-to-text", label: "Sign → Text", ariaLabel: "Sign to text", icon: Hand, tone: "hands" as const },
+  { to: "/app/learn", label: "Learn", icon: GraduationCap },
   { to: "/app/history", label: "History", icon: History },
   { to: "/app/settings", label: "Settings", icon: Settings },
 ];

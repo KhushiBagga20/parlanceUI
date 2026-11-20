@@ -10,14 +10,15 @@ import { useEffect, useId, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/cn";
 
+/* Muted warm-paper palette (v6). Only the footer still draws full rainbow rings. */
 export const RAINBOW = {
-  cobalt: "#1C4FD8",
-  forest: "#0B7A3E",
-  tangerine: "#FF6A1A",
-  sun: "#FFC414",
-  bubblegum: "#F59CC4",
-  tomato: "#F0322B",
-  lilac: "#B8A4E6",
+  cobalt: "#2F4880",
+  forest: "#3C5A99",
+  tangerine: "#E3826B",
+  sun: "#E6C55C",
+  bubblegum: "#E3A797",
+  tomato: "#CF6150",
+  lilac: "#A9B4CC",
 };
 
 type Pill = [from: number, to: number, start: string, end: string];
@@ -72,7 +73,34 @@ interface RainbowArchProps {
   className?: string;
 }
 
-export function RainbowArch({ rings = 6, opening = 0.2, innerFill, animate = true, offset = 0, className }: RainbowArchProps) {
+/**
+ * Outside the footer the arch is calm: one mustard half-disc with a fine dot
+ * texture and an optional open middle. No rings, no drift. Props are kept so
+ * existing call sites keep working.
+ */
+export function RainbowArch({ opening = 0.2, innerFill, className }: RainbowArchProps) {
+  const raw = useId();
+  const id = `ra-${raw.replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const R = 200;
+  const inner = Math.max(0, Math.min(0.9, opening)) * R;
+  return (
+    <svg viewBox={`0 0 ${W} 200`} aria-hidden className={cn("block overflow-hidden", className)}>
+      <defs>
+        <pattern id={`${id}-dots`} width="12" height="12" patternUnits="userSpaceOnUse">
+          <circle cx="6" cy="6" r="1.2" fill="rgb(35 48 89 / 0.12)" />
+        </pattern>
+      </defs>
+      <path d={`M0 ${CY}A${R} ${R} 0 0 1 ${W} ${CY}Z`} fill={RAINBOW.sun} />
+      <path d={`M0 ${CY}A${R} ${R} 0 0 1 ${W} ${CY}Z`} fill={`url(#${id}-dots)`} />
+      {inner > 0 && (
+        <path d={`M${CX - inner} ${CY}A${inner} ${inner} 0 0 1 ${CX + inner} ${CY}Z`} fill={innerFill ?? "var(--color-paper)"} />
+      )}
+    </svg>
+  );
+}
+
+/** Full rainbow rings, used only by the site footer. */
+export function RainbowRings({ rings = 6, opening = 0.2, innerFill, animate = true, offset = 0, className }: RainbowArchProps) {
   const reduced = useReducedMotion();
   const raw = useId();
   const id = `ra-${raw.replace(/[^a-zA-Z0-9_-]/g, "")}`;
